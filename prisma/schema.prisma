@@ -1,0 +1,138 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── ENUMS ─────────────────────────────────────────────
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+}
+
+enum CarStatus {
+  AVAILABLE
+  RENTED
+  MAINTENANCE
+  UNAVAILABLE
+}
+
+enum BookingStatus {
+  WAITING_PAYMENT
+  WAITING_VERIFICATION
+  CONFIRMED
+  REJECTED
+  ON_RENT
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  WAITING
+  VERIFIED
+  REJECTED
+}
+
+enum ServiceType {
+  SELF_DRIVE
+  WITH_DRIVER
+}
+
+enum PickupMethod {
+  SELF_PICKUP
+  DELIVERY
+}
+
+// ── MODELS ────────────────────────────────────────────
+
+model User {
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  password  String
+  phone     String?
+  role      UserRole  @default(CUSTOMER)
+  bookings  Booking[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Car {
+  id               String       @id @default(uuid())
+  name             String
+  slug             String       @unique
+  transmission     String       // "AT" / "MT"
+  capacity         Int          @default(4)
+  fuelType         String       @default("Bensin")
+  year             Int
+  color            String?
+  priceSelfDrive   Float        // Harga lepas kunci
+  priceWithDriver  Float?       // Harga dengan supir (nullable)
+  imageUrl         String
+  galleryUrls      String[]     // Array of image URLs
+  status           CarStatus    @default(AVAILABLE)
+  description      String?
+  facilities       String[]     // Array of facility strings
+  bookings         Booking[]
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+}
+
+model Booking {
+  id             String        @id @default(uuid())
+  bookingCode    String        @unique
+  userId         String?
+  carId          String
+  serviceType    ServiceType   @default(SELF_DRIVE)
+  pickupMethod   PickupMethod  @default(SELF_PICKUP)
+  pickupAddress  String?       // Alamat jika delivery
+  startDate      DateTime
+  endDate        DateTime
+  duration       Int           // In days
+  subtotal       Float         // Harga sewa dasar
+  deliveryFee    Float         @default(0)
+  totalPrice     Float
+  notes          String?
+  status         BookingStatus @default(WAITING_PAYMENT)
+  user           User?         @relation(fields: [userId], references: [id])
+  car            Car           @relation(fields: [carId], references: [id])
+  payments       Payment[]
+  documents      Document[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model Payment {
+  id               String        @id @default(uuid())
+  bookingId        String
+  amount           Float
+  transferProofUrl String        // URL bukti transfer di Supabase Storage
+  status           PaymentStatus @default(WAITING)
+  verifiedAt       DateTime?
+  booking          Booking       @relation(fields: [bookingId], references: [id])
+  createdAt        DateTime      @default(now())
+}
+
+model Document {
+  id        String   @id @default(uuid())
+  bookingId String
+  ktpUrl    String   // URL foto KTP di Supabase Storage
+  booking   Booking  @relation(fields: [bookingId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model RentalSetting {
+  id            String @id @default(uuid())
+  rentalName    String @default("Agil Rental Mobil")
+  address       String @default("Jl. Dr. Malaihollo, Benteng, Ambon (depan Warung Padang Talago Intan)")
+  openingHours  String @default("Senin-Sabtu 08.00-21.00 WIT, Minggu 10.00-21.00 WIT")
+  phone1        String @default("0857-5465-0271")
+  phone2        String @default("0821-7911-7882")
+  instagram     String @default("@agil.rental.ambon")
+  facebook      String @default("Gilbert Sipahelut")
+  logoUrl       String?
+}
