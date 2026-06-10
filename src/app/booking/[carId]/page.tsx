@@ -9,11 +9,13 @@ import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Car } from "@/types";
 import { formatPrice, formatDate, calculateDuration } from "@/lib/utils";
 import { bookingSchema, BookingInput } from "@/lib/validations";
+import { useAuth } from "@/lib/AuthContext";
 
 function BookingContent() {
   const { carId } = useParams();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { user, loading: authLoading } = useAuth();
 
   const startDate = searchParams.get("startDate") || "";
   const endDate = searchParams.get("endDate") || "";
@@ -197,6 +199,32 @@ function BookingContent() {
     }
   }
 
+  // Redirect to login if not authenticated
+  if (authLoading) {
+    return (
+      <>
+        <Navbar />
+        <div className="min-h-[60vh] flex items-center justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-[#F5B21A] border-t-transparent" />
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
+  if (!user) {
+    router.push(`/login?redirect=/booking/${carId}?${searchParams.toString()}`);
+    return (
+      <>
+        <Navbar />
+        <div className="min-h-[60vh] flex items-center justify-center">
+          <p className="text-gray-500">Mengarahkan ke halaman login...</p>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
   if (loading) {
     return (
       <>
@@ -226,10 +254,25 @@ function BookingContent() {
             </h2>
             <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-6 mb-8">
               <p className="text-yellow-800 font-medium">
-                Bukti pembayaran berhasil dikirim.
+                Pesanan berhasil dibuat!
               </p>
               <p className="text-yellow-700 text-sm mt-2">
-                Mohon menyiapkan KTP asli untuk diberikan kepada petugas saat kendaraan diantar atau saat pengambilan kendaraan.
+                Admin kami akan memverifikasi pembayaran Anda. Status akan berubah menjadi <strong>"Dikonfirmasi"</strong> setelah transfer diverifikasi.
+              </p>
+              <p className="text-yellow-700 text-sm mt-1">
+                Mohon menyiapkan KTP asli saat pengambilan/pengantaran kendaraan.
+              </p>
+            </div>
+            <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6 mb-8 text-left">
+              <h3 className="font-semibold text-blue-800 mb-2">💳 Info Pembayaran</h3>
+              <p className="text-blue-700 text-sm">Silakan transfer ke rekening berikut:</p>
+              <div className="mt-2 space-y-1 text-sm text-blue-800">
+                <p><strong>Bank BCA</strong></p>
+                <p className="font-mono">123-456-7890</p>
+                <p>a.n. Gilbert Sipahelut</p>
+              </div>
+              <p className="text-blue-600 text-xs mt-3">
+                Jika sudah transfer, hubungi admin via WhatsApp untuk konfirmasi lebih cepat.
               </p>
             </div>
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8 text-left">
@@ -649,6 +692,16 @@ function BookingContent() {
                         </div>
                       </div>
 
+                      {/* Payment Info */}
+                      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-5 mb-4 border border-blue-100">
+                        <h3 className="font-semibold text-blue-800 text-sm mb-2">💳 Info Transfer</h3>
+                        <div className="space-y-1 text-sm">
+                          <p className="text-blue-700"><strong>Bank BCA</strong> — 123-456-7890</p>
+                          <p className="text-blue-600">a.n. <strong>Gilbert Sipahelut</strong></p>
+                          <p className="text-blue-500 text-xs mt-1">Silakan transfer sesuai total di atas, lalu upload buktinya di bawah.</p>
+                        </div>
+                      </div>
+
                       {/* Payment Proof Upload */}
                       <div>
                         <label className="text-sm font-medium text-gray-700 mb-2 block">
@@ -824,8 +877,9 @@ function BookingContent() {
                         <p className="font-medium mb-1">Info Penting:</p>
                         <ul className="space-y-1 text-blue-600">
                           <li>✓ KTP asli wajib diserahkan saat pengambilan/pengantaran</li>
-                          <li>✓ Pembayaran dilakukan transfer ke rekening yang akan diinformasikan admin</li>
-                          <li>✓ Pesanan akan diverifikasi setelah bukti transfer diterima</li>
+                          <li>✓ Transfer ke rekening BCA: <strong>123-456-7890</strong> a.n. <strong>Gilbert Sipahelut</strong></li>
+                          <li>✓ Upload bukti transfer di halaman upload dokumen</li>
+                          <li>✓ Pesanan akan diverifikasi oleh admin setelah bukti transfer diterima</li>
                         </ul>
                       </div>
                     </div>

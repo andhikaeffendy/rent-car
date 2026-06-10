@@ -4,6 +4,16 @@ import { v4 as uuidv4 } from "uuid";
 
 const prisma = new PrismaClient();
 
+// Simple placeholder SVG as data URI - no external URLs
+function carPlaceholder(name: string, color: string): string {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400">
+  <rect width="600" height="400" fill="${color}"/>
+  <text x="300" y="180" text-anchor="middle" fill="white" font-size="48" font-family="sans-serif" font-weight="bold">${name}</text>
+  <text x="300" y="230" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="20" font-family="sans-serif">Agil Rental Mobil</text>
+</svg>`;
+  return `data:image/svg+xml;base64,${Buffer.from(svg).toString("base64")}`;
+}
+
 async function main() {
   console.log("🌱 Seeding database Agil Rental Mobil...\n");
 
@@ -92,6 +102,9 @@ async function main() {
   console.log(`   Admin: admin@agilrental.test / password123`);
 
   // ── CARS (Agil Rental Mobil fleet) ───────────────────
+  const placeholder = (name: string, color: string) =>
+    carPlaceholder(name, color);
+
   const cars = await Promise.all([
     prisma.car.create({
       data: {
@@ -103,11 +116,11 @@ async function main() {
         year: 2024,
         color: "Hitam",
         priceSelfDrive: 350000,
-        priceWithDriver: null, // Tidak ada opsi dengan supir
-        imageUrl: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=85",
+        priceWithDriver: null,
+        imageUrl: placeholder("Brio Terbaru", "#1a1a2e"),
         galleryUrls: [
-          "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=85",
-          "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=600&q=85",
+          placeholder("Brio Terbaru", "#16213e"),
+          placeholder("Brio Terbaru", "#0f3460"),
         ],
         status: "AVAILABLE",
         description:
@@ -125,11 +138,11 @@ async function main() {
         year: 2020,
         color: "Silver",
         priceSelfDrive: 350000,
-        priceWithDriver: 600000, // Rp600.000/12 jam
-        imageUrl: "https://images.unsplash.com/photo-1594502184342-2e2f2b50a3b2?w=600&q=85",
+        priceWithDriver: 600000,
+        imageUrl: placeholder("Xenia 2020", "#2d3436"),
         galleryUrls: [
-          "https://images.unsplash.com/photo-1594502184342-2e2f2b50a3b2?w=600&q=85",
-          "https://images.unsplash.com/photo-1559416523-140ddc3d238c?w=600&q=85",
+          placeholder("Xenia 2020", "#636e72"),
+          placeholder("Xenia 2020", "#b2bec3"),
         ],
         status: "AVAILABLE",
         description:
@@ -147,11 +160,11 @@ async function main() {
         year: 2024,
         color: "Putih",
         priceSelfDrive: 400000,
-        priceWithDriver: 600000, // Rp600.000/12 jam
-        imageUrl: "https://images.unsplash.com/photo-1559416523-140ddc3d238c?w=600&q=85",
+        priceWithDriver: 600000,
+        imageUrl: placeholder("Xenia Terbaru", "#6c5ce7"),
         galleryUrls: [
-          "https://images.unsplash.com/photo-1559416523-140ddc3d238c?w=600&q=85",
-          "https://images.unsplash.com/photo-1594502184342-2e2f2b50a3b2?w=600&q=85",
+          placeholder("Xenia Terbaru", "#a29bfe"),
+          placeholder("Xenia Terbaru", "#dfe6e9"),
         ],
         status: "AVAILABLE",
         description:
@@ -169,11 +182,11 @@ async function main() {
         year: 2024,
         color: "Hitam",
         priceSelfDrive: 400000,
-        priceWithDriver: 600000, // Rp600.000/12 jam
-        imageUrl: "https://images.unsplash.com/photo-1537146156426-62cc0846c0fb?w=600&q=85",
+        priceWithDriver: 600000,
+        imageUrl: placeholder("Avanza Terbaru", "#d63031"),
         galleryUrls: [
-          "https://images.unsplash.com/photo-1537146156426-62cc0846c0fb?w=600&q=85",
-          "https://images.unsplash.com/photo-1603584025760-1d5c1b3c6a81?w=600&q=85",
+          placeholder("Avanza Terbaru", "#e17055"),
+          placeholder("Avanza Terbaru", "#fab1a0"),
         ],
         status: "AVAILABLE",
         description:
@@ -191,11 +204,11 @@ async function main() {
         year: 2023,
         color: "Putih",
         priceSelfDrive: 700000,
-        priceWithDriver: 900000, // Rp900.000/12 jam
-        imageUrl: "https://images.unsplash.com/photo-1559416523-140ddc3d238c?w=600&q=85",
+        priceWithDriver: 900000,
+        imageUrl: placeholder("Innova Reborn", "#00b894"),
         galleryUrls: [
-          "https://images.unsplash.com/photo-1559416523-140ddc3d238c?w=600&q=85",
-          "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=85",
+          placeholder("Innova Reborn", "#55efc4"),
+          placeholder("Innova Reborn", "#81ecec"),
         ],
         status: "AVAILABLE",
         description:
@@ -213,11 +226,11 @@ async function main() {
         year: 2024,
         color: "Abu-abu",
         priceSelfDrive: 900000,
-        priceWithDriver: 1300000, // Rp1.300.000/12 jam
-        imageUrl: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=85",
+        priceWithDriver: 1300000,
+        imageUrl: placeholder("Zenix", "#0984e3"),
         galleryUrls: [
-          "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=85",
-          "https://images.unsplash.com/photo-1559416523-140ddc3d238c?w=600&q=85",
+          placeholder("Zenix", "#74b9ff"),
+          placeholder("Zenix", "#dfe6e9"),
         ],
         status: "AVAILABLE",
         description:
@@ -253,8 +266,6 @@ async function main() {
   };
 
   const [brio, xenia2020, xeniaBaru, avanza, innova, zenix] = cars;
-
-  // Helper for booking code
   const bookingCode = () => `AGL-${uuidv4().substring(0, 8).toUpperCase()}`;
 
   // Booking 1: Completed - Brio (tanpa user)
@@ -277,7 +288,7 @@ async function main() {
     data: {
       bookingId: b1.id,
       amount: b1.totalPrice,
-      transferProofUrl: "https://placehold.co/600x400?text=Bukti+Transfer",
+      transferProofUrl: placeholder("Bukti Transfer", "#27ae60"),
       status: "VERIFIED",
       verifiedAt: day(-9),
     },
@@ -285,7 +296,7 @@ async function main() {
   await prisma.document.create({
     data: {
       bookingId: b1.id,
-      ktpUrl: "https://placehold.co/600x400?text=KTP",
+      ktpUrl: placeholder("KTP", "#2980b9"),
     },
   });
 
@@ -312,14 +323,14 @@ async function main() {
     data: {
       bookingId: b2.id,
       amount: b2.totalPrice,
-      transferProofUrl: "https://placehold.co/600x400?text=Bukti+Transfer+Budi",
+      transferProofUrl: placeholder("Transfer Budi", "#f39c12"),
       status: "WAITING",
     },
   });
   await prisma.document.create({
     data: {
       bookingId: b2.id,
-      ktpUrl: "https://placehold.co/600x400?text=KTP+Budi",
+      ktpUrl: placeholder("KTP Budi", "#2980b9"),
     },
   });
 
@@ -345,7 +356,7 @@ async function main() {
     data: {
       bookingId: b3.id,
       amount: b3.totalPrice,
-      transferProofUrl: "https://placehold.co/600x400?text=Bukti+Transfer+Siti",
+      transferProofUrl: placeholder("Transfer Siti", "#27ae60"),
       status: "VERIFIED",
       verifiedAt: day(4),
     },
@@ -353,12 +364,12 @@ async function main() {
   await prisma.document.create({
     data: {
       bookingId: b3.id,
-      ktpUrl: "https://placehold.co/600x400?text=KTP+Siti",
+      ktpUrl: placeholder("KTP Siti", "#2980b9"),
     },
   });
 
   // Booking 4: WAITING_PAYMENT - Zenix (user: Andi)
-  const b4 = await prisma.booking.create({
+  await prisma.booking.create({
     data: {
       bookingCode: bookingCode(),
       userId: customers[2].id,
@@ -376,7 +387,7 @@ async function main() {
   });
 
   // Booking 5: CANCELLED - Xenia 2020 (user: Dewi)
-  const b5 = await prisma.booking.create({
+  await prisma.booking.create({
     data: {
       bookingCode: bookingCode(),
       userId: customers[3].id,
@@ -397,18 +408,20 @@ async function main() {
   console.log("\n" + "=".repeat(50));
   console.log("   ✅ SEED COMPLETED SUCCESSFULLY!");
   console.log("=".repeat(50));
-  console.log(`   👤 ${1 + customers.length} users`);
+  console.log(`   👤 ${1 + customers.length + 2} users`);
   console.log(`   🚙 ${cars.length} cars`);
   console.log(`   📋 5 bookings`);
   console.log(`   ⚙️  1 rental setting`);
   console.log("=".repeat(50));
   console.log("\n📧 Admin:    admin@agilrental.test / password123");
+  console.log("📧 Admin:    avow@admin.com / password123");
   console.log("📧 Customer: budi@example.com / password123");
   console.log("📧 Customer: siti@example.com / password123");
   console.log("📧 Customer: andi@example.com / password123");
   console.log("📧 Customer: dewi@example.com / password123");
   console.log("📧 Customer: avow@user.com / password123");
   console.log("=".repeat(50));
+  console.log("\n💡 Images use SVG placeholders. Upload real images via Admin Panel.");
 }
 
 main()

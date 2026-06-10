@@ -59,6 +59,14 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const user = await getCurrentUser();
 
+    // Require login to create booking
+    if (!user) {
+      return NextResponse.json(
+        { error: "Silakan login terlebih dahulu untuk melakukan pemesanan" },
+        { status: 401 }
+      );
+    }
+
     const {
       carId,
       serviceType,
@@ -108,7 +116,7 @@ export async function POST(request: NextRequest) {
     const booking = await prisma.booking.create({
       data: {
         bookingCode: generateBookingCode(),
-        userId: user?.id || null,
+        userId: user.id,
         carId,
         serviceType: serviceType as any,
         pickupMethod: pickupMethod as any,

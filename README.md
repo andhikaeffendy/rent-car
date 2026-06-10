@@ -300,35 +300,35 @@ Setelah seed data, akun-akun ini tersedia:
 
 ### 9.2 Booking Mobil (4 Langkah)
 
-#### Langkah ① — Pilih Tanggal & Layanan
+> ⚠️ **PENTING**: Anda wajib **login terlebih dahulu** untuk melakukan pemesanan.
+> Jika belum login, klik "Pesan Sekarang" akan mengarahkan ke halaman login, lalu otomatis kembali ke booking.
 
-Di halaman detail mobil (`/cars/brio-terbaru`):
+#### Langkah ① — Pilih Layanan
 
-1. Pilih **Tanggal Mulai** dan **Tanggal Selesai**
-2. Pilih **Layanan**:
+1. Pilih jenis layanan:
    - 🔑 **Lepas Kunci** — Anda yang menyetir sendiri
-   - 👨‍✈️ **Dengan Supir** — Ada sopir (jika tersedia)
-3. Total harga **otomatis muncul**
-4. Klik **"Pesan Sekarang"**
+   - 👨‍✈️ **Dengan Supir** — Ada sopir (jika tersedia, hanya mobil tertentu)
+2. Klik **"Lanjutkan"**
 
-#### Langkah ② — Pilih Layanan & Metode Pengambilan
+#### Langkah ② — Metode Pengambilan & Detail
 
-1. Pilih jenis layanan (Lepas Kunci / Dengan Supir)
-2. Pilih metode pengambilan:
+1. Pilih metode pengambilan:
    - 🏢 **Ambil Sendiri** — Datang ke Jl. Dr. Malaihollo, Ambon
    - 🚚 **Diantar** — Mobil diantar ke alamat Anda (+Rp50.000)
-3. Jika "Diantar", **isi alamat lengkap**
-4. Isi **catatan** (opsional)
-5. Klik **"Lanjutkan"**
+2. Jika "Diantar", **isi alamat lengkap**
+3. Isi **catatan** (opsional)
+4. Klik **"Lanjutkan"**
 
 #### Langkah ③ — Upload Dokumen
+
+> 💳 **Info Pembayaran**: Transfer ke **Bank BCA 123-456-7890** a.n. **Gilbert Sipahelut** sesuai total yang tertera.
 
 Upload 2 dokumen:
 
 | Dokumen | Format | Maks | Keterangan |
 |---------|--------|------|------------|
-| **Foto KTP** | JPG, PNG | 5MB | KTP asli, akan diminta saat pengambilan |
-| **Bukti Transfer** | JPG, PNG | 5MB | Screenshot bukti pembayaran |
+| **Foto KTP** | JPG, PNG, WebP | 5MB | KTP asli, akan diminta saat pengambilan |
+| **Bukti Transfer** | JPG, PNG, WebP | 5MB | Screenshot bukti pembayaran ke rekening di atas |
 
 > 💡 KTP asli **WAJIB** diserahkan ke petugas saat pengambilan mobil.
 
@@ -400,7 +400,8 @@ Tabel dengan kolom: Nama, Transmisi, Kapasitas, Harga Lepas Kunci, Harga Supir, 
    - Transmisi, Kapasitas, Bahan Bakar, Tahun, Warna
    - Harga Lepas Kunci (per hari)
    - Harga Dengan Supir (opsional)
-   - URL Gambar (link foto dari Unsplash atau Supabase)
+   - **Upload Gambar Utama** — klik area upload → pilih file JPG/PNG/WebP (maks 5MB)
+   - **Upload Galeri Gambar** — opsional, bisa pilih banyak gambar sekaligus
    - Deskripsi, Fasilitas (pisahkan dengan koma)
    - Status (Tersedia / Perawatan / Tidak Tersedia)
 3. Klik **"Simpan Mobil"**
@@ -446,7 +447,7 @@ Tampil: summary (total transaksi, pendapatan, selesai) + tabel detail.
 
 ### 10.7 Pengaturan (`/admin/settings`)
 
-Ubah: Nama Rental, Alamat, Jam Operasional, Telepon, Instagram, Facebook.
+Ubah: **Logo Rental (upload gambar)**, Nama Rental, Alamat, Jam Operasional, Telepon, Instagram, Facebook.
 
 ---
 

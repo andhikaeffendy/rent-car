@@ -36,6 +36,7 @@ export async function PUT(request: NextRequest) {
           phone2: body.phone2 || "",
           instagram: body.instagram || "",
           facebook: body.facebook || "",
+          logoUrl: body.logoUrl || existing.logoUrl,
         },
       });
       return NextResponse.json({ settings });
@@ -49,6 +50,7 @@ export async function PUT(request: NextRequest) {
           phone2: body.phone2 || "",
           instagram: body.instagram || "",
           facebook: body.facebook || "",
+          logoUrl: body.logoUrl || null,
         },
       });
       return NextResponse.json({ settings }, { status: 201 });

@@ -7,10 +7,12 @@ import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Car } from "@/types";
 import { formatPrice } from "@/lib/utils";
+import { useAuth } from "@/lib/AuthContext";
 
 export default function CarDetailPage() {
   const { slug } = useParams();
   const router = useRouter();
+  const { user } = useAuth();
   const [car, setCar] = useState<Car | null>(null);
   const [loading, setLoading] = useState(true);
   const [startDate, setStartDate] = useState("");
@@ -52,6 +54,16 @@ export default function CarDetailPage() {
   function handleBooking() {
     if (!startDate || !endDate) {
       alert("Silakan pilih tanggal mulai dan selesai");
+      return;
+    }
+    if (!user) {
+      const price = getPrice();
+      const duration = getDuration();
+      const total = price * duration;
+      const redirect = encodeURIComponent(
+        `/booking/${car?.id}?startDate=${startDate}&endDate=${endDate}&serviceType=${serviceType}&totalPrice=${total}`
+      );
+      router.push(`/login?redirect=${redirect}`);
       return;
     }
     const price = getPrice();

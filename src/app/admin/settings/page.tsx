@@ -5,6 +5,11 @@ import { useRouter } from "next/navigation";
 export default function AdminSettingsPage() {
   const router = useRouter();
   const [form, setForm] = useState({
+    logoUrl: "",
+  });
+  const [logoPreview, setLogoPreview] = useState("");
+  const [uploadingLogo, setUploadingLogo] = useState(false);
+  const [mainForm, setMainForm] = useState({
     rentalName: "Agil Rental Mobil",
     address: "Jl. Dr. Malaihollo, Benteng, Ambon (depan Warung Padang Talago Intan)",
     openingHours: "Senin-Sabtu 08.00-21.00 WIT, Minggu 10.00-21.00 WIT",
@@ -22,19 +27,53 @@ export default function AdminSettingsPage() {
     fetchSettings();
   }, []);
 
+  async function uploadFile(file: File): Promise<string> {
+    const fd = new FormData();
+    fd.append("file", file);
+    const res = await fetch("/api/upload", { method: "POST", body: fd });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || "Upload gagal");
+    }
+    const data = await res.json();
+    return data.url;
+  }
+
+  async function handleLogoUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      setError("Ukuran file maksimal 5MB");
+      return;
+    }
+    setUploadingLogo(true);
+    setError("");
+    try {
+      const url = await uploadFile(file);
+      setForm((prev) => ({ ...prev, logoUrl: url }));
+      setLogoPreview(URL.createObjectURL(file));
+    } catch (err: any) {
+      setError(err.message || "Gagal upload logo");
+    } finally {
+      setUploadingLogo(false);
+    }
+  }
+
   async function fetchSettings() {
     try {
       const res = await fetch("/api/settings");
       const data = await res.json();
       if (data.settings) {
-        setForm({
-          rentalName: data.settings.rentalName || form.rentalName,
-          address: data.settings.address || form.address,
-          openingHours: data.settings.openingHours || form.openingHours,
-          phone1: data.settings.phone1 || form.phone1,
-          phone2: data.settings.phone2 || form.phone2,
-          instagram: data.settings.instagram || form.instagram,
-          facebook: data.settings.facebook || form.facebook,
+        setForm({ logoUrl: data.settings.logoUrl || "" });
+        if (data.settings.logoUrl) setLogoPreview(data.settings.logoUrl);
+        setMainForm({
+          rentalName: data.settings.rentalName || mainForm.rentalName,
+          address: data.settings.address || mainForm.address,
+          openingHours: data.settings.openingHours || mainForm.openingHours,
+          phone1: data.settings.phone1 || mainForm.phone1,
+          phone2: data.settings.phone2 || mainForm.phone2,
+          instagram: data.settings.instagram || mainForm.instagram,
+          facebook: data.settings.facebook || mainForm.facebook,
         });
       }
     } catch {} finally {
@@ -46,7 +85,7 @@ export default function AdminSettingsPage() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setMainForm((prev) => ({ ...prev, [name]: value }));
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -59,7 +98,7 @@ export default function AdminSettingsPage() {
       const res = await fetch("/api/settings", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...mainForm, logoUrl: form.logoUrl }),
       });
 
       if (res.ok) {
@@ -125,6 +164,65 @@ export default function AdminSettingsPage() {
         className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-5"
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Logo Upload */}
+          <div className="sm:col-span-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Logo Rental
+            </label>
+            <div className="border-2 border-dashed border-gray-300 rounded-2xl p-6 text-center hover:border-[#F5B21A] transition-colors">
+              {logoPreview ? (
+                <div className="space-y-3">
+                  <img
+                    src={logoPreview}
+                    alt="Logo Preview"
+                    className="max-h-32 mx-auto rounded-xl object-contain"
+                  />
+                  <div className="flex space-x-3 justify-center">
+                    <label className="cursor-pointer text-xs text-[#0F5EF7] hover:text-blue-800">
+                      Ganti logo
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        className="hidden"
+                        onChange={handleLogoUpload}
+                      />
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => { setLogoPreview(""); setForm((prev) => ({ ...prev, logoUrl: "" })); }}
+                      className="text-xs text-red-500 hover:text-red-700"
+                    >
+                      Hapus
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <label className="cursor-pointer block">
+                  <svg className="w-12 h-12 mx-auto mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                  </svg>
+                  <p className="text-sm text-gray-600 font-medium">Upload logo rental</p>
+                  <p className="text-xs text-gray-400 mt-1">Format: JPG, PNG, WebP. Maks: 5MB</p>
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    className="hidden"
+                    onChange={handleLogoUpload}
+                  />
+                </label>
+              )}
+            </div>
+            {uploadingLogo && (
+              <p className="text-xs text-gray-500 mt-1 flex items-center">
+                <svg className="animate-spin w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                </svg>
+                Mengupload...
+              </p>
+            )}
+          </div>
+
           <div className="sm:col-span-2">
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Nama Rental
@@ -133,7 +231,7 @@ export default function AdminSettingsPage() {
               type="text"
               name="rentalName"
               required
-              value={form.rentalName}
+              value={mainForm.rentalName}
               onChange={handleChange}
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#F5B21A]"
             />
@@ -145,7 +243,7 @@ export default function AdminSettingsPage() {
             <textarea
               name="address"
               required
-              value={form.address}
+              value={mainForm.address}
               onChange={handleChange}
               rows={3}
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#F5B21A]"
@@ -159,7 +257,7 @@ export default function AdminSettingsPage() {
               type="text"
               name="openingHours"
               required
-              value={form.openingHours}
+              value={mainForm.openingHours}
               onChange={handleChange}
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#F5B21A]"
             />
@@ -172,7 +270,7 @@ export default function AdminSettingsPage() {
               type="text"
               name="phone1"
               required
-              value={form.phone1}
+              value={mainForm.phone1}
               onChange={handleChange}
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#F5B21A]"
             />
@@ -184,7 +282,7 @@ export default function AdminSettingsPage() {
             <input
               type="text"
               name="phone2"
-              value={form.phone2}
+              value={mainForm.phone2}
               onChange={handleChange}
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#F5B21A]"
             />
@@ -196,7 +294,7 @@ export default function AdminSettingsPage() {
             <input
               type="text"
               name="instagram"
-              value={form.instagram}
+              value={mainForm.instagram}
               onChange={handleChange}
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#F5B21A]"
             />
@@ -208,7 +306,7 @@ export default function AdminSettingsPage() {
             <input
               type="text"
               name="facebook"
-              value={form.facebook}
+              value={mainForm.facebook}
               onChange={handleChange}
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#F5B21A]"
             />

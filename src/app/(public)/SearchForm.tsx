@@ -1,57 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-
-interface Location {
-  id: string;
-  city: string;
-  slug: string;
-}
-
-interface CarType {
-  id: string;
-  name: string;
-  slug: string;
-}
-
 export default function SearchForm() {
-  const [locations, setLocations] = useState<Location[]>([]);
-  const [carTypes, setCarTypes] = useState<CarType[]>([]);
-
-  useEffect(() => {
-    fetch("/api/locations")
-      .then((r) => r.json())
-      .then((d) => {
-        if (d && Array.isArray(d.locations)) setLocations(d.locations);
-      })
-      .catch(() => {});
-
-    fetch("/api/car-types")
-      .then((r) => r.json())
-      .then((d) => {
-        if (d && Array.isArray(d.carTypes)) setCarTypes(d.carTypes);
-      })
-      .catch(() => {});
-  }, []);
-
   return (
-    <form action="/cars" method="GET" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
-      <div className="sm:col-span-1">
-        <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">
-          Lokasi
-        </label>
-        <select
-          name="locationId"
-          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors"
-        >
-          <option value="">Semua Lokasi</option>
-          {(locations || []).map((loc) => (
-            <option key={loc.id} value={loc.id}>
-              {loc.city}
-            </option>
-          ))}
-        </select>
-      </div>
+    <form action="/cars" method="GET" className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 items-end">
       <div>
         <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">
           Mulai
@@ -59,7 +10,7 @@ export default function SearchForm() {
         <input
           type="date"
           name="startDate"
-          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors"
+          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#F5B21A] focus:border-[#F5B21A] transition-colors"
         />
       </div>
       <div>
@@ -69,29 +20,24 @@ export default function SearchForm() {
         <input
           type="date"
           name="endDate"
-          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors"
+          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#F5B21A] focus:border-[#F5B21A] transition-colors"
         />
       </div>
       <div>
         <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">
-          Tipe Mobil
+          Cari
         </label>
-        <select
-          name="typeId"
-          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors"
-        >
-          <option value="">Semua Tipe</option>
-          {(carTypes || []).map((type) => (
-            <option key={type.id} value={type.id}>
-              {type.name}
-            </option>
-          ))}
-        </select>
+        <input
+          type="text"
+          name="search"
+          placeholder="Nama mobil..."
+          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#F5B21A] focus:border-[#F5B21A] transition-colors"
+        />
       </div>
       <div>
         <button
           type="submit"
-          className="w-full px-6 py-3 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-600 hover:to-amber-600 text-navy-900 font-bold rounded-xl shadow-lg shadow-yellow-500/20 hover:shadow-xl hover:shadow-yellow-500/30 transition-all duration-200"
+          className="w-full px-6 py-3 bg-gradient-to-r from-[#F5B21A] to-[#f59e0b] hover:from-[#d97706] hover:to-[#b45309] text-[#0B1F44] font-bold rounded-xl shadow-lg shadow-[#F5B21A]/20 hover:shadow-xl hover:shadow-[#F5B21A]/30 transition-all duration-200"
         >
           <span className="flex items-center justify-center space-x-2">
             <svg
