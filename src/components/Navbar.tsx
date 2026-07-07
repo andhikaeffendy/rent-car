@@ -39,9 +39,9 @@ export default function Navbar() {
   ];
 
   const isActive = (href: string) => {
-    const path = href.split("#")[0];
-    if (path === "/") return pathname === "/";
-    return pathname.startsWith(path);
+    if (href.includes("#")) return false;
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href);
   };
 
   return (
@@ -86,13 +86,13 @@ export default function Navbar() {
                   key={link.href + link.label}
                   href={link.href}
                   className={`relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 inline-block ${
-                    isActive(link.href) && (pathname === link.href.split("#")[0] || (link.href.includes("#") && pathname === "/"))
+                    isActive(link.href)
                       ? "text-[#0B1F44] bg-white shadow-sm"
                       : "text-gray-500 hover:text-[#0B1F44] hover:bg-white/50"
                   }`}
                 >
                   {link.label}
-                  {isActive(link.href) && (pathname === link.href.split("#")[0] || (link.href.includes("#") && pathname === "/")) && (
+                  {isActive(link.href) && (
                     <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-gradient-to-r from-[#F5B21A] to-[#f59e0b] rounded-full" />
                   )}
                 </Link>
