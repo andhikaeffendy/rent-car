@@ -33,7 +33,7 @@ export default function Navbar() {
 
   const navLinks = [
     { href: "/", label: "Beranda" },
-    { href: "/cars", label: "Mobil" },
+    { href: "/cars", label: "Kendaraan" },
     { href: "/#layanan", label: "Layanan", mobileLabel: "Layanan" },
     { href: "/#kontak", label: "Kontak", mobileLabel: "Kontak" },
   ];
@@ -82,7 +82,7 @@ export default function Navbar() {
             <div className="bg-gray-50/80 backdrop-blur-sm rounded-2xl p-1 shadow-inner border border-gray-100/50">
               {[
                 { href: "/", label: "Beranda" },
-                { href: "/cars", label: "Mobil" },
+                { href: "/cars", label: "Kendaraan" },
                 { href: "/#layanan", label: "Layanan" },
               ].map((link) => (
                 <Link
@@ -274,7 +274,7 @@ export default function Navbar() {
           <div className="px-4 py-3 space-y-1">
             {[
               { href: "/", label: "Beranda", icon: "🏠" },
-              { href: "/cars", label: "Mobil", icon: "🚗" },
+              { href: "/cars", label: "Kendaraan", icon: "🚗" },
               { href: "/#layanan", label: "Layanan", icon: "🔧" },
             ].map((link) => (
               <Link
