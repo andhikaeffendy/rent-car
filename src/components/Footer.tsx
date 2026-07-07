@@ -135,7 +135,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
             <p className="text-gray-500 text-sm">
-              &copy; {new Date().getFullYear()} Agil Rental Mobil. All rights reserved.
+              &copy; {new Date().getFullYear()} Agil Rental. All rights reserved.
             </p>
             <div className="flex items-center space-x-4 text-sm text-gray-500">
               <a

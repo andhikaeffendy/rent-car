@@ -89,7 +89,7 @@ export default function HomePage() {
                   <div className="w-[450px] h-[550px] rounded-3xl overflow-hidden shadow-2xl shadow-[#F5B21A]/10 border border-white/10">
                     <img
                       src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&q=90"
-                      alt="Agil Rental Mobil"
+                      alt="Agil Rental"
                       className="w-full h-full object-cover"
                     />
                   </div>

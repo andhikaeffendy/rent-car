@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Agil Rental Mobil - Sewa Mobil di Ambon",
+  title: "Agil Rental - Sewa Mobil di Ambon",
   description:
-    "Agil Rental Mobil - Rental mobil terpercaya di Ambon. Melayani lepas kunci, dengan supir, antar jemput. Hubungi 0857-5465-0271.",
+    "Agil Rental - Rental mobil terpercaya di Ambon. Melayani lepas kunci, dengan supir, antar jemput. Hubungi 0857-5465-0271.",
 };
 
 export default function RootLayout({

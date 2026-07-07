@@ -41,9 +41,9 @@ ____________________________
 
 # ABSTRAK
 
-Perkembangan teknologi informasi telah mengubah cara bisnis beroperasi, termasuk di bidang rental kendaraan (mobil & motor). Agil Rental Mobil yang berlokasi di Jl. Dr. Malaihollo, Benteng, Ambon, masih menggunakan sistem manual dalam mengelola pemesanan dan administrasi rental. Sistem manual ini menimbulkan berbagai kendala seperti pencatatan yang tidak terstruktur, sulitnya melacak status pemesanan, lambatnya proses verifikasi pembayaran, dan minimnya informasi yang dapat diakses pelanggan.
+Perkembangan teknologi informasi telah mengubah cara bisnis beroperasi, termasuk di bidang rental kendaraan (mobil & motor). Agil Rental yang berlokasi di Jl. Dr. Malaihollo, Benteng, Ambon, masih menggunakan sistem manual dalam mengelola pemesanan dan administrasi rental. Sistem manual ini menimbulkan berbagai kendala seperti pencatatan yang tidak terstruktur, sulitnya melacak status pemesanan, lambatnya proses verifikasi pembayaran, dan minimnya informasi yang dapat diakses pelanggan.
 
-Penelitian ini bertujuan untuk membangun sebuah sistem informasi rental kendaraan dan motor berbasis web yang dapat mempermudah proses pemesanan dan pengelolaan rental kendaraan di Agil Rental Mobil Ambon. Sistem dibangun menggunakan teknologi Next.js sebagai framework frontend dan backend, Prisma ORM untuk pengelolaan database PostgreSQL, serta Tailwind CSS untuk antarmuka pengguna yang responsif. Sistem ini memiliki dua role utama: Customer dan Admin, dengan fitur-fitur seperti pengelolaan armada kendaraan dan motor, pemesanan multi-langkah, upload dokumen KTP dan bukti transfer, verifikasi pembayaran, dashboard statistik, dan laporan transaksi.
+Penelitian ini bertujuan untuk membangun sebuah sistem informasi rental kendaraan dan motor berbasis web yang dapat mempermudah proses pemesanan dan pengelolaan rental kendaraan di Agil Rental Ambon. Sistem dibangun menggunakan teknologi Next.js sebagai framework frontend dan backend, Prisma ORM untuk pengelolaan database PostgreSQL, serta Tailwind CSS untuk antarmuka pengguna yang responsif. Sistem ini memiliki dua role utama: Customer dan Admin, dengan fitur-fitur seperti pengelolaan armada kendaraan dan motor, pemesanan multi-langkah, upload dokumen KTP dan bukti transfer, verifikasi pembayaran, dashboard statistik, dan laporan transaksi.
 
 Hasil dari penelitian ini adalah sebuah aplikasi web yang telah di-deploy dan dapat diakses secara publik di https://rent-car.vercel.app (production). Pengujian sistem dilakukan menggunakan metode blackbox testing pada seluruh fitur API dan antarmuka pengguna, dengan hasil seluruh fitur berjalan sesuai spesifikasi yang diharapkan.
 
@@ -63,7 +63,7 @@ Penulis menyadari bahwa dalam penyusunan skripsi ini tidak lepas dari bantuan, b
 2. Bapak/Ibu Dekan Fakultas Ilmu Komputer
 3. Bapak/Ibu Ketua Program Studi Teknik Informatika
 4. Bapak/Ibu Dosen Pembimbing yang telah memberikan arahan dan masukan
-5. Pemilik Agil Rental Mobil yang telah memberikan izin penelitian
+5. Pemilik Agil Rental yang telah memberikan izin penelitian
 6. Keluarga tercinta yang selalu memberikan doa dan dukungan
 7. Teman-teman seperjuangan yang telah membantu dan memotivasi
 
@@ -118,22 +118,22 @@ Penulis
 
 ## 1.1 Latar Belakang
 
-Kota Ambon sebagai ibu kota Provinsi Maluku memiliki aktivitas ekonomi dan pariwisata yang terus berkembang. Kebutuhan akan transportasi yang fleksibel, terutama rental kendaraan, semakin meningkat seiring dengan pertumbuhan kunjungan wisatawan dan aktivitas bisnis di kota ini. Agil Rental Mobil yang berlokasi di Jl. Dr. Malaihollo, Benteng, Ambon, merupakan salah satu penyedia jasa rental kendaraan yang melayani berbagai kebutuhan seperti sewa lepas kunci, rental dengan supir, antar jemput unit, perjalanan dinas, dan tour kota.
+Kota Ambon sebagai ibu kota Provinsi Maluku memiliki aktivitas ekonomi dan pariwisata yang terus berkembang. Kebutuhan akan transportasi yang fleksibel, terutama rental kendaraan, semakin meningkat seiring dengan pertumbuhan kunjungan wisatawan dan aktivitas bisnis di kota ini. Agil Rental yang berlokasi di Jl. Dr. Malaihollo, Benteng, Ambon, merupakan salah satu penyedia jasa rental kendaraan yang melayani berbagai kebutuhan seperti sewa lepas kunci, rental dengan supir, antar jemput unit, perjalanan dinas, dan tour kota.
 
-Namun demikian, Agil Rental Mobil masih menghadapi beberapa kendala dalam operasionalnya. Proses pemesanan masih dilakukan secara manual melalui telepon atau WhatsApp, pencatatan data pemesanan menggunakan buku atau spreadsheet sederhana, dan pelanggan harus datang langsung atau menghubungi admin untuk mengetahui ketersediaan kendaraan. Hal ini menyebabkan:
+Namun demikian, Agil Rental masih menghadapi beberapa kendala dalam operasionalnya. Proses pemesanan masih dilakukan secara manual melalui telepon atau WhatsApp, pencatatan data pemesanan menggunakan buku atau spreadsheet sederhana, dan pelanggan harus datang langsung atau menghubungi admin untuk mengetahui ketersediaan kendaraan. Hal ini menyebabkan:
 
 1. **Keterbatasan Akses Informasi**: Pelanggan tidak dapat melihat ketersediaan kendaraan, harga, dan spesifikasi secara real-time.
 2. **Proses Pemesanan Lambat**: Verifikasi pembayaran dan konfirmasi pemesanan memakan waktu karena dilakukan manual.
 3. **Pencatatan Tidak Terstruktur**: Data pemesanan, pembayaran, dan riwayat pelanggan tidak tersimpan dalam database terpusat.
 4. **Kesulitan Pembuatan Laporan**: Admin kesulitan membuat laporan transaksi dan pendapatan secara akurat dan cepat.
 
-Berdasarkan permasalahan tersebut, diperlukan sebuah sistem informasi rental kendaraan berbasis web yang dapat mengintegrasikan seluruh proses bisnis Agil Rental Mobil. Sistem ini akan memungkinkan pelanggan untuk melihat katalog kendaraan secara online, melakukan pemesanan, mengupload dokumen, dan melacak status pemesanan. Di sisi admin, sistem akan mempermudah pengelolaan armada kendaraan, verifikasi pembayaran, dan pembuatan laporan.
+Berdasarkan permasalahan tersebut, diperlukan sebuah sistem informasi rental kendaraan berbasis web yang dapat mengintegrasikan seluruh proses bisnis Agil Rental. Sistem ini akan memungkinkan pelanggan untuk melihat katalog kendaraan secara online, melakukan pemesanan, mengupload dokumen, dan melacak status pemesanan. Di sisi admin, sistem akan mempermudah pengelolaan armada kendaraan, verifikasi pembayaran, dan pembuatan laporan.
 
 ## 1.2 Rumusan Masalah
 
 Berdasarkan latar belakang di atas, dapat dirumuskan permasalahan sebagai berikut:
 
-1. Bagaimana merancang sistem informasi rental kendaraan berbasis web yang sesuai dengan kebutuhan Agil Rental Mobil Ambon?
+1. Bagaimana merancang sistem informasi rental kendaraan berbasis web yang sesuai dengan kebutuhan Agil Rental Ambon?
 2. Bagaimana mengimplementasikan sistem yang memungkinkan pelanggan melakukan pemesanan kendaraan secara online dengan proses yang terstruktur?
 3. Bagaimana mengimplementasikan dashboard admin untuk pengelolaan armada, verifikasi pembayaran, dan pembuatan laporan?
 4. Bagaimana hasil pengujian sistem terhadap fungsionalitas dan kemudahan penggunaan?
@@ -147,13 +147,13 @@ Agar penelitian lebih terfokus, diberikan batasan-batasan sebagai berikut:
 3. Fitur meliputi: manajemen data kendaraan, pemesanan dengan upload dokumen, verifikasi pembayaran, dashboard admin, laporan transaksi, dan pengaturan rental.
 4. Sistem memiliki dua role: Customer (pelanggan) dan Admin (pengelola).
 5. Pembayaran dilakukan secara manual (transfer bank) — sistem tidak terintegrasi dengan payment gateway.
-6. Penelitian dilakukan di Agil Rental Mobil Jl. Dr. Malaihollo, Benteng, Ambon.
+6. Penelitian dilakukan di Agil Rental Jl. Dr. Malaihollo, Benteng, Ambon.
 
 ## 1.4 Tujuan Penelitian
 
 Tujuan dari penelitian ini adalah:
 
-1. Merancang dan membangun sistem informasi rental kendaraan berbasis web untuk Agil Rental Mobil Ambon.
+1. Merancang dan membangun sistem informasi rental kendaraan berbasis web untuk Agil Rental Ambon.
 2. Mengimplementasikan sistem yang memudahkan pelanggan dalam melihat katalog, memesan kendaraan, dan melacak status pemesanan.
 3. Menyediakan dashboard admin untuk pengelolaan armada, verifikasi pembayaran, dan laporan.
 4. Menguji fungsionalitas sistem secara menyeluruh untuk memastikan semua fitur berjalan dengan baik.
@@ -162,7 +162,7 @@ Tujuan dari penelitian ini adalah:
 
 Penelitian ini diharapkan memberikan manfaat:
 
-**Bagi Agil Rental Mobil:**
+**Bagi Agil Rental:**
 - Mempermudah pengelolaan data kendaraan, pemesanan, dan pembayaran
 - Mempercepat proses verifikasi dan konfirmasi pemesanan
 - Memudahkan pembuatan laporan transaksi dan pendapatan
@@ -298,7 +298,7 @@ Penelitian ini menggunakan metode **Rapid Application Development (RAD)** yang t
 ### Fase 1: Requirements Planning (Perencanaan Kebutuhan)
 
 Pada fase ini dilakukan:
-1. **Observasi**: Mengamati proses bisnis Agil Rental Mobil secara langsung
+1. **Observasi**: Mengamati proses bisnis Agil Rental secara langsung
 2. **Wawancara**: Wawancara dengan pemilik (Gilbert Sipahelut) dan admin (Priscil) untuk memahami kebutuhan sistem
 3. **Analisis Dokumen**: Mempelajari catatan pemesanan dan data armada yang ada
 
@@ -325,7 +325,7 @@ Pada fase ini dilakukan:
 
 Data dikumpulkan melalui:
 
-1. **Observasi**: Pengamatan langsung proses rental di lokasi Agil Rental Mobil
+1. **Observasi**: Pengamatan langsung proses rental di lokasi Agil Rental
 2. **Wawancara**: Tanya jawab dengan pemilik dan admin
 3. **Studi Pustaka**: Mempelajari literatur tentang sistem informasi rental kendaraan
 
@@ -379,7 +379,7 @@ Data yang dikumpulkan meliputi:
 
 ## 4.1 Analisis Sistem Berjalan
 
-Sistem yang saat ini berjalan di Agil Rental Mobil digambarkan sebagai berikut:
+Sistem yang saat ini berjalan di Agil Rental digambarkan sebagai berikut:
 
 ```
 [Pelanggan] → Telepon/WA Admin → Cek Ketersediaan
@@ -880,7 +880,7 @@ Hasil:
 
 Berdasarkan hasil penelitian dan implementasi yang telah dilakukan, dapat disimpulkan:
 
-1. **Perancangan Sistem**: Sistem Informasi Rental Kendaraan Berbasis Web untuk Agil Rental Mobil Ambon telah berhasil dirancang menggunakan metode Rapid Application Development (RAD). Sistem memiliki 14 halaman, 14 API endpoints, dan 6 tabel database yang terintegrasi.
+1. **Perancangan Sistem**: Sistem Informasi Rental Kendaraan Berbasis Web untuk Agil Rental Ambon telah berhasil dirancang menggunakan metode Rapid Application Development (RAD). Sistem memiliki 14 halaman, 14 API endpoints, dan 6 tabel database yang terintegrasi.
 
 2. **Implementasi Fitur Customer**: Sistem menyediakan fitur lengkap untuk pelanggan meliputi:
    - Registrasi dan login akun

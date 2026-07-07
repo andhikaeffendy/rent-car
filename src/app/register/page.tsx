@@ -66,7 +66,7 @@ export default function RegisterPage() {
                 </div>
                 <h1 className="text-xl sm:text-2xl font-bold text-[#0B1F44]">Daftar</h1>
                 <p className="text-gray-500 text-xs sm:text-sm mt-1">
-                  Buat akun Agil Rental Mobil
+                  Buat akun Agil Rental
                 </p>
               </div>
 

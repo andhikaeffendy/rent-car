@@ -66,7 +66,7 @@ function LoginForm() {
                 </div>
                 <h1 className="text-xl sm:text-2xl font-bold text-[#0B1F44]">Masuk</h1>
                 <p className="text-gray-500 text-xs sm:text-sm mt-1">
-                  Masuk ke akun Agil Rental Mobil Anda
+                  Masuk ke akun Agil Rental Anda
                 </p>
               </div>
 

@@ -77,7 +77,7 @@ export default function CarDetailPage() {
   const whatsappNumber =
     process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6285754650271";
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-    `Halo Agil Rental Mobil, saya tertarik dengan ${car?.name || "mobil"}. Apakah tersedia untuk disewa?`
+    `Halo Agil Rental, saya tertarik dengan ${car?.name || "mobil"}. Apakah tersedia untuk disewa?`
   )}`;
 
   if (loading) {

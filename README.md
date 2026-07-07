@@ -572,7 +572,7 @@ lsof -ti:3000 | xargs kill -9
 
 ---
 
-## 📞 Kontak Agil Rental Mobil
+## 📞 Kontak Agil Rental
 
 | Info | Detail |
 |------|--------|

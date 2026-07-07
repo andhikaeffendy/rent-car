@@ -62,7 +62,7 @@ export default function DashboardPage() {
               Selamat Datang, {user?.name || "User"}!
             </h1>
             <p className="text-gray-500 mt-1">
-              Kelola pemesanan kendaraan Anda di Agil Rental Mobil
+              Kelola pemesanan kendaraan Anda di Agil Rental
             </p>
           </div>
 
@@ -199,7 +199,7 @@ export default function DashboardPage() {
                   Butuh Bantuan?
                 </h3>
                 <p className="text-emerald-100 text-sm mt-1">
-                  Hubungi admin Agil Rental Mobil via WhatsApp
+                  Hubungi admin Agil Rental via WhatsApp
                 </p>
               </div>
               <a

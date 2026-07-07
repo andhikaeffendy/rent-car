@@ -1,6 +1,6 @@
 # 🚀 Deploy ke Vercel — Tutorial Lengkap
 
-> **Baca ini jika Anda ingin membuat aplikasi Agil Rental Mobil bisa diakses publik di internet.**
+> **Baca ini jika Anda ingin membuat aplikasi Agil Rental bisa diakses publik di internet.**
 
 Ikuti langkah demi langkah di bawah ini. Total waktu: **±15 menit**.
 
@@ -169,7 +169,7 @@ GitHub akan menampilkan perintah. Jalankan di Terminal:
 
 ```bash
 git add .
-git commit -m "Initial commit: Agil Rental Mobil v1.0"
+git commit -m "Initial commit: Agil Rental v1.0"
 
 # Copy perintah dari halaman GitHub, biasanya seperti ini:
 git remote add origin https://github.com/<username>/rent-car.git
@@ -243,7 +243,7 @@ Setelah selesai, Vercel akan menampilkan:
 Production: https://rent-car-xxxxx.vercel.app
 ```
 
-Buka URL tersebut. Halaman utama Agil Rental Mobil akan muncul!
+Buka URL tersebut. Halaman utama Agil Rental akan muncul!
 
 > ⚠️ **Tapi API belum berfungsi** — karena database belum berisi data. Lanjut ke langkah 6.
 

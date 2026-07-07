@@ -65,7 +65,7 @@ export default function CarsPage() {
                 Daftar Kendaraan
               </h1>
               <p className="text-gray-500 mt-1">
-                Armada Agil Rental Mobil — Ambon
+                Armada Agil Rental — Ambon
               </p>
             </div>
           </div>

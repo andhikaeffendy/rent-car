@@ -9,13 +9,13 @@ function carPlaceholder(name: string, color: string): string {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400">
   <rect width="600" height="400" fill="${color}"/>
   <text x="300" y="180" text-anchor="middle" fill="white" font-size="48" font-family="sans-serif" font-weight="bold">${name}</text>
-  <text x="300" y="230" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="20" font-family="sans-serif">Agil Rental Mobil</text>
+  <text x="300" y="230" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="20" font-family="sans-serif">Agil Rental</text>
 </svg>`;
   return `data:image/svg+xml;base64,${Buffer.from(svg).toString("base64")}`;
 }
 
 async function main() {
-  console.log("🌱 Seeding database Agil Rental Mobil...\n");
+  console.log("🌱 Seeding database Agil Rental...\n");
 
   // ── Clean ────────────────────────────────────────────
   await prisma.document.deleteMany();
@@ -101,7 +101,7 @@ async function main() {
   console.log(`✅ ${1 + customers.length + 2} users created`);
   console.log(`   Admin: admin@agilrental.test / password123`);
 
-  // ── CARS (Agil Rental Mobil fleet) ───────────────────
+  // ── CARS (Agil Rental fleet) ───────────────────
   const placeholder = (name: string, color: string) =>
     carPlaceholder(name, color);
 
@@ -240,7 +240,7 @@ async function main() {
     }),
   ]);
 
-  console.log(`✅ ${cars.length} cars created (Agil Rental Mobil fleet)`);
+  console.log(`✅ ${cars.length} cars created (Agil Rental fleet)`);
 
   // ── SEED MOTOR ────────────────────────────────────
   const motorPlaceholder = carPlaceholder("Vario 160", "#2d3436");
@@ -289,7 +289,7 @@ async function main() {
   // ── RENTAL SETTINGS ──────────────────────────────────
   await prisma.rentalSetting.create({
     data: {
-      rentalName: "Agil Rental Mobil",
+      rentalName: "Agil Rental",
       address: "Jl. Dr. Malaihollo, Benteng, Ambon (depan Warung Padang Talago Intan)",
       openingHours: "Senin-Sabtu 08.00-21.00 WIT, Minggu 10.00-21.00 WIT",
       phone1: "0857-5465-0271",
@@ -298,7 +298,7 @@ async function main() {
       facebook: "Gilbert Sipahelut",
       bankName: "Bank Mandiri",
       bankAccountNumber: "123-00-87654321",
-      bankAccountName: "Agil Rental Mobil",
+      bankAccountName: "Agil Rental",
     },
   });
 
