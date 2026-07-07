@@ -1,165 +1,215 @@
 "use client";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import Link from "next/link";
 import StatusBadge from "@/components/StatusBadge";
-import { useAuth } from "@/lib/AuthContext";
+import { useAdminStore } from "@/lib/stores/adminStore";
+
+type StatCard = {
+  key: string;
+  label: string;
+  icon?: React.ReactNode;
+  color: string;
+  bg: string;
+  text: string;
+  prefix?: string;
+  format?: boolean;
+  href?: string;
+};
+
+const statCards: StatCard[] = [
+  {
+    key: "totalCars", label: "Total Kendaraan",
+    color: "from-blue-500 to-blue-600", bg: "bg-blue-50", text: "text-blue-600",
+    href: "/admin/cars",
+  },
+  {
+    key: "availableCars", label: "Tersedia",
+    color: "from-emerald-500 to-emerald-600", bg: "bg-emerald-50", text: "text-emerald-600",
+    href: "/admin/cars",
+  },
+  {
+    key: "waitingVerification", label: "Menunggu Verif",
+    color: "from-orange-500 to-orange-600", bg: "bg-orange-50", text: "text-orange-600",
+    href: "/admin/bookings",
+  },
+  {
+    key: "totalRevenue", label: "Total Pendapatan", prefix: "Rp", format: true,
+    color: "from-[#F5B21A] to-amber-600", bg: "bg-amber-50", text: "text-amber-600",
+  },
+  {
+    key: "todayBookings", label: "Pesanan Hari Ini",
+    color: "from-purple-500 to-purple-600", bg: "bg-purple-50", text: "text-purple-600",
+  },
+  {
+    key: "totalCustomers", label: "Total Pelanggan",
+    color: "from-pink-500 to-pink-600", bg: "bg-pink-50", text: "text-pink-600",
+    href: "/admin/customers",
+  },
+];
+
+function StatSkeleton() {
+  return (
+    <div className="bg-white rounded-2xl border border-gray-100 p-4 animate-pulse">
+      <div className="w-10 h-10 bg-gray-200 rounded-xl mb-3" />
+      <div className="w-20 h-7 bg-gray-200 rounded mb-1" />
+      <div className="w-16 h-3 bg-gray-200 rounded" />
+    </div>
+  );
+}
+
+function formatMoney(val: number): string {
+  const num = val || 0;
+  if (num >= 1000000) return (num / 1000000).toFixed(1) + "jt";
+  if (num >= 1000) return (num / 1000).toFixed(0) + "rb";
+  return num.toString();
+}
 
 export default function AdminDashboard() {
-  const router = useRouter();
-  const { user, loading: authLoading } = useAuth();
-  const [stats, setStats] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const { stats, loading, fetchStats } = useAdminStore();
 
-  useEffect(() => {
-    if (!authLoading) {
-      if (!user) { router.push("/login"); return; }
-      if (user.role !== "ADMIN") { router.push("/dashboard"); return; }
-      fetchStats();
-    }
-  }, [user, authLoading]);
+  useEffect(() => { fetchStats(); }, [fetchStats]);
 
-  async function fetchStats() {
-    try {
-      const res = await fetch("/api/admin/stats");
-      if (res.ok) {
-        const data = await res.json();
-        setStats(data);
-      }
-    } catch {} finally { setLoading(false); }
-  }
-
-  if (authLoading || loading) {
+  if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-8 w-8 border-2 border-[#F5B21A] border-t-transparent" />
+      <div>
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8">
+          {[1,2,3,4,5,6].map(i => <StatSkeleton key={i} />)}
+        </div>
+        <div className="grid lg:grid-cols-2 gap-6">
+          {[1,2].map(i => (
+            <div key={i} className="bg-white rounded-2xl border border-gray-100 p-5">
+              <div className="w-32 h-5 bg-gray-200 rounded animate-pulse mb-4" />
+              {[1,2,3,4,5].map(j => (
+                <div key={j} className="flex items-center space-x-4 p-3 animate-pulse">
+                  <div className="w-10 h-10 bg-gray-200 rounded-xl" />
+                  <div className="flex-1 space-y-2"><div className="w-32 h-4 bg-gray-200 rounded" /><div className="w-20 h-3 bg-gray-200 rounded" /></div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
 
-  const statCards = [
-    { label: "Total Mobil", value: stats?.totalCars || 0, icon: "🚗", color: "from-blue-500 to-blue-600", bg: "bg-blue-50" },
-    { label: "Mobil Tersedia", value: stats?.availableCars || 0, icon: "✅", color: "from-emerald-500 to-emerald-600", bg: "bg-emerald-50" },
-    { label: "Menunggu Verif", value: stats?.waitingVerification || 0, icon: "⏳", color: "from-orange-500 to-orange-600", bg: "bg-orange-50" },
-    { label: "Pesanan Hari Ini", value: stats?.todayBookings || 0, icon: "📋", color: "from-indigo-500 to-indigo-600", bg: "bg-indigo-50" },
-    { label: "Total Pendapatan", value: `Rp${(stats?.totalRevenue || 0).toLocaleString()}`, icon: "💰", color: "from-yellow-500 to-amber-500", bg: "bg-yellow-50" },
-    { label: "Total Pelanggan", value: stats?.totalCustomers || 0, icon: "👥", color: "from-purple-500 to-purple-600", bg: "bg-purple-50" },
-  ];
+  const s = stats || {};
 
   return (
-    <div className="p-3 sm:p-6 lg:p-8 pb-24 md:pb-8">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-3">
-        <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-[#0B1F44]">Dashboard</h1>
-          <p className="text-xs sm:text-sm text-gray-500 mt-0.5">
-            Selamat datang, {user?.name}
-          </p>
-        </div>
-        <Link
-          href="/admin/bookings"
-          className="w-full sm:w-auto px-4 py-2.5 bg-[#F5B21A] hover:bg-[#d97706] text-[#0B1F44] font-medium rounded-xl text-xs sm:text-sm transition-colors shadow-sm text-center"
-        >
-          Lihat Pesanan
-        </Link>
-      </div>
+    <div>
+      {/* Stat Cards */}
+      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8">
+        {statCards.map((card) => {
+          const raw = (s as any)[card.key] || 0;
+          const value = card.format ? formatMoney(raw) : raw;
+          const display = card.prefix ? card.prefix + value : value;
+          const icon = (
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={
+                card.key === "totalCars" ? "M5 17h14M5 17l-2-4h2l2 4M5 17l-2 3h18l-2-3M19 17l2-4h-2l-2 4M7 13h10M7 13l-1-5h12l-1 5M7 13v4M17 13v4" :
+                card.key === "availableCars" ? "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" :
+                card.key === "waitingVerification" ? "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" :
+                card.key === "totalRevenue" ? "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" :
+                card.key === "todayBookings" ? "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" :
+                "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"
+              } />
+            </svg>
+          );
 
-      {/* Stats Grid - responsive: 2 cols on mobile, 3 on tablet, 6 on desktop */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-2 sm:gap-4 mb-6 sm:mb-8">
-        {statCards.map((card, i) => (
-          <div key={i} className={`${card.bg} rounded-xl sm:rounded-2xl p-3 sm:p-5 border border-transparent hover:shadow-md transition-all duration-200`}>
-            <div className="text-xl sm:text-2xl mb-1 sm:mb-3">{card.icon}</div>
-            <p className="text-[10px] sm:text-sm text-gray-500 mb-0.5 sm:mb-1 leading-tight">{card.label}</p>
-            <p className={`text-sm sm:text-xl font-bold bg-gradient-to-r ${card.color} bg-clip-text text-transparent break-all`}>
-              {card.value}
-            </p>
-          </div>
-        ))}
-      </div>
+          if (card.href) {
+            return (
+              <Link key={card.key} href={card.href} className="block group">
+                <div className="bg-white rounded-2xl border border-gray-100 p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className={"w-10 h-10 rounded-xl " + card.bg + " " + card.text + " flex items-center justify-center"}>
+                      {icon}
+                    </div>
+                    <svg className="w-4 h-4 text-gray-300 group-hover:text-gray-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                  <p className="text-2xl font-bold text-[#0B1F44]">{display}</p>
+                  <p className="text-xs text-gray-400 mt-0.5">{card.label}</p>
+                </div>
+              </Link>
+            );
+          }
 
-      {/* Recent Bookings */}
-      <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100">
-        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100 flex items-center justify-between">
-          <h2 className="font-semibold text-[#0B1F44] text-sm sm:text-base">Pesanan Terbaru</h2>
-          <Link href="/admin/bookings" className="text-xs text-[#F5B21A] hover:text-[#d97706] font-medium">Lihat Semua</Link>
-        </div>
-
-        {/* Desktop table */}
-        <div className="hidden sm:block overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-left text-gray-500">
-                <th className="px-6 py-3 font-medium text-xs">Kode</th>
-                <th className="px-6 py-3 font-medium text-xs">Customer</th>
-                <th className="px-6 py-3 font-medium text-xs">Mobil</th>
-                <th className="px-6 py-3 font-medium text-xs">Tanggal</th>
-                <th className="px-6 py-3 font-medium text-xs">Total</th>
-                <th className="px-6 py-3 font-medium text-xs">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {stats?.recentBookings?.slice(0, 5).map((booking: any) => (
-                <tr key={booking.id} className="border-t border-gray-50 hover:bg-gray-50/50">
-                  <td className="px-6 py-3 font-mono text-xs text-gray-500">{booking.bookingCode}</td>
-                  <td className="px-6 py-3 text-sm">{booking.user?.name || "Guest"}</td>
-                  <td className="px-6 py-3 text-sm font-medium text-[#0B1F44]">{booking.car?.name}</td>
-                  <td className="px-6 py-3 text-xs text-gray-500">{new Date(booking.startDate).toLocaleDateString("id-ID")}</td>
-                  <td className="px-6 py-3 text-sm font-medium">Rp {booking.totalPrice?.toLocaleString()}</td>
-                  <td className="px-6 py-3"><StatusBadge status={booking.status} /></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Mobile cards */}
-        <div className="sm:hidden divide-y divide-gray-50">
-          {stats?.recentBookings?.slice(0, 5).map((booking: any) => (
-            <div key={booking.id} className="p-3 space-y-1.5">
-              <div className="flex items-center justify-between">
-                <span className="font-medium text-[#0B1F44] text-sm">{booking.car?.name}</span>
-                <StatusBadge status={booking.status} />
-              </div>
-              <div className="flex items-center justify-between text-xs text-gray-500">
-                <span className="font-mono">{booking.bookingCode}</span>
-                <span>{booking.user?.name || "Guest"}</span>
-              </div>
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-gray-400">{new Date(booking.startDate).toLocaleDateString("id-ID")}</span>
-                <span className="font-semibold text-[#0B1F44]">Rp {booking.totalPrice?.toLocaleString()}</span>
+          return (
+            <div key={card.key}>
+              <div className="bg-white rounded-2xl border border-gray-100 p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div className={"w-10 h-10 rounded-xl " + card.bg + " " + card.text + " flex items-center justify-center"}>
+                    {icon}
+                  </div>
+                </div>
+                <p className="text-2xl font-bold text-[#0B1F44]">{display}</p>
+                <p className="text-xs text-gray-400 mt-0.5">{card.label}</p>
               </div>
             </div>
-          ))}
-        </div>
-
-        {(!stats?.recentBookings || stats.recentBookings.length === 0) && (
-          <div className="px-6 py-8 text-center text-gray-500 text-sm">Belum ada pesanan</div>
-        )}
+          );
+        })}
       </div>
 
-      {/* Revenue Chart (simple) */}
-      {stats?.revenueByMonth && Object.keys(stats.revenueByMonth).length > 0 && (
-        <div className="mt-4 sm:mt-6 bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-6">
-          <h2 className="font-semibold text-[#0B1F44] text-sm sm:text-base mb-3 sm:mb-4">Pendapatan per Bulan</h2>
-          <div className="flex items-end space-x-2 sm:space-x-3 h-20 sm:h-32">
-            {Object.entries(stats.revenueByMonth as Record<string, number>)
-              .sort(([a], [b]) => a.localeCompare(b))
-              .map(([month, amount]) => {
-                const maxRevenue = Math.max(...Object.values(stats.revenueByMonth as Record<string, number>));
-                const height = maxRevenue > 0 ? (amount / maxRevenue) * 100 : 0;
-                const monthNames = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
-                const [y, m] = month.split("-");
-                const label = `${monthNames[parseInt(m) - 1]}`;
+      {/* Recent + Revenue */}
+      <div className="grid lg:grid-cols-2 gap-6">
+        <div className="bg-white rounded-2xl border border-gray-100 p-5">
+          <h2 className="font-semibold text-[#0B1F44] mb-4">Pesanan Terbaru</h2>
+          {s.recentBookings && s.recentBookings.length > 0 ? (
+            <div className="space-y-1">
+              {(s.recentBookings as any[]).slice(0, 5).map((bk: any, i: number) => (
+                <Link key={bk.id || i} href="/admin/bookings" className="flex items-center space-x-3 p-2.5 rounded-xl hover:bg-gray-50 transition-colors">
+                  <div className="w-10 h-10 rounded-xl bg-gray-100 overflow-hidden flex-shrink-0">
+                    {bk.car?.imageUrl ? (
+                      <img src={bk.car.imageUrl} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-gray-400">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 17h14M5 17l-2-4h2l2 4M5 17l-2 3h18l-2-3M19 17l2-4h-2l-2 4M7 13h10M7 13l-1-5h12l-1 5M7 13v4M17 13v4" />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-[#0B1F44] truncate">{bk.car?.name || "Unknown"}</p>
+                    <p className="text-xs text-gray-400">{bk.user?.name || "Guest"}</p>
+                  </div>
+                  <StatusBadge status={bk.status} type="booking" />
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-10"><p className="text-gray-400 text-sm">Belum ada pesanan</p></div>
+          )}
+          <Link href="/admin/bookings" className="block text-center mt-4 pt-3 border-t border-gray-100 text-xs font-medium text-[#F5B21A] hover:text-[#d97706] transition-colors">
+            Lihat Semua Pesanan
+          </Link>
+        </div>
+
+        <div className="bg-white rounded-2xl border border-gray-100 p-5">
+          <h2 className="font-semibold text-[#0B1F44] mb-4">Pendapatan per Bulan</h2>
+          {s.revenueByMonth && Object.keys(s.revenueByMonth).length > 0 ? (
+            <div className="space-y-2">
+              {(Object.entries(s.revenueByMonth as Record<string, number>)).slice(-6).map(([month, amount]) => {
+                const maxAmount = Math.max(...Object.values(s.revenueByMonth as Record<string, number>));
+                const height = maxAmount > 0 ? (amount / maxAmount) * 100 : 0;
+                const m = parseInt(month.split("-")[1]) - 1;
+                const months = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
                 return (
-                  <div key={month} className="flex-1 flex flex-col items-center">
-                    <span className="text-[8px] sm:text-[10px] text-gray-400 mb-1 hidden sm:block">Rp{(amount/1000).toFixed(0)}k</span>
-                    <div className="w-full bg-gradient-to-t from-[#F5B21A] to-[#fbbf24] rounded-t-lg" style={{ height: `${height}%`, minHeight: height > 0 ? 4 : 0 }} />
-                    <span className="text-[8px] sm:text-[10px] text-gray-500 mt-1">{label}</span>
+                  <div key={month} className="flex items-center space-x-3">
+                    <span className="text-xs text-gray-400 w-16 text-right">{months[m]}</span>
+                    <div className="flex-1 bg-gray-100 rounded-full h-6 overflow-hidden">
+                      <div className="h-full bg-gradient-to-r from-[#F5B21A] to-amber-500 rounded-full transition-all" style={{width: height + "%"}} />
+                    </div>
+                    <span className="text-xs font-medium text-gray-600 w-20 text-right">Rp{(amount / 1000).toFixed(0)}k</span>
                   </div>
                 );
               })}
-          </div>
+            </div>
+          ) : (
+            <div className="text-center py-10"><p className="text-gray-400 text-sm">Belum ada data pendapatan</p></div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }
