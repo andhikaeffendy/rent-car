@@ -1,45 +1,73 @@
-# SNAPSHOT: Agil Rental Mobil (rent-car)
-Diupdate: 2026-07-07 (verified — post enhancement)
+# SNAPSHOT: Agil Rental Kendaraan (rent-car)
+Diupdate: 2026-07-07 (post full audit & enhancement)
 
 ## 🎯 Tujuan
-Aplikasi rental mobil full-stack untuk Agil Rental Mobil di Ambon — customer bisa booking online, upload payment proof/KTP, admin manage booking/payment/car.
+Aplikasi rental mobil & motor full-stack untuk Agil Rental Ambon — customer bisa booking online via 6-step wizard, admin manage kendaraan/pesanan/pembayaran via CMS panel.
 
 ## 📍 Status
-- Auth (login/register/JWT): ✅ Done
-- Public pages + filter Mobil/Motor: ✅ Done (enhanced)
-- Booking wizard 6-step (Tanggal→Layanan→Detail→Bayar→KTP→Konfirmasi): ✅ NEW
-- Dukungan Motor (skip layanan): ✅ NEW
-- Metode bayar Transfer + Tunai: ✅ NEW
-- Display rekening bank (dari settings): ✅ NEW
-- No HP delivery field: ✅ NEW
-- Admin dashboard + CRUD mobil: ✅ Done
-- Admin manage bookings/payments/settings: ✅ Done (bank fields added)
-- Customer dashboard (riwayat booking): ✅ Done
-- Supabase Storage integration: ⚠️ Configured but .env placeholder
+- Auth (login/register/JWT httpOnly cookie): ✅ Done
+- Public pages (landing, cars, car detail): ✅ Done
+- Filter & badge Mobil/Motor di halaman daftar: ✅ Done
+- Booking wizard 6-step (Tanggal→Layanan→Detail→Bayar→KTP→Konfirmasi): ✅ Done
+- Dukungan Motor (skip layanan, tunai delivery): ✅ Done
+- Metode bayar Transfer (tampil rekening) + Tunai (langsung verifikasi): ✅ Done
+- No HP delivery field: ✅ Done
+- Admin CMS redesigned (layout, dashboard, bookings, cars, settings): ✅ Done
+- Zustand state management + API service layer: ✅ Done
+- Toast notification system: ✅ Done
+- File upload ke local storage (public/uploads/): ✅ Done
+- Vitest test framework (12/12 tests passing): ✅ Done
+- JWT_SECRET fallback fixed: ✅ Done
+- Custom 404 page: ✅ Done
+- Supabase Storage: ⚠️ Not configured (.env placeholder) — local upload working
 
 ## 🏗️ Arsitektur
-Stack: Next.js 16.2 + React 19 + Tailwind 4 + Prisma (Neon PostgreSQL) + Zod + JWT cookie-auth
-Struktur: `(public)/` (public pages), `admin/` (admin panel), `api/` (15 REST routes), `components/` (8), `lib/` (7)
-Booking flow: 6-step wizard (Tanggal → Layanan → Detail → Bayar → KTP → Konfirmasi)
+Stack: Next.js 16.2 + React 19 + Tailwind 4 + Prisma (PostgreSQL) + Zod + JWT cookie-auth + Zustand
+Struktur: `(public)/` (landing, cars), `admin/` (CMS: 7 pages), `api/` (15 REST routes), `components/` (10), `lib/` (10, including stores + api + hooks)
+Booking: 6-step wizard — Tanggal → Layanan → Detail → Bayar → KTP → Konfirmasi
+State: Zustand stores (carStore, bookingStore, adminStore) + API service layer (src/lib/api/client.ts)
 
-## 🔴 Blocker & Penting
-- [WARN] File upload via `/api/upload` masih base64 — gak persist ke storage
-- [WARN] Supabase `.env` masih placeholder — storage gak aktif
-- [WARN] JWT_SECRET fallback "fallback-secret" di `lib/auth.ts` — ganti sebelum production
-- [WARN] Design tokens CSS didefinisikan di `globals.css` tapi 100% komponen pakai hardcoded colors
-- [INFO] Booking page sekarang 609 LOC (turun dari 988) — lebih manageable
+## ✅ New Features (since baseline)
+- VehicleType enum (MOBIL/MOTOR) + PaymentMethod enum (TRANSFER/TUNAI)
+- Bank fields di RentalSetting + tampil di step Bayar
+- Filter kendaraan + type badge di card
+- Navbar anchor links (Layanan/Kontak ke section) + fix highlight mutual
+- Datepicker full-area clickable (CSS overlay)
+- Admin layout: sidebar redesign, header, breadcrumbs, user menu
+- Dashboard: 6 stat cards + skeleton loading + revenue bars
+- Admin bookings: filter pills, detail modal, mobile cards
+- Admin cars: type column, skeleton, empty states
+- Admin settings: 3 tabs (Info/Bank/Logo)
+- Admin payments, customers, reports: new pages
+- Custom 404 page
+- useHash hook (SSR-safe hash tracking)
 
-## 📋 Next Priority
-1. Fix file upload persistence (Supabase Storage atau local disk)
-2. Refactor CSS hardcoded colors → design tokens
-3. Accessibility improvements (focus trap, aria-labels)
-4. Upgrade Prisma 5.22 → 7.x
+## 🔴 Blocker
+- [LOW] File upload pake `public/uploads/` — gak persist di Vercel (serverless), tapi fine untuk lokal
+- [LOW] Design tokens CSS dikasih di `globals.css` tapi komponen masih hardcoded — refactor besar
+- [LOW] Tidak ada pagination server-side — data dikit, fine untuk skripsi
+- [WARN] Supabase .env masih placeholder — storage tidak aktif (tapi gak perlu untuk lokal)
+
+## 📋 Git Log (20 commits)
+```
+8ba8152 fix: admin car forms — tambah Tipe Kendaraan, disable harga supir Motor
+decdbd2 feat: vitest testing (12 tests), fix JWT fallback secret
+2cebd0d feat: redesign settings (tabs), toast notification system
+59b02f5 feat: redesign CMS — bookings, cars, payments, customers, reports
+06b2373 feat: redesign dashboard — stat cards, skeleton, chart
+26dcc82 feat: redesign admin layout — sidebar, header, breadcrumbs
+3279233 feat: Zustand stores + API client layer
+43cbda2 fix: upload route — simpan file ke public/uploads/
+d0e4964 fix: datepicker full-area clickable
+9a5a86e fix: window is not defined — useHash hook
+```
 
 ## 🧠 Key Decisions
-| Tanggal | Keputusan | Alasan |
-|---------|-----------|--------|
-| 2026-07-07 | Booking wizard 6-step mengikuti diagram workflow | Step-by-step UX lebih jelas, sesuai dokumen |
-| 2026-07-07 | Tambah VehicleType enum (MOBIL/MOTOR) | Akomodir Motor sesuai diagram |
-| 2026-07-07 | PaymentMethod enum (TRANSFER/TUNAI) | Flow pembayaran sesuai diagram |
-| 2026-07-07 | Status WAITING_VERIFICATION untuk Tunai | Tunai tidak perlu upload bukti, langsung masuk verifikasi admin |
-| 2026-06-10 | Base64 upload fallback | Supabase blm dikonfigurasi |
+| Tanggal | Keputusan |
+|---------|-----------|
+| 2026-07-07 | Booking wizard 6-step mengikuti diagram workflow |
+| 2026-07-07 | VehicleType + PaymentMethod enum — akomodir Motor & Tunai |
+| 2026-07-07 | Upload file ke disk (bukan base64 di DB) — DB cleaner, faster |
+| 2026-07-07 | Zustand untuk state management — lightweight, no boilerplate |
+| 2026-07-07 | Vitest untuk testing — setup minimal, TypeScript native |
+| 2026-06-10 | Base64 upload fallback (sudah diganti disk storage 07-07) |

@@ -14,14 +14,14 @@ describe("Booking Flow Logic", () => {
   });
 
   it("TUNAI payment results in WAITING_VERIFICATION directly", () => {
-    const paymentMethod = "TUNAI";
-    const expectedStatus = paymentMethod === "TUNAI" ? "WAITING_VERIFICATION" : "WAITING_PAYMENT";
+    const method: string = "TUNAI";
+    const expectedStatus = method === "TUNAI" ? "WAITING_VERIFICATION" : "WAITING_PAYMENT";
     expect(expectedStatus).toBe("WAITING_VERIFICATION");
   });
 
   it("TRANSFER payment results in WAITING_PAYMENT", () => {
-    const paymentMethod = "TRANSFER";
-    const expectedStatus = paymentMethod === "TUNAI" ? "WAITING_VERIFICATION" : "WAITING_PAYMENT";
+    const method: string = "TRANSFER";
+    const expectedStatus = method === "TUNAI" ? "WAITING_VERIFICATION" : "WAITING_PAYMENT";
     expect(expectedStatus).toBe("WAITING_PAYMENT");
   });
 
