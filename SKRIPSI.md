@@ -1,5 +1,5 @@
-# SISTEM INFORMASI RENTAL MOBIL BERBASIS WEB
-# (Studi Kasus: Agil Rental Mobil Ambon)
+# SISTEM INFORMASI RENTAL MOBIL & MOTOR BERBASIS WEB
+# (Studi Kasus: Agil Rental Ambon)
 
 ## SKRIPSI
 
@@ -20,7 +20,7 @@ Diajukan sebagai salah satu syarat untuk memperoleh gelar Sarjana Komputer (S.Ko
 
 # LEMBAR PENGESAHAN
 
-Skripsi dengan judul **"Sistem Informasi Rental Mobil Berbasis Web (Studi Kasus: Agil Rental Mobil Ambon)"** telah disetujui dan disahkan pada:
+Skripsi dengan judul **"Sistem Informasi Rental Mobil & Motor Berbasis Web (Studi Kasus: Agil Rental Ambon)"** telah disetujui dan disahkan pada:
 
 - **Hari/Tanggal**: _________________
 - **Tempat**: _________________
@@ -41,19 +41,19 @@ ____________________________
 
 # ABSTRAK
 
-Perkembangan teknologi informasi telah mengubah cara bisnis beroperasi, termasuk di bidang rental mobil. Agil Rental Mobil yang berlokasi di Jl. Dr. Malaihollo, Benteng, Ambon, masih menggunakan sistem manual dalam mengelola pemesanan dan administrasi rental mobil. Sistem manual ini menimbulkan berbagai kendala seperti pencatatan yang tidak terstruktur, sulitnya melacak status pemesanan, lambatnya proses verifikasi pembayaran, dan minimnya informasi yang dapat diakses pelanggan.
+Perkembangan teknologi informasi telah mengubah cara bisnis beroperasi, termasuk di bidang rental mobil. Agil Rental Mobil yang berlokasi di Jl. Dr. Malaihollo, Benteng, Ambon, masih menggunakan sistem manual dalam mengelola pemesanan dan administrasi rental. Sistem manual ini menimbulkan berbagai kendala seperti pencatatan yang tidak terstruktur, sulitnya melacak status pemesanan, lambatnya proses verifikasi pembayaran, dan minimnya informasi yang dapat diakses pelanggan.
 
-Penelitian ini bertujuan untuk membangun sebuah sistem informasi rental mobil berbasis web yang dapat mempermudah proses pemesanan dan pengelolaan rental mobil di Agil Rental Mobil Ambon. Sistem dibangun menggunakan teknologi Next.js sebagai framework frontend dan backend, Prisma ORM untuk pengelolaan database PostgreSQL, serta Tailwind CSS untuk antarmuka pengguna yang responsif. Sistem ini memiliki dua role utama: Customer dan Admin, dengan fitur-fitur seperti pengelolaan armada mobil, pemesanan multi-langkah, upload dokumen KTP dan bukti transfer, verifikasi pembayaran, dashboard statistik, dan laporan transaksi.
+Penelitian ini bertujuan untuk membangun sebuah sistem informasi rental mobil dan motor berbasis web yang dapat mempermudah proses pemesanan dan pengelolaan rental mobil di Agil Rental Mobil Ambon. Sistem dibangun menggunakan teknologi Next.js sebagai framework frontend dan backend, Prisma ORM untuk pengelolaan database PostgreSQL, serta Tailwind CSS untuk antarmuka pengguna yang responsif. Sistem ini memiliki dua role utama: Customer dan Admin, dengan fitur-fitur seperti pengelolaan armada mobil dan motor, pemesanan multi-langkah, upload dokumen KTP dan bukti transfer, verifikasi pembayaran, dashboard statistik, dan laporan transaksi.
 
-Hasil dari penelitian ini adalah sebuah aplikasi web yang telah di-deploy dan dapat diakses secara publik di https://rent-car-flame.vercel.app. Pengujian sistem dilakukan menggunakan metode blackbox testing pada seluruh fitur API dan antarmuka pengguna, dengan hasil seluruh fitur berjalan sesuai spesifikasi yang diharapkan.
+Hasil dari penelitian ini adalah sebuah aplikasi web yang telah di-deploy dan dapat diakses secara publik di https://rent-car.vercel.app (production). Pengujian sistem dilakukan menggunakan metode blackbox testing pada seluruh fitur API dan antarmuka pengguna, dengan hasil seluruh fitur berjalan sesuai spesifikasi yang diharapkan.
 
-**Kata Kunci**: Sistem Informasi, Rental Mobil, Web, Next.js, PostgreSQL, Prisma, Ambon
+**Kata Kunci**: Sistem Informasi, Rental Mobil & Motor, Web, Next.js, PostgreSQL, Prisma, Ambon
 
 ---
 
 # KATA PENGANTAR
 
-Puji syukur penulis panjatkan kepada Tuhan Yang Maha Esa karena atas berkat dan rahmat-Nya, penulis dapat menyelesaikan skripsi yang berjudul **"Sistem Informasi Rental Mobil Berbasis Web (Studi Kasus: Agil Rental Mobil Ambon)"** dengan baik dan tepat waktu.
+Puji syukur penulis panjatkan kepada Tuhan Yang Maha Esa karena atas berkat dan rahmat-Nya, penulis dapat menyelesaikan skripsi yang berjudul **"Sistem Informasi Rental Mobil & Motor Berbasis Web (Studi Kasus: Agil Rental Ambon)"** dengan baik dan tepat waktu.
 
 Skripsi ini disusun sebagai salah satu syarat untuk memperoleh gelar Sarjana Komputer pada Program Studi Teknik Informatika, Fakultas Ilmu Komputer.
 
@@ -212,6 +212,7 @@ Beberapa penelitian yang relevan dengan topik ini antara lain:
 Penelitian ini mengembangkan sistem dengan keunggulan:
 - Full-stack JavaScript dengan Next.js untuk performa lebih baik
 - Fitur upload KTP dan bukti transfer yang terintegrasi
+- Dukungan penyewaan Motor dengan alur khusus (skip layanan supir)
 - Dashboard admin lengkap dengan statistik dan grafik pendapatan
 - Laporan transaksi yang dapat difilter dan dicetak
 - Antarmuka responsif mobile-friendly
@@ -279,10 +280,10 @@ Tailwind CSS adalah framework CSS utility-first untuk styling tanpa menulis CSS 
 |-----------|-------|----------|
 | React | 19.2 | Library UI untuk komponen interaktif |
 | TypeScript | 5.x | Type safety untuk pengembangan |
-| jsonwebtoken | 9.0 | Autentikasi berbasis JWT |
+| jsonwebtoken | 9.0 | Autentikasi JWT (httpOnly cookie) |
 | bcryptjs | 3.0 | Hashing password untuk keamanan |
 | zod | 4.4 | Validasi form dan API input |
-| react-hook-form | 7.76 | Manajemen form state |
+| react-hook-form | 7.76 | Manajemen form + Zod resolver |
 | uuid | 14.0 | Generate unique ID |
 | clsx + tailwind-merge | - | Utility class merging |
 
@@ -402,19 +403,27 @@ Kendala sistem berjalan:
 Sistem usulan menerapkan otomatisasi penuh proses rental:
 
 ```
-[Pelanggan] → Website → Login → Lihat Katalog
+[Pelanggan] → Website → Login → Lihat Katalog (Mobil/Motor)
                                 ↓
-                        Pilih Mobil & Tanggal
+                        Pilih Kendaraan & Tanggal
                                 ↓
-                        Isi Form Pemesanan (4 langkah)
+                        Step 1: Pilih Tanggal Sewa
                                 ↓
-                        Upload KTP & Bukti Transfer
+                        Step 2: Pilih Layanan (skip jika Motor)
+                                ↓
+                        Step 3: Metode Pengambilan + No HP
+                                ↓
+                        Step 4: Metode Bayar (Transfer/Tunai)
+                                ↓
+                        Step 5: Upload KTP
+                                ↓
+                        Step 6: Konfirmasi & Kirim
                                 ↓
 [Admin] → Dashboard → Verifikasi Pembayaran → Konfirmasi
                                 ↓
-[Pelanggan] ← Status Update (real-time di Dashboard)
+[Pelanggan] ← Status Update (Dashboard Pelanggan)
                                 ↓
-                        Pengambilan Mobil
+                        Pengambilan Kendaraan
 ```
 
 ## 4.3 Perancangan Database
@@ -668,7 +677,7 @@ Sistem menyediakan 14 API endpoints:
 | GET | `/api/auth/logout` | - | Logout |
 | GET | `/api/auth/me` | User | Info user saat ini |
 | GET | `/api/cars` | - | Daftar mobil (public) |
-| GET | `/api/cars/[id]` | - | Detail mobil |
+| GET | `/api/cars/[id]` | - | Detail kendaraan (berdasarkan ID atau slug) |
 | POST | `/api/cars` | Admin | Tambah mobil |
 | PUT | `/api/cars/[id]` | Admin | Edit mobil |
 | DELETE | `/api/cars/[id]` | Admin | Hapus mobil |
@@ -710,7 +719,7 @@ Sistem mendukung upload file gambar melalui endpoint `/api/upload`:
 Halaman utama menampilkan:
 - **Hero Section** — Judul, deskripsi, tombol CTA, social proof
 - **Services Grid** — 6 kartu layanan (Lepas Kunci, Supir, Antar Jemput, Dinas, Tour, Bandara)
-- **Fleet Section** — 3 mobil terpopuler dari API
+- **Fleet Section** — 3 kendaraan terpopuler (Mobil + Motor)
 - **Why Us** — 4 kartu keunggulan
 - **Location & Contact** — Alamat, telepon, jam operasional, media sosial
 - **Stats** — Mobil tersedia, pelanggan puas, rating
@@ -719,10 +728,10 @@ Halaman utama menampilkan:
 ### 5.4.2 Halaman List & Detail Mobil
 
 Halaman daftar mobil (`/cars`):
-- Filter: Transmisi (AT/MT), Kapasitas (4/5/7), Urutkan (Harga)
+- Filter: Tipe (Semua/Mobil/Motor), Transmisi (AT/MT), Kapasitas, Urutkan (Harga)
 - Loading skeleton cards
 - Empty state dengan tombol reset filter
-- Car cards menampilkan: gambar, nama, transmisi, kapasitas, harga, status
+- Car cards menampilkan: gambar, nama, tipe (Mobil/Motor), transmisi, kapasitas, harga, status
 
 Halaman detail mobil (`/cars/[slug]`):
 - Breadcrumb navigasi
@@ -890,7 +899,7 @@ Berdasarkan hasil penelitian dan implementasi yang telah dilakukan, dapat disimp
 
 4. **Hasil Pengujian**: Pengujian black box pada 10 test case API dan 25 test case UI menunjukkan hasil **100% PASS**. Sistem berfungsi sesuai spesifikasi pada semua level (mobile, tablet, desktop). Pengujian keamanan juga menunjukkan sistem menerapkan praktik keamanan yang baik.
 
-5. **Deployment**: Sistem berhasil di-deploy ke Vercel dan dapat diakses publik di **https://rent-car-flame.vercel.app** menggunakan database Neon PostgreSQL.
+5. **Deployment**: Sistem berhasil di-deploy ke Vercel dan dapat diakses publik di **https://rent-car.vercel.app (production)** menggunakan database Neon PostgreSQL.
 
 ## 6.2 Saran
 
@@ -943,7 +952,7 @@ Untuk pengembangan lebih lanjut, beberapa saran yang dapat diimplementasikan:
 ## Lampiran A — Source Code
 
 Source code lengkap tersedia di repository GitHub dan telah di-deploy di:
-- **Live URL**: https://rent-car-flame.vercel.app
+- **Live URL**: https://rent-car.vercel.app (production)
 - **Struktur Project**: Tercantum dalam file README.md project
 
 ## Lampiran B — Akun Demo
@@ -964,4 +973,4 @@ Source code lengkap tersedia di repository GitHub dan telah di-deploy di:
 
 ---
 
-© 2026 — Agil Rental Mobil Ambon
+© 2026 — Agil Rental Ambon
