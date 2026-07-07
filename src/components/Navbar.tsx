@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
+import { useHash } from "@/lib/useHash";
 import { useAuth } from "@/lib/AuthContext";
 
 export default function Navbar() {
@@ -38,13 +39,15 @@ export default function Navbar() {
     { href: "/#kontak", label: "Kontak", mobileLabel: "Kontak" },
   ];
 
+  const hash = useHash();
+
   const isActive = (href: string) => {
     if (href.includes("#")) {
-      const [base, hash] = href.split("#");
-      return pathname === base && window.location.hash === "#" + hash;
+      const [base, hashVal] = href.split("#");
+      return pathname === base && hash === "#" + hashVal;
     }
     // Beranda hanya aktif jika pathname "/" tanpa hash (hash berarti section lain)
-    if (href === "/") return pathname === "/" && !window.location.hash;
+    if (href === "/") return pathname === "/" && !hash;
     return pathname.startsWith(href);
   };
 
