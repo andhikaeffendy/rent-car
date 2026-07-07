@@ -122,7 +122,7 @@ export default function NewCarPage() {
     setError("");
 
     if (!form.imageUrl) {
-      setError("Silakan upload gambar utama mobil");
+      setError("Silakan upload gambar utama");
       return;
     }
 
@@ -171,10 +171,10 @@ export default function NewCarPage() {
               d="M10 19l-7-7m0 0l7-7m-7 7h18"
             />
           </svg>
-          <span>Kembali ke daftar mobil</span>
+          <span>Kembali ke daftar kendaraan</span>
         </Link>
         <h1 className="text-2xl font-bold text-[#0B1F44] mt-2">
-          Tambah Mobil Baru
+          Tambah Kendaraan Baru
         </h1>
       </div>
 
@@ -192,7 +192,7 @@ export default function NewCarPage() {
           {/* Nama */}
           <div className="sm:col-span-2">
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Nama Mobil
+              Nama Kendaraan
             </label>
             <input
               type="text"
@@ -484,7 +484,7 @@ export default function NewCarPage() {
               value={form.description}
               onChange={handleChange}
               rows={3}
-              placeholder="Deskripsi mobil..."
+              placeholder="Deskripsi kendaraan..."
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#F5B21A]"
             />
           </div>
@@ -511,7 +511,7 @@ export default function NewCarPage() {
             disabled={submitting || uploading}
             className="flex-1 py-3 bg-[#F5B21A] hover:bg-[#d97706] disabled:bg-gray-300 text-[#0B1F44] font-bold rounded-xl transition-colors shadow-sm"
           >
-            {submitting ? "Menyimpan..." : uploading ? "Mengupload..." : "Simpan Mobil"}
+            {submitting ? "Menyimpan..." : uploading ? "Mengupload..." : "Simpan Kendaraan"}
           </button>
           <Link
             href="/admin/cars"

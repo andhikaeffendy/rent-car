@@ -61,7 +61,7 @@ export default function EditCarPage() {
         setGalleryPreviews(c.galleryUrls || []);
       }
     } catch {
-      setError("Gagal memuat data mobil");
+      setError("Gagal memuat data kendaraan");
     } finally {
       setLoading(false);
     }
@@ -159,7 +159,7 @@ export default function EditCarPage() {
         router.push("/admin/cars");
       } else {
         const data = await res.json();
-        setError(data.error || "Gagal mengupdate mobil");
+        setError(data.error || "Gagal mengupdate kendaraan");
       }
     } catch {
       setError("Terjadi kesalahan server");
@@ -196,10 +196,10 @@ export default function EditCarPage() {
               d="M10 19l-7-7m0 0l7-7m-7 7h18"
             />
           </svg>
-          <span>Kembali ke daftar mobil</span>
+          <span>Kembali ke daftar kendaraan</span>
         </Link>
         <h1 className="text-2xl font-bold text-[#0B1F44] mt-2">
-          Edit Mobil: {form.name}
+          Edit Kendaraan: {form.name}
         </h1>
       </div>
 
@@ -216,7 +216,7 @@ export default function EditCarPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="sm:col-span-2">
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Nama Mobil
+              Nama Kendaraan
             </label>
             <input
               type="text"
