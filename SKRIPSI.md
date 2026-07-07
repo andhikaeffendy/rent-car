@@ -41,9 +41,9 @@ ____________________________
 
 # ABSTRAK
 
-Perkembangan teknologi informasi telah mengubah cara bisnis beroperasi, termasuk di bidang rental mobil. Agil Rental Mobil yang berlokasi di Jl. Dr. Malaihollo, Benteng, Ambon, masih menggunakan sistem manual dalam mengelola pemesanan dan administrasi rental. Sistem manual ini menimbulkan berbagai kendala seperti pencatatan yang tidak terstruktur, sulitnya melacak status pemesanan, lambatnya proses verifikasi pembayaran, dan minimnya informasi yang dapat diakses pelanggan.
+Perkembangan teknologi informasi telah mengubah cara bisnis beroperasi, termasuk di bidang rental kendaraan (mobil & motor). Agil Rental Mobil yang berlokasi di Jl. Dr. Malaihollo, Benteng, Ambon, masih menggunakan sistem manual dalam mengelola pemesanan dan administrasi rental. Sistem manual ini menimbulkan berbagai kendala seperti pencatatan yang tidak terstruktur, sulitnya melacak status pemesanan, lambatnya proses verifikasi pembayaran, dan minimnya informasi yang dapat diakses pelanggan.
 
-Penelitian ini bertujuan untuk membangun sebuah sistem informasi rental mobil dan motor berbasis web yang dapat mempermudah proses pemesanan dan pengelolaan rental mobil di Agil Rental Mobil Ambon. Sistem dibangun menggunakan teknologi Next.js sebagai framework frontend dan backend, Prisma ORM untuk pengelolaan database PostgreSQL, serta Tailwind CSS untuk antarmuka pengguna yang responsif. Sistem ini memiliki dua role utama: Customer dan Admin, dengan fitur-fitur seperti pengelolaan armada mobil dan motor, pemesanan multi-langkah, upload dokumen KTP dan bukti transfer, verifikasi pembayaran, dashboard statistik, dan laporan transaksi.
+Penelitian ini bertujuan untuk membangun sebuah sistem informasi rental kendaraan dan motor berbasis web yang dapat mempermudah proses pemesanan dan pengelolaan rental kendaraan di Agil Rental Mobil Ambon. Sistem dibangun menggunakan teknologi Next.js sebagai framework frontend dan backend, Prisma ORM untuk pengelolaan database PostgreSQL, serta Tailwind CSS untuk antarmuka pengguna yang responsif. Sistem ini memiliki dua role utama: Customer dan Admin, dengan fitur-fitur seperti pengelolaan armada kendaraan dan motor, pemesanan multi-langkah, upload dokumen KTP dan bukti transfer, verifikasi pembayaran, dashboard statistik, dan laporan transaksi.
 
 Hasil dari penelitian ini adalah sebuah aplikasi web yang telah di-deploy dan dapat diakses secara publik di https://rent-car.vercel.app (production). Pengujian sistem dilakukan menggunakan metode blackbox testing pada seluruh fitur API dan antarmuka pengguna, dengan hasil seluruh fitur berjalan sesuai spesifikasi yang diharapkan.
 
@@ -118,23 +118,23 @@ Penulis
 
 ## 1.1 Latar Belakang
 
-Kota Ambon sebagai ibu kota Provinsi Maluku memiliki aktivitas ekonomi dan pariwisata yang terus berkembang. Kebutuhan akan transportasi yang fleksibel, terutama rental mobil, semakin meningkat seiring dengan pertumbuhan kunjungan wisatawan dan aktivitas bisnis di kota ini. Agil Rental Mobil yang berlokasi di Jl. Dr. Malaihollo, Benteng, Ambon, merupakan salah satu penyedia jasa rental mobil yang melayani berbagai kebutuhan seperti sewa lepas kunci, rental dengan supir, antar jemput unit, perjalanan dinas, dan tour kota.
+Kota Ambon sebagai ibu kota Provinsi Maluku memiliki aktivitas ekonomi dan pariwisata yang terus berkembang. Kebutuhan akan transportasi yang fleksibel, terutama rental kendaraan, semakin meningkat seiring dengan pertumbuhan kunjungan wisatawan dan aktivitas bisnis di kota ini. Agil Rental Mobil yang berlokasi di Jl. Dr. Malaihollo, Benteng, Ambon, merupakan salah satu penyedia jasa rental kendaraan yang melayani berbagai kebutuhan seperti sewa lepas kunci, rental dengan supir, antar jemput unit, perjalanan dinas, dan tour kota.
 
-Namun demikian, Agil Rental Mobil masih menghadapi beberapa kendala dalam operasionalnya. Proses pemesanan masih dilakukan secara manual melalui telepon atau WhatsApp, pencatatan data pemesanan menggunakan buku atau spreadsheet sederhana, dan pelanggan harus datang langsung atau menghubungi admin untuk mengetahui ketersediaan mobil. Hal ini menyebabkan:
+Namun demikian, Agil Rental Mobil masih menghadapi beberapa kendala dalam operasionalnya. Proses pemesanan masih dilakukan secara manual melalui telepon atau WhatsApp, pencatatan data pemesanan menggunakan buku atau spreadsheet sederhana, dan pelanggan harus datang langsung atau menghubungi admin untuk mengetahui ketersediaan kendaraan. Hal ini menyebabkan:
 
-1. **Keterbatasan Akses Informasi**: Pelanggan tidak dapat melihat ketersediaan mobil, harga, dan spesifikasi secara real-time.
+1. **Keterbatasan Akses Informasi**: Pelanggan tidak dapat melihat ketersediaan kendaraan, harga, dan spesifikasi secara real-time.
 2. **Proses Pemesanan Lambat**: Verifikasi pembayaran dan konfirmasi pemesanan memakan waktu karena dilakukan manual.
 3. **Pencatatan Tidak Terstruktur**: Data pemesanan, pembayaran, dan riwayat pelanggan tidak tersimpan dalam database terpusat.
 4. **Kesulitan Pembuatan Laporan**: Admin kesulitan membuat laporan transaksi dan pendapatan secara akurat dan cepat.
 
-Berdasarkan permasalahan tersebut, diperlukan sebuah sistem informasi rental mobil berbasis web yang dapat mengintegrasikan seluruh proses bisnis Agil Rental Mobil. Sistem ini akan memungkinkan pelanggan untuk melihat katalog mobil secara online, melakukan pemesanan, mengupload dokumen, dan melacak status pemesanan. Di sisi admin, sistem akan mempermudah pengelolaan armada mobil, verifikasi pembayaran, dan pembuatan laporan.
+Berdasarkan permasalahan tersebut, diperlukan sebuah sistem informasi rental kendaraan berbasis web yang dapat mengintegrasikan seluruh proses bisnis Agil Rental Mobil. Sistem ini akan memungkinkan pelanggan untuk melihat katalog kendaraan secara online, melakukan pemesanan, mengupload dokumen, dan melacak status pemesanan. Di sisi admin, sistem akan mempermudah pengelolaan armada kendaraan, verifikasi pembayaran, dan pembuatan laporan.
 
 ## 1.2 Rumusan Masalah
 
 Berdasarkan latar belakang di atas, dapat dirumuskan permasalahan sebagai berikut:
 
-1. Bagaimana merancang sistem informasi rental mobil berbasis web yang sesuai dengan kebutuhan Agil Rental Mobil Ambon?
-2. Bagaimana mengimplementasikan sistem yang memungkinkan pelanggan melakukan pemesanan mobil secara online dengan proses yang terstruktur?
+1. Bagaimana merancang sistem informasi rental kendaraan berbasis web yang sesuai dengan kebutuhan Agil Rental Mobil Ambon?
+2. Bagaimana mengimplementasikan sistem yang memungkinkan pelanggan melakukan pemesanan kendaraan secara online dengan proses yang terstruktur?
 3. Bagaimana mengimplementasikan dashboard admin untuk pengelolaan armada, verifikasi pembayaran, dan pembuatan laporan?
 4. Bagaimana hasil pengujian sistem terhadap fungsionalitas dan kemudahan penggunaan?
 
@@ -144,7 +144,7 @@ Agar penelitian lebih terfokus, diberikan batasan-batasan sebagai berikut:
 
 1. Sistem dibangun berbasis web menggunakan framework Next.js dengan database PostgreSQL.
 2. Meliputi framework Next.js dengan database PostgreSQL.
-3. Fitur meliputi: manajemen data mobil, pemesanan dengan upload dokumen, verifikasi pembayaran, dashboard admin, laporan transaksi, dan pengaturan rental.
+3. Fitur meliputi: manajemen data kendaraan, pemesanan dengan upload dokumen, verifikasi pembayaran, dashboard admin, laporan transaksi, dan pengaturan rental.
 4. Sistem memiliki dua role: Customer (pelanggan) dan Admin (pengelola).
 5. Pembayaran dilakukan secara manual (transfer bank) — sistem tidak terintegrasi dengan payment gateway.
 6. Penelitian dilakukan di Agil Rental Mobil Jl. Dr. Malaihollo, Benteng, Ambon.
@@ -153,8 +153,8 @@ Agar penelitian lebih terfokus, diberikan batasan-batasan sebagai berikut:
 
 Tujuan dari penelitian ini adalah:
 
-1. Merancang dan membangun sistem informasi rental mobil berbasis web untuk Agil Rental Mobil Ambon.
-2. Mengimplementasikan sistem yang memudahkan pelanggan dalam melihat katalog, memesan mobil, dan melacak status pemesanan.
+1. Merancang dan membangun sistem informasi rental kendaraan berbasis web untuk Agil Rental Mobil Ambon.
+2. Mengimplementasikan sistem yang memudahkan pelanggan dalam melihat katalog, memesan kendaraan, dan melacak status pemesanan.
 3. Menyediakan dashboard admin untuk pengelolaan armada, verifikasi pembayaran, dan laporan.
 4. Menguji fungsionalitas sistem secara menyeluruh untuk memastikan semua fitur berjalan dengan baik.
 
@@ -163,13 +163,13 @@ Tujuan dari penelitian ini adalah:
 Penelitian ini diharapkan memberikan manfaat:
 
 **Bagi Agil Rental Mobil:**
-- Mempermudah pengelolaan data mobil, pemesanan, dan pembayaran
+- Mempermudah pengelolaan data kendaraan, pemesanan, dan pembayaran
 - Mempercepat proses verifikasi dan konfirmasi pemesanan
 - Memudahkan pembuatan laporan transaksi dan pendapatan
 - Meningkatkan profesionalitas layanan dengan sistem online
 
 **Bagi Pelanggan:**
-- Dapat melihat katalog mobil dan harga secara online 24/7
+- Dapat melihat katalog kendaraan dan harga secara online 24/7
 - Dapat melakukan pemesanan kapan saja tanpa harus menghubungi admin
 - Dapat melacak status pemesanan secara real-time
 - Mendapatkan informasi pembayaran yang jelas
@@ -185,7 +185,7 @@ Sistematika penulisan skripsi ini terdiri dari enam bab:
 
 **BAB I — PENDAHULUAN**: Berisi latar belakang, rumusan masalah, batasan masalah, tujuan penelitian, manfaat penelitian, dan sistematika penulisan.
 
-**BAB II — TINJAUAN PUSTAKA & LANDASAN TEORI**: Berisi penelitian terdahulu, landasan teori tentang sistem informasi, rental mobil, teknologi yang digunakan (Next.js, Prisma, PostgreSQL, Tailwind CSS).
+**BAB II — TINJAUAN PUSTAKA & LANDASAN TEORI**: Berisi penelitian terdahulu, landasan teori tentang sistem informasi, rental kendaraan, teknologi yang digunakan (Next.js, Prisma, PostgreSQL, Tailwind CSS).
 
 **BAB III — METODOLOGI PENELITIAN**: Berisi metode pengembangan sistem (Waterfall/RAD), metode pengumpulan data, dan analisis kebutuhan sistem.
 
@@ -203,11 +203,11 @@ Sistematika penulisan skripsi ini terdiri dari enam bab:
 
 Beberapa penelitian yang relevan dengan topik ini antara lain:
 
-1. **Sistem Informasi Rental Mobil Berbasis Web** oleh Pratama (2021) — Membangun sistem rental menggunakan PHP dan MySQL dengan fitur pemesanan dan pengelolaan armada. Kelemahan: antarmuka kurang responsif, tidak ada fitur upload dokumen.
+1. **Sistem Informasi Rental Kendaraan Berbasis Web** oleh Pratama (2021) — Membangun sistem rental menggunakan PHP dan MySQL dengan fitur pemesanan dan pengelolaan armada. Kelemahan: antarmuka kurang responsif, tidak ada fitur upload dokumen.
 
-2. **Aplikasi Rental Mobil Online Menggunakan Framework Laravel** oleh Wijaya (2022) — Mengimplementasikan sistem rental dengan payment gateway Midtrans. Keunggulan: integrasi pembayaran online.
+2. **Aplikasi Rental Kendaraan Online Menggunakan Framework Laravel** oleh Wijaya (2022) — Mengimplementasikan sistem rental dengan payment gateway Midtrans. Keunggulan: integrasi pembayaran online.
 
-3. **Rancang Bangun Aplikasi Penyewaan Mobil Berbasis Web Responsive** oleh Sari (2023) — Fokus pada responsive design menggunakan Bootstrap. Kelemahan: tidak ada dashboard admin yang komprehensif.
+3. **Rancang Bangun Aplikasi Penyewaan Kendaraan Berbasis Web Responsive** oleh Sari (2023) — Fokus pada responsive design menggunakan Bootstrap. Kelemahan: tidak ada dashboard admin yang komprehensif.
 
 Penelitian ini mengembangkan sistem dengan keunggulan:
 - Full-stack JavaScript dengan Next.js untuk performa lebih baik
@@ -223,11 +223,11 @@ Penelitian ini mengembangkan sistem dengan keunggulan:
 
 Sistem informasi adalah suatu sistem dalam suatu organisasi yang mempertemukan kebutuhan pengolahan transaksi harian, mendukung operasi, bersifat manajerial, dan kegiatan strategi dari suatu organisasi dan menyediakan pihak luar tertentu dengan laporan-laporan yang diperlukan (Jogiyanto, 2005).
 
-### 2.2.2 Rental Mobil
+### 2.2.2 Rental Kendaraan
 
-Rental mobil adalah penyedia jasa penyewaan kendaraan roda empat dalam jangka waktu tertentu dengan tarif yang telah disepakati. Dalam bisnis rental mobil, terdapat beberapa komponen utama:
-- **Armada**: Daftar mobil yang tersedia untuk disewakan
-- **Pemesanan**: Proses customer memesan mobil untuk periode tertentu
+Rental kendaraan adalah jasa penyewaan kendaraan (mobil & motor) dalam jangka waktu tertentu dengan tarif yang telah disepakati. Dalam bisnis rental mobil, terdapat beberapa komponen utama:
+- **Armada**: Daftar kendaraan yang tersedia untuk disewakan
+- **Pemesanan**: Proses customer memesan kendaraan untuk periode tertentu
 - **Pembayaran**: Transfer biaya sewa beserta biaya tambahan
 - **Dokumen**: KTP dan bukti transfer sebagai syarat sewa
 
@@ -327,11 +327,11 @@ Data dikumpulkan melalui:
 
 1. **Observasi**: Pengamatan langsung proses rental di lokasi Agil Rental Mobil
 2. **Wawancara**: Tanya jawab dengan pemilik dan admin
-3. **Studi Pustaka**: Mempelajari literatur tentang sistem informasi rental mobil
+3. **Studi Pustaka**: Mempelajari literatur tentang sistem informasi rental kendaraan
 
 Data yang dikumpulkan meliputi:
-- Daftar armada mobil (6 unit)
-- Harga sewa untuk setiap mobil
+- Daftar armada kendaraan (6 unit)
+- Harga sewa untuk setiap kendaraan
 - Prosedur pemesanan yang berjalan
 - Informasi kontak dan jam operasional
 - Data pelanggan yang ada
@@ -345,8 +345,8 @@ Data yang dikumpulkan meliputi:
 |----|-------|-----------|
 | F-01 | Registrasi Akun | Customer dapat mendaftar akun baru |
 | F-02 | Login | Customer dapat login ke sistem |
-| F-03 | Lihat Katalog Mobil | Melihat daftar mobil dengan filter |
-| F-04 | Detail Mobil | Melihat informasi lengkap mobil |
+| F-03 | Lihat Katalog Kendaraan | Melihat daftar kendaraan dengan filter |
+| F-04 | Detail Kendaraan | Melihat informasi lengkap kendaraan |
 | F-05 | Pemesanan | Melakukan booking 4 langkah |
 | F-06 | Upload KTP | Upload foto KTP sebagai syarat sewa |
 | F-07 | Upload Bukti Transfer | Upload bukti pembayaran |
@@ -356,7 +356,7 @@ Data yang dikumpulkan meliputi:
 | ID | Fitur | Deskripsi |
 |----|-------|-----------|
 | F-09 | Dashboard Admin | Statistik ringkasan dan grafik |
-| F-10 | Kelola Mobil | CRUD data armada dengan upload gambar |
+| F-10 | Kelola Kendaraan | CRUD data armada dengan upload gambar |
 | F-11 | Verifikasi Pesanan | Konfirmasi/tolak pemesanan |
 | F-12 | Verifikasi Pembayaran | Konfirmasi/tolak bukti transfer |
 | F-13 | Data Pelanggan | Melihat daftar dan riwayat pelanggan |
@@ -388,7 +388,7 @@ Sistem yang saat ini berjalan di Agil Rental Mobil digambarkan sebagai berikut:
                                            ↓
 [Pelanggan] → Transfer Bank → WA Bukti Transfer
                                     ↓
-[Admin] → Verifikasi Manual → Mobil Diserahkan
+[Admin] → Verifikasi Manual → Kendaraan Diserahkan
 ```
 
 Kendala sistem berjalan:
@@ -491,24 +491,24 @@ Database menggunakan PostgreSQL dengan 6 tabel utama:
 | phone | String? | Nomor telepon (opsional) |
 | role | Enum | CUSTOMER / ADMIN |
 
-**Tabel Car** — Menyimpan data armada mobil
+**Tabel Car** — Menyimpan data armada kendaraan
 | Kolom | Tipe | Keterangan |
 |-------|------|------------|
 | id | UUID | Primary Key |
-| name | String | Nama mobil |
+| name | String | Nama kendaraan |
 | slug | String | URL identifier (unique) |
 | transmission | String | AT / MT / AT/MT |
 | capacity | Int | Jumlah kursi |
 | fuelType | String | Bensin / Diesel / Hybrid / Listrik |
 | year | Int | Tahun produksi |
-| color | String? | Warna mobil |
+| color | String? | Warna kendaraan |
 | priceSelfDrive | Float | Harga lepas kunci |
 | priceWithDriver | Float? | Harga dengan supir |
 | imageUrl | String | Gambar utama |
 | galleryUrls | String[] | Array gambar galeri |
 | status | Enum | AVAILABLE / RENTED / MAINTENANCE / UNAVAILABLE |
-| description | String? | Deskripsi mobil |
-| facilities | String[] | Fasilitas mobil |
+| description | String? | Deskripsi kendaraan |
+| facilities | String[] | Fasilitas kendaraan |
 
 **Tabel Booking** — Menyimpan data pemesanan
 | Kolom | Tipe | Keterangan |
@@ -566,8 +566,8 @@ graph LR
     A[WAITING_PAYMENT] -->|Upload Bukti Transfer| B[WAITING_VERIFICATION]
     B -->|Admin Verifikasi| C[CONFIRMED]
     B -->|Admin Tolak| D[REJECTED]
-    C -->|Mobil Diambil| E[ON_RENT]
-    E -->|Mobil Kembali| F[COMPLETED]
+    C -->|Kendaraan Diambil| E[ON_RENT]
+    E -->|Kendaraan Kembali| F[COMPLETED]
     A -->|Cancel| G[CANCELLED]
     B -->|Cancel| G
 ```
@@ -579,8 +579,8 @@ graph LR
 | Halaman | Route | Komponen Utama |
 |---------|-------|----------------|
 | Homepage | `/` | Hero, Services, Fleet, Why Us, Location, Stats, CTA |
-| Daftar Mobil | `/cars` | Filter, Grid Car Cards, Loading/Empty States |
-| Detail Mobil | `/cars/[slug]` | Gallery, Specs, Price Calculator, Booking Widget |
+| Daftar Kendaraan | `/cars` | Filter, Grid Car Cards, Loading/Empty States |
+| Detail Kendaraan | `/cars/[slug]` | Gallery, Specs, Price Calculator, Booking Widget |
 | Login | `/login` | Form Login, Demo Accounts |
 | Register | `/register` | Form Registrasi |
 | Booking | `/booking/[carId]` | 4-Step Wizard |
@@ -591,9 +591,9 @@ graph LR
 | Halaman | Route | Komponen Utama |
 |---------|-------|----------------|
 | Dashboard | `/admin/dashboard` | Stats Cards, Recent Bookings, Revenue Chart |
-| Kelola Mobil | `/admin/cars` | Table/Cards, Status Toggle |
-| Tambah Mobil | `/admin/cars/new` | Form + Image Upload |
-| Edit Mobil | `/admin/cars/[id]/edit` | Form + Image Upload |
+| Kelola Kendaraan | `/admin/cars` | Table/Cards, Status Toggle |
+| Tambah Kendaraan | `/admin/cars/new` | Form + Image Upload |
+| Edit Kendaraan | `/admin/cars/[id]/edit` | Form + Image Upload |
 | Pesanan | `/admin/bookings` | Table, Filter, Detail Modal |
 | Pembayaran | `/admin/payments` | Table, Filter, Verify Modal |
 | Pelanggan | `/admin/customers` | Table, Detail Modal |
@@ -660,7 +660,7 @@ Perintah ini akan membuat seluruh tabel di database PostgreSQL sesuai definisi s
 
 Data awal diisi melalui file `prisma/seed.ts` yang mencakup:
 - 7 user (2 admin, 5 customer)
-- 6 mobil armada Agil Rental
+- 6 mobil dan 2 motor armada Agil Rental
 - 5 sample booking dengan berbagai status
 - 1 rental setting
 
@@ -676,11 +676,11 @@ Sistem menyediakan 14 API endpoints:
 | POST | `/api/auth/login` | - | Login user |
 | GET | `/api/auth/logout` | - | Logout |
 | GET | `/api/auth/me` | User | Info user saat ini |
-| GET | `/api/cars` | - | Daftar mobil (public) |
+| GET | `/api/cars` | ?type=MOBIL/MOTOR | Daftar kendaraan |
 | GET | `/api/cars/[id]` | - | Detail kendaraan (berdasarkan ID atau slug) |
-| POST | `/api/cars` | Admin | Tambah mobil |
-| PUT | `/api/cars/[id]` | Admin | Edit mobil |
-| DELETE | `/api/cars/[id]` | Admin | Hapus mobil |
+| POST | `/api/cars` | Admin | Tambah kendaraan |
+| PUT | `/api/cars/[id]` | Admin | Edit kendaraan |
+| DELETE | `/api/cars/[id]` | Admin | Hapus kendaraan |
 | GET | `/api/bookings` | Admin | Semua pesanan |
 | GET | `/api/bookings/user` | Customer | Pesanan user |
 | POST | `/api/bookings` | Customer | Buat pesanan |
@@ -722,18 +722,18 @@ Halaman utama menampilkan:
 - **Fleet Section** — 3 kendaraan terpopuler (Mobil + Motor)
 - **Why Us** — 4 kartu keunggulan
 - **Location & Contact** — Alamat, telepon, jam operasional, media sosial
-- **Stats** — Mobil tersedia, pelanggan puas, rating
+- **Stats** — Kendaraan tersedia, pelanggan puas, rating
 - **CTA Bottom** — Ajakan booking
 
-### 5.4.2 Halaman List & Detail Mobil
+### 5.4.2 Halaman List & Detail Kendaraan
 
-Halaman daftar mobil (`/cars`):
+Halaman daftar kendaraan (`/cars`):
 - Filter: Tipe (Semua/Mobil/Motor), Transmisi (AT/MT), Kapasitas, Urutkan (Harga)
 - Loading skeleton cards
 - Empty state dengan tombol reset filter
 - Car cards menampilkan: gambar, nama, tipe (Mobil/Motor), transmisi, kapasitas, harga, status
 
-Halaman detail mobil (`/cars/[slug]`):
+Halaman detail kendaraan (`/cars/[slug]`):
 - Breadcrumb navigasi
 - Gambar utama dengan status badge
 - Galeri thumbnail
@@ -770,7 +770,7 @@ Pemesanan menggunakan wizard 4 langkah:
 Menampilkan:
 - 3 kartu statistik (Total, Aktif, Selesai)
 - Riwayat pemesanan dengan:
-  - Gambar dan nama mobil
+  - Gambar dan nama kendaraan
   - Kode booking
   - Tanggal sewa dan durasi
   - Status dengan badge warna
@@ -779,7 +779,7 @@ Menampilkan:
 ### 5.4.5 Dashboard Admin
 
 Menampilkan:
-- 6 kartu statistik (Total Mobil, Tersedia, Menunggu Verif, Pesanan Hari Ini, Total Pendapatan, Total Pelanggan)
+- 6 kartu statistik (Total Kendaraan, Tersedia, Menunggu Verif, Pesanan Hari Ini, Total Pendapatan, Total Pelanggan)
 - Tabel pesanan terbaru
 - Grafik pendapatan bulanan
 - Tombol akses cepat
@@ -807,7 +807,7 @@ Pengujian menggunakan metode **Black Box Testing** — menguji fungsionalitas si
 | TC-02 | Login invalid | email salah | Error 401 | ✅ PASS |
 | TC-03 | Booking tanpa login | - | Error: login dahulu | ✅ PASS |
 | TC-04 | Booking dengan login | carId + tanggal | Booking created | ✅ PASS |
-| TC-05 | Booking mobil unavailable | carId status != AVAILABLE | Error | ✅ PASS |
+| TC-05 | Booking kendaraan tidak tersedia | carId status != AVAILABLE | Error | ✅ PASS |
 | TC-06 | Upload file > 5MB | File 6MB | Error: size limit | ✅ PASS |
 | TC-07 | Upload invalid type | File .pdf | Error: format | ✅ PASS |
 | TC-08 | Admin akses API | Token admin | Data admin | ✅ PASS |
@@ -819,7 +819,7 @@ Pengujian menggunakan metode **Black Box Testing** — menguji fungsionalitas si
 | No | Halaman | Fitur | Status |
 |----|---------|-------|--------|
 | UI-01 | Homepage | Render semua section | ✅ |
-| UI-02 | Homepage | Hero CTA "Cari Mobil" | ✅ |
+| UI-02 | Homepage | Hero CTA "Cari Kendaraan" | ✅ |
 | UI-03 | /cars | Filter transmisi | ✅ |
 | UI-04 | /cars | Filter kapasitas | ✅ |
 | UI-05 | /cars | Empty state (no results) | ✅ |
@@ -833,7 +833,7 @@ Pengujian menggunakan metode **Black Box Testing** — menguji fungsionalitas si
 | UI-13 | /booking | Payment info display | ✅ |
 | UI-14 | /dashboard | Booking history | ✅ |
 | UI-15 | /admin/dashboard | Stats cards | ✅ |
-| UI-16 | /admin/cars | CRUD mobil | ✅ |
+| UI-16 | /admin/cars | CRUD kendaraan | ✅ |
 | UI-17 | /admin/cars/new | Image upload | ✅ |
 | UI-18 | /admin/bookings | Status filter | ✅ |
 | UI-19 | /admin/bookings | Detail modal | ✅ |
@@ -880,18 +880,18 @@ Hasil:
 
 Berdasarkan hasil penelitian dan implementasi yang telah dilakukan, dapat disimpulkan:
 
-1. **Perancangan Sistem**: Sistem Informasi Rental Mobil Berbasis Web untuk Agil Rental Mobil Ambon telah berhasil dirancang menggunakan metode Rapid Application Development (RAD). Sistem memiliki 14 halaman, 14 API endpoints, dan 6 tabel database yang terintegrasi.
+1. **Perancangan Sistem**: Sistem Informasi Rental Kendaraan Berbasis Web untuk Agil Rental Mobil Ambon telah berhasil dirancang menggunakan metode Rapid Application Development (RAD). Sistem memiliki 14 halaman, 14 API endpoints, dan 6 tabel database yang terintegrasi.
 
 2. **Implementasi Fitur Customer**: Sistem menyediakan fitur lengkap untuk pelanggan meliputi:
    - Registrasi dan login akun
-   - Melihat katalog 6 unit mobil dengan filter
+   - Melihat katalog 6 unit kendaraan dengan filter
    - Melakukan pemesanan melalui wizard 4 langkah
    - Upload KTP dan bukti transfer
    - Melacak status pemesanan melalui dashboard pribadi
 
 3. **Implementasi Fitur Admin**: Sistem menyediakan dashboard admin yang komprehensif untuk:
    - Melihat statistik bisnis secara real-time
-   - Mengelola data mobil (CRUD) dengan upload gambar
+   - Mengelola data kendaraan (CRUD) dengan upload gambar
    - Memverifikasi pemesanan dan pembayaran
    - Melihat data pelanggan dan riwayatnya
    - Membuat laporan transaksi dengan filter tanggal
@@ -909,13 +909,13 @@ Untuk pengembangan lebih lanjut, beberapa saran yang dapat diimplementasikan:
 
 2. **Notifikasi Real-time**: Menambahkan notifikasi WhatsApp/Email otomatis ketika status pemesanan berubah (menunggu verifikasi → dikonfirmasi → selesai).
 
-3. **Availability Calendar**: Menampilkan kalender ketersediaan mobil sehingga pelanggan dapat melihat tanggal yang sudah dibooking.
+3. **Availability Calendar**: Menampilkan kalender ketersediaan kendaraan sehingga pelanggan dapat melihat tanggal yang sudah dibooking.
 
-4. **Rating & Review**: Fitur rating dan review mobil oleh pelanggan yang sudah menyelesaikan pemesanan.
+4. **Rating & Review**: Fitur rating dan review kendaraan oleh pelanggan yang sudah menyelesaikan pemesanan.
 
 5. **Mobile Apps**: Mengembangkan aplikasi mobile native (Android/iOS) untuk pengalaman yang lebih optimal.
 
-6. **Multi-tenant**: Mendukung beberapa cabang/lokasi rental mobil.
+6. **Multi-tenant**: Mendukung beberapa cabang/lokasi rental kendaraan.
 
 7. **Supabase Storage**: Mengganti penyimpanan file base64 dengan Supabase Storage untuk performa dan skalabilitas lebih baik.
 
@@ -969,7 +969,7 @@ Source code lengkap tersedia di repository GitHub dan telah di-deploy di:
 
 ## Lampiran C — Screenshot Sistem
 
-*(Screenshot homepage, daftar mobil, detail mobil, booking wizard, dashboard customer, dashboard admin, kelola mobil, verifikasi pesanan, laporan, pengaturan)*
+*(Screenshot homepage, daftar kendaraan, detail kendaraan, booking wizard, dashboard customer, dashboard admin, kelola kendaraan, verifikasi pesanan, laporan, pengaturan)*
 
 ---
 
