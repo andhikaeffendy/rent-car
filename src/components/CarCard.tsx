@@ -55,6 +55,11 @@ export default function CarCard({ car }: CarCardProps) {
           <h3 className="font-bold text-[#0B1F44] text-lg mb-3 group-hover:text-[#F5B21A] transition-colors">
             {car.name}
           </h3>
+          <div className="flex items-center space-x-2 mb-3">
+            <span className="px-2 py-0.5 bg-gray-100 rounded-md text-xs font-medium text-gray-600">
+              {car.type === "MOTOR" ? "Motor" : "Mobil"}
+            </span>
+          </div>
 
           {/* Prices */}
           <div className="space-y-2 mb-4">

@@ -11,6 +11,7 @@ export default function CarsPage() {
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({
     transmission: "",
+    type: "",
     capacity: "",
     minPrice: "",
     maxPrice: "",
@@ -43,7 +44,8 @@ export default function CarsPage() {
   function resetFilters() {
     setFilters({
       transmission: "",
-      capacity: "",
+      type: "",
+    capacity: "",
       minPrice: "",
       maxPrice: "",
       sort: "",
@@ -60,12 +62,31 @@ export default function CarsPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8">
             <div>
               <h1 className="text-3xl lg:text-4xl font-bold text-[#0B1F44]">
-                Daftar Mobil
+                Daftar Kendaraan
               </h1>
               <p className="text-gray-500 mt-1">
                 Armada Agil Rental Mobil — Ambon
               </p>
             </div>
+          </div>
+
+          {/* Type Filter */}
+          <div className="flex space-x-2 mb-6">
+            {["", "MOBIL", "MOTOR"].map((val) => (
+              <button
+                key={val}
+                onClick={() => {
+                  setFilters((prev) => ({ ...prev, type: prev.type === val ? "" : val }));
+                }}
+                className={"px-6 py-2.5 rounded-xl text-sm font-bold transition-all " + (
+                  filters.type === val
+                    ? "bg-[#0B1F44] text-white shadow-md"
+                    : "bg-white border border-gray-200 text-gray-600 hover:border-[#F5B21A] hover:text-[#F5B21A]"
+                )}
+              >
+                {val || "Semua"}
+              </button>
+            ))}
           </div>
 
           {/* Filters */}

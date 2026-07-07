@@ -17,6 +17,9 @@ export default function AdminSettingsPage() {
     phone2: "0821-7911-7882",
     instagram: "@agil.rental.ambon",
     facebook: "Gilbert Sipahelut",
+    bankName: "",
+    bankAccountNumber: "",
+    bankAccountName: "",
   });
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -74,6 +77,9 @@ export default function AdminSettingsPage() {
           phone2: data.settings.phone2 || mainForm.phone2,
           instagram: data.settings.instagram || mainForm.instagram,
           facebook: data.settings.facebook || mainForm.facebook,
+          bankName: data.settings.bankName || mainForm.bankName,
+          bankAccountNumber: data.settings.bankAccountNumber || mainForm.bankAccountNumber,
+          bankAccountName: data.settings.bankAccountName || mainForm.bankAccountName,
         });
       }
     } catch {} finally {
@@ -310,6 +316,47 @@ export default function AdminSettingsPage() {
               onChange={handleChange}
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#F5B21A]"
             />
+          </div>
+        </div>
+
+        {/* Bank Info */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+          <h2 className="font-semibold text-[#0B1F44] text-lg mb-4">Informasi Rekening Bank</h2>
+          <p className="text-sm text-gray-500 mb-4">Data rekening yang ditampilkan saat customer memilih pembayaran Transfer</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Nama Bank</label>
+              <input
+                type="text"
+                name="bankName"
+                value={mainForm.bankName}
+                onChange={handleChange}
+                placeholder="Bank Mandiri"
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#F5B21A]"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">No. Rekening</label>
+              <input
+                type="text"
+                name="bankAccountNumber"
+                value={mainForm.bankAccountNumber}
+                onChange={handleChange}
+                placeholder="123-00-87654321"
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#F5B21A]"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Atas Nama</label>
+              <input
+                type="text"
+                name="bankAccountName"
+                value={mainForm.bankAccountName}
+                onChange={handleChange}
+                placeholder="Agil Rental Mobil"
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#F5B21A]"
+              />
+            </div>
           </div>
         </div>
 
