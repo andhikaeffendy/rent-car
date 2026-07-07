@@ -1,9 +1,9 @@
-# 🚗 Agil Rental Mobil — Aplikasi Rental Mobil Ambon
+# 🚗 Agil Rental — Aplikasi Rental Mobil & Motor Ambon
 
-Aplikasi website full-stack untuk rental mobil di Ambon.  
+Aplikasi website full-stack untuk rental kendaraan (mobil & motor) di Ambon.  
 Dibangun dengan **Next.js 16**, **Prisma**, **PostgreSQL**, dan **Tailwind CSS**.
 
-> 🌐 **Live demo**: [https://rent-car-flame.vercel.app](https://rent-car-flame.vercel.app)
+> 🌐 **Live demo**: [https://rent-car.vercel.app](https://rent-car.vercel.app)
 
 ---
 
@@ -224,9 +224,9 @@ npx prisma db seed
 Hasil yang benar:
 ```
 ✅ 7 users created
-✅ 6 cars created
-✅ 5 sample bookings created
-✅ Rental settings created
+✅ 6 mobil + 2 motor created
+✅ Rental settings created (with bank info)
+✅ 5 sample bookings created (with payments & documents)
 ```
 
 > 🎉 **Database siap!** Semua tabel dan data awal sudah terisi.
@@ -246,7 +246,8 @@ Buka browser, akses: **http://localhost:3000**
 ### 7.2 Yang Harus Muncul
 
 - 🏠 **Halaman utama** — Hero dengan logo Agil Rental, daftar mobil, info kontak
-- 🚗 **Halaman mobil** — 6 mobil dengan foto dan harga
+- 🚗 **Halaman kendaraan** — 6 mobil + 2 motor dengan foto dan harga
+- 🏍️ **Filter Mobil/Motor** — Tab filter di halaman daftar kendaraan
 - 🔑 **Halaman login** — Form login dengan info akun demo
 - 📝 **Halaman register** — Form pendaftaran akun baru
 
@@ -288,57 +289,71 @@ Setelah seed data, akun-akun ini tersedia:
 
 ## 9. Panduan Penggunaan — Customer
 
-### 9.1 Melihat & Mencari Mobil
+### 9.1 Melihat & Mencari Kendaraan
 
 1. Buka halaman utama → scroll ke **"Mobil Tersedia"**  
    atau buka langsung `/cars`
-2. **Filter mobil**:
+2. **Filter kendaraan**:
+   - **Tipe**: Semua, Mobil, Motor (tab filter)
    - **Transmisi**: AT (Matic), MT (Manual)
    - **Kapasitas**: Jumlah kursi (4, 5, 7)
    - **Urutkan**: Terbaru, Harga Terendah, Harga Tertinggi
-3. Klik mobil untuk lihat **detail lengkap**
+3. Klik kendaraan untuk lihat **detail lengkap** (ada badge Mobil/Motor)
 
-### 9.2 Booking Mobil (4 Langkah)
+### 9.2 Booking Kendaraan (6 Langkah)
 
 > ⚠️ **PENTING**: Anda wajib **login terlebih dahulu** untuk melakukan pemesanan.
-> Jika belum login, klik "Pesan Sekarang" akan mengarahkan ke halaman login, lalu otomatis kembali ke booking.
+> Jika belum login, akan diarahkan ke halaman login, lalu otomatis kembali ke booking.
 
-#### Langkah ① — Pilih Layanan
+Proses booking menggunakan **wizard 6 langkah**:
+
+#### Langkah ① — Pilih Tanggal Sewa
+
+1. Pilih **Tanggal Mulai** dan **Tanggal Selesai**
+2. Durasi sewa otomatis terhitung
+3. Klik **"Lanjutkan"**
+
+#### Langkah ② — Pilih Layanan (Khusus Mobil)
+
+> 🏍️ **Untuk Motor**: Langkah ini otomatis dilewati (Motor hanya tersedia lepas kunci)
 
 1. Pilih jenis layanan:
    - 🔑 **Lepas Kunci** — Anda yang menyetir sendiri
-   - 👨‍✈️ **Dengan Supir** — Ada sopir (jika tersedia, hanya mobil tertentu)
+   - 👨‍✈️ **Dengan Supir** — Ada sopir (jika tersedia)
 2. Klik **"Lanjutkan"**
 
-#### Langkah ② — Metode Pengambilan & Detail
+#### Langkah ③ — Metode Pengambilan & Detail
 
 1. Pilih metode pengambilan:
-   - 🏢 **Ambil Sendiri** — Datang ke Jl. Dr. Malaihollo, Ambon
-   - 🚚 **Diantar** — Mobil diantar ke alamat Anda (+Rp50.000)
-2. Jika "Diantar", **isi alamat lengkap**
+   - 🏢 **Ambil Sendiri** — Datang ke lokasi
+   - 🚚 **Diantar** — Kendaraan diantar ke alamat Anda (+Rp50.000)
+2. Jika "Diantar", **isi alamat lengkap** + **No. HP untuk pengantaran**
 3. Isi **catatan** (opsional)
 4. Klik **"Lanjutkan"**
 
-#### Langkah ③ — Upload Dokumen
+#### Langkah ④ — Metode Pembayaran
 
-> 💳 **Info Pembayaran**: Transfer ke **Bank BCA 123-456-7890** a.n. **Gilbert Sipahelut** sesuai total yang tertera.
+Pilih metode pembayaran:
 
-Upload 2 dokumen:
+| Metode | Keterangan |
+|--------|------------|
+| 🏦 **Transfer Bank** | Lihat No. Rekening tujuan → Upload bukti transfer |
+| 💵 **Tunai** | Bayar saat pengambilan/pengantaran (tanpa upload bukti) |
 
-| Dokumen | Format | Maks | Keterangan |
-|---------|--------|------|------------|
-| **Foto KTP** | JPG, PNG, WebP | 5MB | KTP asli, akan diminta saat pengambilan |
-| **Bukti Transfer** | JPG, PNG, WebP | 5MB | Screenshot bukti pembayaran ke rekening di atas |
+> Jika memilih **Transfer**, data rekening (Bank Mandiri) akan ditampilkan langsung di layar.
 
-> 💡 KTP asli **WAJIB** diserahkan ke petugas saat pengambilan mobil.
+#### Langkah ⑤ — Upload Foto KTP
 
-Klik area upload → pilih file → tunggu muncul preview → **"Lanjutkan"**
+1. Upload foto KTP untuk verifikasi identitas
+2. Format: JPG, PNG, WebP (maks 5MB)
+3. Klik **"Lanjutkan"**
 
-#### Langkah ④ — Konfirmasi & Kirim
+#### Langkah ⑥ — Konfirmasi & Kirim
 
-1. Review semua detail: mobil, layanan, tanggal, rincian biaya
-2. Klik **"Konfirmasi & Kirim"**
-3. Notifikasi sukses akan muncul dengan kode booking
+1. Review semua detail di ringkasan pesanan
+2. Periksa rincian biaya (harga sewa, biaya antar, total)
+3. Klik **"Konfirmasi & Kirim"**
+4. Notifikasi sukses muncul dengan kode booking (format: `AGL-XXXXXXXX`)
 
 ### 9.3 Dashboard Customer
 
@@ -361,8 +376,8 @@ Setelah login, buka `/dashboard`:
 
 | Status | Badge | Arti |
 |--------|-------|------|
-| ⏳ Menunggu Pembayaran | Kuning | Belum upload bukti transfer |
-| 🔄 Menunggu Verifikasi | Oranye | Admin sedang cek pembayaran |
+| ⏳ Menunggu Pembayaran | Kuning | Belum upload bukti transfer (jika Transfer) |
+| 🔄 Menunggu Verifikasi | Oranye | Menunggu admin verifikasi (Transfer / Tunai) |
 | ✅ Dikonfirmasi | Hijau | Booking disetujui, mobil siap |
 | ❌ Ditolak | Merah | Booking ditolak |
 | 🚗 Sedang Disewa | Biru | Mobil sedang Anda gunakan |
@@ -388,27 +403,28 @@ Statistik ringkasan:
 
 Juga menampilkan **10 pesanan terbaru** dan **grafik pendapatan bulanan**.
 
-### 10.2 Manajemen Mobil (`/admin/cars`)
+### 10.2 Manajemen Kendaraan (`/admin/cars`)
 
-#### Lihat Daftar Mobil
-Tabel dengan kolom: Nama, Transmisi, Kapasitas, Harga Lepas Kunci, Harga Supir, Status, Aksi.
+#### Lihat Daftar Kendaraan
+Tabel dengan kolom: Nama, Tipe (Mobil/Motor), Transmisi, Kapasitas, Harga Lepas Kunci, Harga Supir, Status, Aksi.
 
-#### Tambah Mobil Baru
-1. Klik **"+ Tambah Mobil"**
+#### Tambah Kendaraan Baru
+1. Klik **"+ Tambah Kendaraan"**
 2. Isi form:
-   - Nama, Slug (URL-friendly, contoh: `avanza-baru`)
+   - Nama, Slug (URL-friendly, contoh: `honda-vario-160`)
+   - **Tipe Kendaraan**: Mobil / Motor
    - Transmisi, Kapasitas, Bahan Bakar, Tahun, Warna
    - Harga Lepas Kunci (per hari)
-   - Harga Dengan Supir (opsional)
+   - Harga Dengan Supir (opsional, khusus Mobil)
    - **Upload Gambar Utama** — klik area upload → pilih file JPG/PNG/WebP (maks 5MB)
    - **Upload Galeri Gambar** — opsional, bisa pilih banyak gambar sekaligus
    - Deskripsi, Fasilitas (pisahkan dengan koma)
    - Status (Tersedia / Perawatan / Tidak Tersedia)
-3. Klik **"Simpan Mobil"**
+3. Klik **"Simpan Kendaraan"**
 
-#### Edit / Hapus Mobil
-- Klik **"Edit"** → ubah data → **"Simpan"**
-- Klik **"Hapus"** → konfirmasi → mobil dihapus
+#### Edit / Hapus Kendaraan
+- Klik **"Edit"** → ubah data (termasuk tipe kendaraan) → **"Simpan"**
+- Klik **"Hapus"** → konfirmasi → kendaraan dihapus
 
 ### 10.3 Verifikasi Pesanan (`/admin/bookings`)
 
@@ -419,6 +435,7 @@ Daftar semua pesanan dengan filter status.
 - Data customer: nama, email, telepon
 - **Dokumen KTP** — bisa dilihat (klik gambar)
 - **Bukti Transfer** — bisa dilihat (klik gambar)
+- Metode pembayaran (Transfer Bank / Tunai)
 - Rincian biaya
 
 #### Aksi Admin
@@ -629,7 +646,7 @@ rent-car/
 |----------|--------|
 | `npm install` | Install dependencies |
 | `npx prisma generate` | Generate Prisma Client |
-| `npx prisma db push` | Buat/perbarui tabel database |
+| `npx prisma db push` | Buat/perbarui tabel database (termasuk VehicleType, PaymentMethod dll) |
 | `npx prisma db seed` | Isi data awal |
 | `npm run dev` | Jalankan aplikasi (development) |
 | `npm run build` | Build untuk production |
@@ -638,4 +655,4 @@ rent-car/
 
 ---
 
-Selamat mencoba! 🚗 Jika ada pertanyaan, hubungi admin Agil Rental Mobil via WhatsApp di **0857-5465-0271**.
+Selamat mencoba! 🚗🏍️ Jika ada pertanyaan, hubungi admin Agil Rental via WhatsApp di **0857-5465-0271**.
