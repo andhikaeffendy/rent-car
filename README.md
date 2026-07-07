@@ -1,9 +1,9 @@
 # 🚗 Agil Rental — Aplikasi Rental Mobil & Motor Ambon
 
 Aplikasi website full-stack untuk rental kendaraan (mobil & motor) di Ambon.  
-Dibangun dengan **Next.js 16**, **Prisma**, **PostgreSQL**, dan **Tailwind CSS**.
+Dibangun dengan **Next.js 16**, **Prisma ORM**, **PostgreSQL** (Neon), dan **Tailwind CSS 4**.
 
-> 🌐 **Live demo**: [https://rent-car.vercel.app](https://rent-car.vercel.app)
+> ⚠️ Dalam tahap **pengembangan skripsi** — belum di-deploy ke publik.
 
 ---
 
@@ -11,18 +11,17 @@ Dibangun dengan **Next.js 16**, **Prisma**, **PostgreSQL**, dan **Tailwind CSS**
 
 1. [Software yang Harus Diinstall](#1-software-yang-harus-diinstall)
 2. [Download Project](#2-download-project)
-3. [Setup Database (Lokal)](#3-setup-database-lokal)
+3. [Setup Database](#3-setup-database)
 4. [Setup Environment Variables](#4-setup-environment-variables)
 5. [Install Dependencies](#5-install-dependencies)
-6. [Push Schema & Seed Data](#6-push-schema--seed-data)
+6. [Apply Migration & Seed Data](#6-apply-migration--seed-data)
 7. [Jalankan Aplikasi](#7-jalankan-aplikasi)
 8. [Daftar Akun Demo](#8-daftar-akun-demo)
 9. [Panduan Penggunaan — Customer](#9-panduan-penggunaan--customer)
 10. [Panduan Penggunaan — Admin](#10-panduan-penggunaan--admin)
-11. [Setup Supabase (Opsional)](#11-setup-supabase-opsional)
-12. [Deploy ke Internet](#12-deploy-ke-internet)
-13. [Troubleshooting](#13-troubleshooting)
-14. [Daftar Armada & Harga](#14-daftar-armada--harga)
+11. [Deploy ke Internet](#11-deploy-ke-internet)
+12. [Troubleshooting](#12-troubleshooting)
+13. [Daftar Armada & Harga](#13-daftar-armada--harga)
 
 ---
 
@@ -32,120 +31,58 @@ Sebelum memulai, install software berikut **satu per satu**:
 
 ### 1.1 Node.js (Wajib)
 
-**Apa fungsinya?** Menjalankan aplikasi JavaScript.
-
 | Sistem Operasi | Cara Install |
 |----------------|--------------|
 | **Windows** | 1. Buka [nodejs.org](https://nodejs.org/)<br>2. Klik tombol hijau **"LTS"**<br>3. Buka file yang sudah di-download<br>4. Klik **Next** → **Next** → **Install** → **Finish** |
-| **macOS** | 1. Buka [nodejs.org](https://nodejs.org/)<br>2. Klik tombol hijau **"LTS"**<br>3. Buka file `.pkg` → **Continue** → **Install**<br>Atau via Homebrew: `brew install node` |
+| **macOS** | 1. Buka [nodejs.org](https://nodejs.org/)<br>2. Klik tombol hijau **"LTS"**<br>3. Buka file `.pkg` → **Continue** → **Install** |
 | **Linux** | `sudo apt install nodejs npm` (Ubuntu/Debian) |
 
-**Verifikasi** (buka Terminal / CMD):
+**Verifikasi:**
 ```bash
-node --version    # Harus muncul angka, contoh: v20.19.0
-npm --version     # Harus muncul angka, contoh: 10.8.0
+node --version    # Contoh: v20.19.0
+npm --version     # Contoh: 10.8.0
 ```
 
-### 1.2 PostgreSQL (Wajib — untuk development lokal)
+### 1.2 Akun Neon Database (Wajib)
 
-**Apa fungsinya?** Menyimpan semua data (user, mobil, booking, pembayaran).
+Database cloud gratis — tanpa install PostgreSQL lokal.
 
-#### Windows
-1. Download: [postgresql.org/download/windows](https://www.postgresql.org/download/windows/)
-2. Jalankan installer → **Next** terus
-3. **Password**: Masukkan password untuk user `postgres` — **CATAT PASSWORD INI!**
-4. Port: `5432` (default) → **Next**
-5. **Finish**
-6. Buka **pgAdmin** (start menu) untuk verifikasi
+1. Buka [neon.tech](https://neon.tech/) → **Sign Up**
+2. **Create a project** → nama: `rent-car` → region terdekat
+3. **Copy connection string**:
+   ```
+   postgresql://neondb_owner:********@ep-nama-xxxx.us-east-1.aws.neon.tech/neondb?sslmode=require
+   ```
+4. Simpan — akan dipakai di Langkah 4
 
-#### macOS
-```bash
-# Cara 1: Via Homebrew (rekomendasi)
-brew install postgresql@16
-brew services start postgresql@16
+### 1.3 VS Code (Rekomendasi)
 
-# Cara 2: Download Postgres.app dari https://postgresapp.com/
-```
+Download dari [code.visualstudio.com](https://code.visualstudio.com/)
 
-#### Linux (Ubuntu/Debian)
-```bash
-sudo apt update
-sudo apt install postgresql postgresql-contrib
-sudo systemctl start postgresql
-```
+### 1.4 Git (Opsional)
 
-### 1.3 Git (Opsional — untuk download & deploy)
-
-| Sistem Operasi | Cara Install |
-|----------------|--------------|
-| **Windows** | [git-scm.com](https://git-scm.com/downloads) → Download → Install |
-| **macOS** | `brew install git` atau download dari git-scm.com |
+| OS | Cara |
+|----|------|
+| **Windows** | [git-scm.com](https://git-scm.com/downloads) |
+| **macOS** | `brew install git` |
 | **Linux** | `sudo apt install git` |
-
-### 1.4 VS Code (Rekomendasi — Teks Editor)
-
-Download dari [code.visualstudio.com](https://code.visualstudio.com/), install seperti biasa.
 
 ---
 
 ## 2. Download Project
 
-### 2.1 Download File
-
-Buka Terminal / CMD, lalu jalankan:
-
 ```bash
-# Clone project (jika sudah di GitHub)
-git clone https://github.com/<username>/rent-car.git
+git clone https://github.com/andhikaeffendy/rent-car.git
 cd rent-car
-
-# ATAU: download ZIP dari GitHub →
-# Extract → buka Terminal → cd ke folder hasil extract
-```
-
-### 2.2 Buka di VS Code (Opsional)
-
-```bash
-code .
+code .   # Buka di VS Code (opsional)
 ```
 
 ---
 
-## 3. Setup Database (Lokal)
+## 3. Setup Database
 
-### 3.1 Buat Database Baru
-
-#### Via pgAdmin (Cara GUI — paling mudah)
-1. Buka **pgAdmin** dari Start Menu
-2. Klik **"Servers"** → **"PostgreSQL 16"**
-3. Masukkan password PostgreSQL Anda
-4. Klik kanan **"Databases"** → **"Create"** → **"Database"**
-5. **Database**: `rentcar`
-6. **Owner**: `postgres`
-7. Klik **"Save"**
-
-#### Via Terminal (Cara Cepat)
-
-**Windows:**
-```cmd
-# Buka "SQL Shell (psql)" dari Start Menu
-# Enter, Enter, masukkan password, Enter
-CREATE DATABASE rentcar;
-\q
-```
-
-**macOS / Linux:**
-```bash
-sudo -u postgres createdb rentcar
-# ATAU:
-psql -U postgres -c "CREATE DATABASE rentcar;"
-```
-
-### 3.2 Catat Password PostgreSQL
-
-Anda akan membutuhkan password PostgreSQL untuk langkah selanjutnya:
-- **Username**: `postgres` (default)
-- **Password**: yang Anda isi saat install
+Gunakan **Neon (PostgreSQL cloud)** — connection string dari langkah 1.2.  
+Tidak perlu install PostgreSQL lokal.
 
 ---
 
@@ -153,109 +90,86 @@ Anda akan membutuhkan password PostgreSQL untuk langkah selanjutnya:
 
 ### 4.1 Buat File `.env`
 
-Di folder project, buat file baru bernama **`.env`**:
-
 ```bash
-# Salin dari .env.example
 cp .env.example .env
-
-# Atau buat manual di VS Code
 ```
 
 ### 4.2 Isi File `.env`
 
-Buka file `.env` dengan VS Code, isi seperti ini:
-
 ```env
-DATABASE_URL="postgresql://postgres:PASSWORD_ANDA@localhost:5432/rentcar?schema=public"
-JWT_SECRET="rentcar-jwt-secret-key-2024"
+DATABASE_URL="postgresql://neondb_owner:********@ep-nama-xxxx.us-east-1.aws.neon.tech/neondb?sslmode=require"
+JWT_SECRET="rentcar-jwt-super-secret-key-2024"
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 NEXT_PUBLIC_WHATSAPP_NUMBER="6285754650271"
 NEXT_PUBLIC_SUPABASE_URL="https://your-project.supabase.co"
 NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
 ```
 
-| Variabel | Penjelasan | Contoh Isi |
-|----------|-----------|------------|
-| `DATABASE_URL` | **GANTI `PASSWORD_ANDA`** dengan password PostgreSQL | `postgresql://postgres:admin123@localhost:5432/rentcar` |
-| `JWT_SECRET` | Kata rahasia untuk login (bebas, asal panjang) | `rentcar-jwt-secret-key-2024` |
-| `NEXT_PUBLIC_APP_URL` | URL aplikasi | `http://localhost:3000` |
-| `NEXT_PUBLIC_WHATSAPP_NUMBER` | Nomor WA admin | `6285754650271` |
-| `NEXT_PUBLIC_SUPABASE_URL` | Biarkan dulu (untuk upload file, opsional) | — |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Biarkan dulu (untuk upload file, opsional) | — |
+> ⚠️ **GANTI `DATABASE_URL`** dengan punya Anda dari Neon. Jika password mengandung `@`, `:`, `/`, `%`, atau `?`, harus di-URL-encode (contoh: `pass@word` → `pass%40word`).
 
 ---
 
 ## 5. Install Dependencies
 
-Buka Terminal di folder project, jalankan **satu per satu**:
-
 ```bash
-# 1. Install semua package yang dibutuhkan
 npm install
-
-# 2. Generate Prisma Client (untuk koneksi ke database)
-npx prisma generate
 ```
 
-> ⏳ Tunggu sampai selesai (± 1-2 menit). Akan banyak teks scrolling — itu normal.
+Jika error:
+```bash
+rm -rf node_modules package-lock.json
+npm install
+```
 
 ---
 
-## 6. Push Schema & Seed Data
+## 6. Apply Migration & Seed Data
 
-### 6.1 Push Schema (Buat Tabel di Database)
+> ⚠️ **JANGAN import file SQL dari `prisma/migrations/` secara manual!** Biarkan Prisma yang urus.
+
+### 6.1 Apply Migration
 
 ```bash
-npx prisma db push
+npx prisma migrate deploy
 ```
 
-Hasil yang benar:
+Hasil sukses:
 ```
-Your database is now in sync with your Prisma schema.
+1 migration found in prisma/migrations
+All migrations have been successfully applied.
 ```
 
-### 6.2 Seed Data (Isi Data Awal)
+Membuat **6 tabel** (`User`, `Car`, `Booking`, `Payment`, `Document`, `RentalSetting`) + **8 enum** otomatis.
+
+### 6.2 Seed Data
 
 ```bash
 npx prisma db seed
 ```
 
-Hasil yang benar:
+Hasil sukses:
 ```
 ✅ 7 users created
-✅ 6 mobil + 2 motor created
-✅ Rental settings created (with bank info)
-✅ 5 sample bookings created (with payments & documents)
+✅ 6 cars + 2 motors created
+✅ Rental settings created
+✅ 5 sample bookings created with payments & documents
 ```
-
-> 🎉 **Database siap!** Semua tabel dan data awal sudah terisi.
 
 ---
 
 ## 7. Jalankan Aplikasi
 
-### 7.1 Mode Development
-
 ```bash
 npm run dev
 ```
 
-Buka browser, akses: **http://localhost:3000**
+Buka **http://localhost:3000**
 
-### 7.2 Yang Harus Muncul
-
-- 🏠 **Halaman utama** — Hero dengan logo Agil Rental, daftar mobil, info kontak
-- 🚗 **Halaman kendaraan** — 6 mobil + 2 motor dengan foto dan harga
-- 🏍️ **Filter Mobil/Motor** — Tab filter di halaman daftar kendaraan
-- 🔑 **Halaman login** — Form login dengan info akun demo
-- 📝 **Halaman register** — Form pendaftaran akun baru
+Tekan **Ctrl + C** untuk berhenti.
 
 ---
 
 ## 8. Daftar Akun Demo
-
-Setelah seed data, akun-akun ini tersedia:
 
 ### 👑 Admin
 
@@ -263,8 +177,6 @@ Setelah seed data, akun-akun ini tersedia:
 |------|-------|----------|
 | Priscil Admin | `admin@agilrental.test` | `password123` |
 | Avow Admin | `avow@admin.com` | `password123` |
-
-> Admin bisa: kelola mobil, verifikasi pembayaran, lihat laporan, ubah pengaturan.
 
 ### 👤 Customer
 
@@ -276,299 +188,90 @@ Setelah seed data, akun-akun ini tersedia:
 | Dewi Lestari | `dewi@example.com` | `password123` |
 | Avow User | `avow@user.com` | `password123` |
 
-> Customer bisa: lihat mobil, booking, upload KTP & bukti transfer, lihat riwayat.
-
-### Cara Daftar Akun Baru
-
-1. Buka `http://localhost:3000/register`
-2. Isi: Nama, Email, Password, Konfirmasi Password
-3. Klik **"Daftar"**
-4. Otomatis login → masuk ke Dashboard Customer
-
 ---
 
 ## 9. Panduan Penggunaan — Customer
 
-### 9.1 Melihat & Mencari Kendaraan
+### 9.1 Melihat Kendaraan
 
-1. Buka halaman utama → scroll ke **"Mobil Tersedia"**  
-   atau buka langsung `/cars`
-2. **Filter kendaraan**:
-   - **Tipe**: Semua, Mobil, Motor (tab filter)
-   - **Transmisi**: AT (Matic), MT (Manual)
-   - **Kapasitas**: Jumlah kursi (4, 5, 7)
-   - **Urutkan**: Terbaru, Harga Terendah, Harga Tertinggi
-3. Klik kendaraan untuk lihat **detail lengkap** (ada badge Mobil/Motor)
+Buka `/cars` → filter tipe (Mobil/Motor), transmisi, kapasitas, urutkan harga.
 
-### 9.2 Booking Kendaraan (6 Langkah)
+### 9.2 Booking (6 Langkah)
 
-> ⚠️ **PENTING**: Anda wajib **login terlebih dahulu** untuk melakukan pemesanan.
-> Jika belum login, akan diarahkan ke halaman login, lalu otomatis kembali ke booking.
+Wajib login. Proses:
+1. **Pilih Tanggal** — mulai & selesai
+2. **Pilih Layanan** — Lepas Kunci / Dengan Supir (Motor skip)
+3. **Metode Pengambilan** — Ambil Sendiri / Diantar (+Rp50.000)
+4. **Pembayaran** — Transfer Bank (upload bukti) / Tunai
+5. **Upload KTP** — JPG/PNG/WebP max 5MB
+6. **Konfirmasi** — review & kirim
 
-Proses booking menggunakan **wizard 6 langkah**:
+### 9.3 Status Pesanan
 
-#### Langkah ① — Pilih Tanggal Sewa
-
-1. Pilih **Tanggal Mulai** dan **Tanggal Selesai**
-2. Durasi sewa otomatis terhitung
-3. Klik **"Lanjutkan"**
-
-#### Langkah ② — Pilih Layanan (Khusus Mobil)
-
-> 🏍️ **Untuk Motor**: Langkah ini otomatis dilewati (Motor hanya tersedia lepas kunci)
-
-1. Pilih jenis layanan:
-   - 🔑 **Lepas Kunci** — Anda yang menyetir sendiri
-   - 👨‍✈️ **Dengan Supir** — Ada sopir (jika tersedia)
-2. Klik **"Lanjutkan"**
-
-#### Langkah ③ — Metode Pengambilan & Detail
-
-1. Pilih metode pengambilan:
-   - 🏢 **Ambil Sendiri** — Datang ke lokasi
-   - 🚚 **Diantar** — Kendaraan diantar ke alamat Anda (+Rp50.000)
-2. Jika "Diantar", **isi alamat lengkap** + **No. HP untuk pengantaran**
-3. Isi **catatan** (opsional)
-4. Klik **"Lanjutkan"**
-
-#### Langkah ④ — Metode Pembayaran
-
-Pilih metode pembayaran:
-
-| Metode | Keterangan |
-|--------|------------|
-| 🏦 **Transfer Bank** | Lihat No. Rekening tujuan → Upload bukti transfer |
-| 💵 **Tunai** | Bayar saat pengambilan/pengantaran (tanpa upload bukti) |
-
-> Jika memilih **Transfer**, data rekening (Bank Mandiri) akan ditampilkan langsung di layar.
-
-#### Langkah ⑤ — Upload Foto KTP
-
-1. Upload foto KTP untuk verifikasi identitas
-2. Format: JPG, PNG, WebP (maks 5MB)
-3. Klik **"Lanjutkan"**
-
-#### Langkah ⑥ — Konfirmasi & Kirim
-
-1. Review semua detail di ringkasan pesanan
-2. Periksa rincian biaya (harga sewa, biaya antar, total)
-3. Klik **"Konfirmasi & Kirim"**
-4. Notifikasi sukses muncul dengan kode booking (format: `AGL-XXXXXXXX`)
-
-### 9.3 Dashboard Customer
-
-Setelah login, buka `/dashboard`:
-
-| Informasi | Keterangan |
-|-----------|------------|
-| 📋 Total Pesanan | Jumlah semua booking Anda |
-| ⏳ Aktif / Menunggu | Booking yang sedang diproses |
-| ✅ Selesai | Booking yang sudah completed |
-
-**Riwayat Pemesanan**: Setiap booking menampilkan:
-- Foto & nama mobil
-- Kode booking (format: `AGL-XXXXXXXX`)
-- Tanggal sewa & durasi
-- Total harga
-- Status dengan badge warna
-
-### 9.4 Arti Status Pesanan
-
-| Status | Badge | Arti |
-|--------|-------|------|
-| ⏳ Menunggu Pembayaran | Kuning | Belum upload bukti transfer (jika Transfer) |
-| 🔄 Menunggu Verifikasi | Oranye | Menunggu admin verifikasi (Transfer / Tunai) |
-| ✅ Dikonfirmasi | Hijau | Booking disetujui, mobil siap |
-| ❌ Ditolak | Merah | Booking ditolak |
-| 🚗 Sedang Disewa | Biru | Mobil sedang Anda gunakan |
-| ✅ Selesai | Abu-abu | Sewa sudah selesai |
-| ❌ Dibatalkan | Pink | Booking dibatalkan |
+| Status | Arti |
+|--------|------|
+| ⏳ Menunggu Pembayaran | Belum upload bukti transfer |
+| 🔄 Menunggu Verifikasi | Menunggu admin verifikasi |
+| ✅ Dikonfirmasi | Booking disetujui |
+| ❌ Ditolak | Booking ditolak |
+| 🚗 Sedang Disewa | Kendaraan digunakan |
+| ✅ Selesai | Sewa selesai |
+| ❌ Dibatalkan | Booking dibatalkan |
 
 ---
 
 ## 10. Panduan Penggunaan — Admin
 
-### 10.1 Dashboard Admin (`/admin/dashboard`)
+Akses `/admin/dashboard` setelah login sebagai admin.
 
-Statistik ringkasan:
-
-| Kartu | Isi |
-|-------|-----|
-| 🚗 Total Mobil | Semua mobil terdaftar |
-| ✅ Mobil Tersedia | Mobil yang siap disewa |
-| ⏳ Menunggu Verif | Pesanan perlu dicek |
-| 📋 Pesanan Hari Ini | Booking baru hari ini |
-| 💰 Total Pendapatan | Pembayaran terverifikasi |
-| 👥 Total Pelanggan | Customer terdaftar |
-
-Juga menampilkan **10 pesanan terbaru** dan **grafik pendapatan bulanan**.
-
-### 10.2 Manajemen Kendaraan (`/admin/cars`)
-
-#### Lihat Daftar Kendaraan
-Tabel dengan kolom: Nama, Tipe (Mobil/Motor), Transmisi, Kapasitas, Harga Lepas Kunci, Harga Supir, Status, Aksi.
-
-#### Tambah Kendaraan Baru
-1. Klik **"+ Tambah Kendaraan"**
-2. Isi form:
-   - Nama, Slug (URL-friendly, contoh: `honda-vario-160`)
-   - **Tipe Kendaraan**: Mobil / Motor
-   - Transmisi, Kapasitas, Bahan Bakar, Tahun, Warna
-   - Harga Lepas Kunci (per hari)
-   - Harga Dengan Supir (opsional, khusus Mobil)
-   - **Upload Gambar Utama** — klik area upload → pilih file JPG/PNG/WebP (maks 5MB)
-   - **Upload Galeri Gambar** — opsional, bisa pilih banyak gambar sekaligus
-   - Deskripsi, Fasilitas (pisahkan dengan koma)
-   - Status (Tersedia / Perawatan / Tidak Tersedia)
-3. Klik **"Simpan Kendaraan"**
-
-#### Edit / Hapus Kendaraan
-- Klik **"Edit"** → ubah data (termasuk tipe kendaraan) → **"Simpan"**
-- Klik **"Hapus"** → konfirmasi → kendaraan dihapus
-
-### 10.3 Verifikasi Pesanan (`/admin/bookings`)
-
-Daftar semua pesanan dengan filter status.
-
-#### Detail Pesanan (klik baris pesanan)
-- Info booking: kode, tanggal, layanan
-- Data customer: nama, email, telepon
-- **Dokumen KTP** — bisa dilihat (klik gambar)
-- **Bukti Transfer** — bisa dilihat (klik gambar)
-- Metode pembayaran (Transfer Bank / Tunai)
-- Rincian biaya
-
-#### Aksi Admin
-
-| Status Booking | Tombol | Hasil |
-|---------------|--------|-------|
-| Menunggu Verifikasi | ✅ Konfirmasi | Booking → DIKONFIRMASI, Mobil → DISEWA |
-| Menunggu Verifikasi | ❌ Tolak | Booking → DITOLAK |
-| Dikonfirmasi / Sedang Disewa | ✅ Selesaikan | Booking → SELESAI, Mobil → TERSEDIA |
-
-### 10.4 Verifikasi Pembayaran (`/admin/payments`)
-
-- Lihat semua pembayaran
-- **Verifikasi** → Pembayaran diterima, booking dikonfirmasi, mobil marked RENTED
-- **Tolak** → Pembayaran ditolak, booking kembali ke Menunggu Pembayaran
-
-### 10.5 Data Pelanggan (`/admin/customers`)
-
-Daftar pelanggan: nama, email, telepon, total booking.  
-Klik pelanggan → lihat riwayat booking.
-
-### 10.6 Laporan (`/admin/reports`)
-
-Filter: **Status**, **Tanggal Mulai**, **Tanggal Selesai**  
-Tampil: summary (total transaksi, pendapatan, selesai) + tabel detail.
-
-### 10.7 Pengaturan (`/admin/settings`)
-
-Ubah: **Logo Rental (upload gambar)**, Nama Rental, Alamat, Jam Operasional, Telepon, Instagram, Facebook.
+| Halaman | Fungsi |
+|---------|--------|
+| `/admin/dashboard` | Statistik + grafik + pesanan terbaru |
+| `/admin/cars` | CRUD kendaraan (tambah/edit/hapus) |
+| `/admin/bookings` | Verifikasi pesanan (konfirmasi/tolak/selesai) |
+| `/admin/payments` | Verifikasi pembayaran |
+| `/admin/customers` | Data pelanggan + riwayat booking |
+| `/admin/reports` | Laporan transaksi (filter status & tanggal) |
+| `/admin/settings` | Pengaturan rental (info, bank, logo) |
 
 ---
 
-## 11. Setup Supabase (Opsional)
+## 11. Deploy ke Internet
 
-Fitur upload file **tetap berfungsi tanpa Supabase** (menggunakan encoding Base64).  
-Tapi untuk production, disarankan setup Supabase Storage:
+📖 **Panduan lengkap: [DEPLOY.md](./DEPLOY.md)**
 
-### 11.1 Buat Project di Supabase
-
-1. Buka [supabase.com](https://supabase.com/) → **"Start your project"**
-2. Login dengan GitHub
-3. Klik **"New project"**
-4. Isi: Nama project, password database, region → **"Create project"**
-5. Tunggu 2 menit
-
-### 11.2 Ambil API Keys
-
-1. Di dashboard project → **Settings** (gear icon) → **API**
-2. Copy:
-   - **Project URL** → paste ke `.env` → `NEXT_PUBLIC_SUPABASE_URL`
-   - **anon public key** → paste ke `.env` → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-
-### 11.3 Buat Storage Bucket
-
-1. Menu **Storage** (sidebar kiri)
-2. Klik **"New bucket"**
-3. Buat 3 bucket: `ktp`, `payments`, `cars`
-4. Set masing-masing bucket → **"Public bucket"** = ON
+1. `git push` ke GitHub
+2. Import di [Vercel](https://vercel.com)
+3. Set environment variables
+4. Deploy
 
 ---
 
-## 12. Deploy ke Internet
+## 12. Troubleshooting
 
-Untuk membuat aplikasi bisa diakses publik (tidak hanya di laptop Anda):
-
-📖 **Baca panduan lengkap: [DEPLOY.md](./DEPLOY.md)**
-
-Ringkasan singkat:
-
-1. **Buat akun** [GitHub](https://github.com) + [Neon](https://neon.tech) + [Vercel](https://vercel.com) (semua gratis)
-2. **Buat database** di Neon → copy connection string
-3. **Push kode** ke GitHub
-4. **Import project** di Vercel → tambahkan environment variables → deploy
-5. **Push data** ke database Neon (`npx prisma db push` + `npx tsx prisma/seed.ts`)
-6. **Redeploy** → aplikasi live!
+| Masalah | Solusi |
+|---------|--------|
+| `migrate deploy` gagal | Cek `DATABASE_URL` — pastikan password di-URL-encode |
+| `db seed` gagal — tabel tak ditemukan | Jalankan `npx prisma migrate deploy` dulu |
+| `npm install` gagal | `rm -rf node_modules package-lock.json && npm install` |
+| Port 3000 dipakai | `lsof -ti:3000 \| xargs kill -9` (Mac/Linux) |
+| Tidak bisa login | `npx prisma db seed` sudah? Coba `admin@agilrental.test` / `password123` |
+| Gambar placeholder SVG | Upload foto asli via Admin Panel → Edit Kendaraan |
 
 ---
 
-## 13. Troubleshooting
+## 13. Daftar Armada & Harga
 
-### ❌ `npm install` gagal
-```bash
-rm -rf node_modules package-lock.json
-npm install
-```
-
-### ❌ `npx prisma db push` gagal
-- Pastikan PostgreSQL **sedang berjalan**
-- Cek password di `.env` sudah benar
-- Coba: `npx prisma db push --accept-data-loss`
-
-### ❌ Port 3000 sudah dipakai
-
-**Windows:**
-```cmd
-netstat -ano | findstr :3000
-taskkill /PID [PID] /F
-```
-
-**macOS/Linux:**
-```bash
-lsof -ti:3000 | xargs kill -9
-```
-
-### ❌ Tidak bisa login
-- Pastikan sudah menjalankan `npx prisma db seed`
-- Coba: `admin@agilrental.test` / `password123`
-- Reset database:
-  ```bash
-  npx prisma db push --force-reset
-  npx prisma db seed
-  ```
-
-### ❌ Gambar tidak muncul
-- URL gambar dari Unsplash mungkin lambat — tunggu beberapa detik
-- Ganti dengan URL gambar lain di `/admin/cars/[id]/edit`
-
-### ❌ Upload file error
-- Pastikan file JPG/PNG, maks 5MB
-- Fitur tetap berfungsi tanpa Supabase (pakai Base64)
-
----
-
-## 14. Daftar Armada & Harga
-
-| Mobil | Transmisi | Kursi | Lepas Kunci | Dengan Supir |
-|-------|-----------|-------|-------------|--------------|
-| **Brio Terbaru** (2024) | AT | 5 | Rp350.000/hari | — |
-| **Xenia 2020** | MT | 7 | Rp350.000/hari | Rp600.000/12 jam |
-| **Xenia Terbaru** (2024) | MT | 7 | Rp400.000/hari | Rp600.000/12 jam |
-| **Avanza Terbaru** (2024) | AT | 7 | Rp400.000/hari | Rp600.000/12 jam |
-| **Innova Reborn** (2023) | AT/MT | 7 | Rp700.000/hari | Rp900.000/12 jam |
-| **Zenix** (2024) | AT | 7 | Rp900.000/hari | Rp1.300.000/12 jam |
+| Kendaraan | Tipe | Transmisi | Kursi | Lepas Kunci | Dengan Supir |
+|-----------|------|-----------|-------|-------------|--------------|
+| **Brio Terbaru** (2024) | Mobil | AT | 5 | Rp350.000/hari | — |
+| **Xenia 2020** | Mobil | MT | 7 | Rp350.000/hari | Rp600.000/12 jam |
+| **Xenia Terbaru** (2024) | Mobil | MT | 7 | Rp400.000/hari | Rp600.000/12 jam |
+| **Avanza Terbaru** (2024) | Mobil | AT | 7 | Rp400.000/hari | Rp600.000/12 jam |
+| **Innova Reborn** (2023) | Mobil | AT/MT | 7 | Rp700.000/hari | Rp900.000/12 jam |
+| **Zenix** (2024) | Mobil | AT | 7 | Rp900.000/hari | Rp1.300.000/12 jam |
+| **Honda Vario 160** (2024) | Motor | CVT | 2 | Rp100.000/hari | — |
+| **Yamaha Nmax 155** (2024) | Motor | CVT | 2 | Rp125.000/hari | — |
 
 ---
 
@@ -578,65 +281,10 @@ lsof -ti:3000 | xargs kill -9
 |------|--------|
 | Alamat | Jl. Dr. Malaihollo, Benteng, Ambon (depan Warung Padang Talago Intan) |
 | Jam Operasional | Senin-Sabtu 08.00-21.00 WIT, Minggu 10.00-21.00 WIT |
-| Telepon 1 | 0857-5465-0271 (Priscil/Admin) |
+| Telepon 1 | 0857-5465-0271 |
 | Telepon 2 | 0821-7911-7882 |
 | Instagram | @agil.rental.ambon |
 | Facebook | Gilbert Sipahelut |
-
----
-
-## 📁 Struktur Project
-
-```
-rent-car/
-├── prisma/
-│   ├── schema.prisma          # Skema database (User, Car, Booking, Payment, dll)
-│   └── seed.ts                # Data awal (akun, mobil, booking sample)
-├── src/
-│   ├── app/
-│   │   ├── (public)/          # Halaman publik
-│   │   │   ├── page.tsx               # Homepage
-│   │   │   ├── cars/page.tsx          # Daftar mobil
-│   │   │   └── cars/[slug]/page.tsx   # Detail mobil
-│   │   ├── admin/             # Halaman admin
-│   │   │   ├── dashboard/     # Statistik & ringkasan
-│   │   │   ├── cars/          # Kelola mobil (CRUD)
-│   │   │   ├── bookings/      # Verifikasi pesanan
-│   │   │   ├── payments/      # Verifikasi pembayaran
-│   │   │   ├── customers/     # Data pelanggan
-│   │   │   ├── reports/       # Laporan transaksi
-│   │   │   └── settings/      # Pengaturan rental
-│   │   ├── booking/[carId]/   # Form pemesanan 4 langkah
-│   │   ├── dashboard/         # Dashboard customer
-│   │   ├── login/             # Halaman login
-│   │   ├── register/          # Halaman registrasi
-│   │   └── api/               # Backend API routes
-│   │       ├── auth/          # Login, register, logout, me
-│   │       ├── cars/          # CRUD mobil
-│   │       ├── bookings/      # CRUD booking
-│   │       ├── payments/      # CRUD pembayaran
-│   │       ├── admin/stats/   # Statistik dashboard
-│   │       ├── settings/      # Pengaturan rental
-│   │       └── upload/        # Upload file
-│   ├── components/            # Komponen UI reusable
-│   │   ├── Navbar.tsx
-│   │   ├── Footer.tsx
-│   │   ├── AdminSidebar.tsx
-│   │   ├── CarCard.tsx
-│   │   └── StatusBadge.tsx
-│   ├── lib/                   # Utility
-│   │   ├── prisma.ts          # Koneksi database
-│   │   ├── auth.ts            # JWT, hash password
-│   │   ├── utils.ts           # Format harga, tanggal
-│   │   └── validations.ts     # Zod validasi form
-│   └── types/index.ts         # TypeScript type definitions
-├── public/                    # Static files
-├── .env                       # Environment variables
-├── .env.example               # Template .env
-├── package.json               # Dependencies
-├── DEPLOY.md                  # Panduan deploy lengkap
-└── README.md                  # File ini
-```
 
 ---
 
@@ -645,14 +293,39 @@ rent-car/
 | Perintah | Fungsi |
 |----------|--------|
 | `npm install` | Install dependencies |
-| `npx prisma generate` | Generate Prisma Client |
-| `npx prisma db push` | Buat/perbarui tabel database (termasuk VehicleType, PaymentMethod dll) |
+| `npx prisma migrate deploy` | Apply migration ke database |
 | `npx prisma db seed` | Isi data awal |
-| `npm run dev` | Jalankan aplikasi (development) |
-| `npm run build` | Build untuk production |
-| `npm start` | Jalankan aplikasi (production) |
-| `npx prisma studio` | Buka GUI database (prisma studio) |
+| `npx prisma db push` | Sync schema cepat (tanpa migration file) |
+| `npm run dev` | Jalankan aplikasi |
+| `npm run build` | Build production |
+| `npx prisma studio` | GUI database di browser |
 
 ---
 
-Selamat mencoba! 🚗🏍️ Jika ada pertanyaan, hubungi admin Agil Rental via WhatsApp di **0857-5465-0271**.
+## 📁 Struktur Project
+
+```
+rent-car/
+├── prisma/
+│   ├── schema.prisma          # Skema database (6 tabel + 8 enum)
+│   ├── seed.ts                # Data awal
+│   └── migrations/            # File migration (jangan diedit!)
+├── src/
+│   ├── app/
+│   │   ├── (public)/          # Landing, cars, car detail
+│   │   ├── admin/             # CMS Admin (7 halaman)
+│   │   ├── booking/[carId]/   # Wizard 6 langkah
+│   │   ├── dashboard/         # Dashboard customer
+│   │   ├── login/             # Login
+│   │   ├── register/          # Registrasi
+│   │   └── api/               # 15 REST API routes
+│   ├── components/            # UI reusable
+│   ├── lib/                   # Utility (prisma, auth, validasi)
+│   └── types/                 # TypeScript types
+├── public/uploads/            # File upload
+├── .env                       # Environment variables
+├── DEPLOY.md                  # Panduan deploy
+└── README.md                  # File ini
+---
+
+Selamat mencoba! 🚗🏍️
