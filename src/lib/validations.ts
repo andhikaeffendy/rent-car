@@ -48,6 +48,13 @@ export const bookingSchema = z
     serviceType: z.enum(["SELF_DRIVE", "WITH_DRIVER"]),
     pickupMethod: z.enum(["SELF_PICKUP", "DELIVERY"]),
     pickupAddress: z.string().optional(),
+    deliveryPhone: z
+      .string()
+      .regex(/^[0-9+\- ]+$/, "Format nomor telepon tidak valid")
+      .min(10, "Nomor telepon minimal 10 digit")
+      .optional()
+      .or(z.literal("")),
+    paymentMethod: z.enum(["TRANSFER", "TUNAI"]),
     startDate: z
       .string()
       .min(1, "Tanggal mulai wajib diisi"),
@@ -89,6 +96,30 @@ export const bookingSchema = z
       message: "Alamat pengantaran wajib diisi jika memilih diantar",
       path: ["pickupAddress"],
     }
+  )
+  .refine(
+    (data) => {
+      if (data.pickupMethod === "DELIVERY" && !data.deliveryPhone) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "Nomor HP wajib diisi jika memilih diantar",
+      path: ["deliveryPhone"],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.paymentMethod === "TRANSFER" && !data.paymentFile) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "Bukti transfer wajib diupload jika memilih transfer",
+      path: ["paymentFile"],
+    }
   );
 
 // ── Admin Car Schema ──────────────────────────────────
@@ -122,6 +153,9 @@ export const rentalSettingsSchema = z.object({
   phone2: z.string().optional().or(z.literal("")),
   instagram: z.string().optional().or(z.literal("")),
   facebook: z.string().optional().or(z.literal("")),
+  bankName: z.string().optional().or(z.literal("")),
+  bankAccountNumber: z.string().optional().or(z.literal("")),
+  bankAccountName: z.string().optional().or(z.literal("")),
 });
 
 // ── Types ─────────────────────────────────────────────

@@ -11,6 +11,8 @@ export type BookingStatus =
 export type PaymentStatus = "WAITING" | "VERIFIED" | "REJECTED";
 export type ServiceType = "SELF_DRIVE" | "WITH_DRIVER";
 export type PickupMethod = "SELF_PICKUP" | "DELIVERY";
+export type VehicleType = "MOBIL" | "MOTOR";
+export type PaymentMethod = "TRANSFER" | "TUNAI";
 
 export interface User {
   id: string;
@@ -28,6 +30,7 @@ export interface Car {
   transmission: string;
   capacity: number;
   fuelType: string;
+  type: VehicleType;
   year: number;
   color: string | null;
   priceSelfDrive: number;
@@ -51,6 +54,8 @@ export interface Booking {
   serviceType: ServiceType;
   pickupMethod: PickupMethod;
   pickupAddress: string | null;
+  deliveryPhone: string | null;
+  paymentMethod: PaymentMethod;
   startDate: string;
   endDate: string;
   duration: number;
@@ -92,6 +97,9 @@ export interface RentalSetting {
   instagram: string;
   facebook: string;
   logoUrl: string | null;
+  bankName: string | null;
+  bankAccountNumber: string | null;
+  bankAccountName: string | null;
 }
 
 // Status display labels
@@ -121,6 +129,16 @@ export const PAYMENT_STATUS_LABELS: Record<PaymentStatus, string> = {
 export const SERVICE_TYPE_LABELS: Record<ServiceType, string> = {
   SELF_DRIVE: "Lepas Kunci",
   WITH_DRIVER: "Dengan Supir",
+};
+
+export const VEHICLE_TYPE_LABELS: Record<VehicleType, string> = {
+  MOBIL: "Mobil",
+  MOTOR: "Motor",
+};
+
+export const PAYMENT_METHOD_LABELS: Record<PaymentMethod, string> = {
+  TRANSFER: "Transfer Bank",
+  TUNAI: "Tunai",
 };
 
 export const PICKUP_METHOD_LABELS: Record<PickupMethod, string> = {

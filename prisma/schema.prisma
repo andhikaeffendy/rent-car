@@ -47,6 +47,16 @@ enum PickupMethod {
   DELIVERY
 }
 
+enum VehicleType {
+  MOBIL
+  MOTOR
+}
+
+enum PaymentMethod {
+  TRANSFER
+  TUNAI
+}
+
 // ── MODELS ────────────────────────────────────────────
 
 model User {
@@ -68,6 +78,7 @@ model Car {
   transmission     String       // "AT" / "MT"
   capacity         Int          @default(4)
   fuelType         String       @default("Bensin")
+  type             VehicleType  @default(MOBIL)
   year             Int
   color            String?
   priceSelfDrive   Float        // Harga lepas kunci
@@ -90,6 +101,8 @@ model Booking {
   serviceType    ServiceType   @default(SELF_DRIVE)
   pickupMethod   PickupMethod  @default(SELF_PICKUP)
   pickupAddress  String?       // Alamat jika delivery
+  deliveryPhone  String?       // No HP untuk delivery
+  paymentMethod  PaymentMethod @default(TRANSFER)
   startDate      DateTime
   endDate        DateTime
   duration       Int           // In days
@@ -135,4 +148,7 @@ model RentalSetting {
   instagram     String @default("@agil.rental.ambon")
   facebook      String @default("Gilbert Sipahelut")
   logoUrl       String?
+  bankName             String?
+  bankAccountNumber    String?
+  bankAccountName      String?
 }

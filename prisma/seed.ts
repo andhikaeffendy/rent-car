@@ -242,6 +242,50 @@ async function main() {
 
   console.log(`✅ ${cars.length} cars created (Agil Rental Mobil fleet)`);
 
+  // ── SEED MOTOR ────────────────────────────────────
+  const motorPlaceholder = carPlaceholder("Vario 160", "#2d3436");
+  const motorPlaceholder2 = carPlaceholder("Nmax 155", "#0a3d62");
+
+  const motorData = [
+    {
+      name: "Honda Vario 160",
+      slug: "honda-vario-160",
+      transmission: "CVT",
+      capacity: 2,
+      fuelType: "Bensin",
+      type: "MOTOR",
+      year: 2024,
+      color: "Hitam",
+      priceSelfDrive: 100000,
+      priceWithDriver: null,
+      imageUrl: motorPlaceholder,
+      galleryUrls: [],
+      status: "AVAILABLE",
+      description: "Honda Vario 160 — skuter matik modern, nyaman untuk perjalanan dalam kota.",
+      facilities: ["Helm", "Jas Hujan", "Ban serep"],
+    },
+    {
+      name: "Yamaha Nmax 155",
+      slug: "yamaha-nmax-155",
+      transmission: "CVT",
+      capacity: 2,
+      fuelType: "Bensin",
+      type: "MOTOR",
+      year: 2024,
+      color: "Biru",
+      priceSelfDrive: 125000,
+      priceWithDriver: null,
+      imageUrl: motorPlaceholder2,
+      galleryUrls: [],
+      status: "AVAILABLE",
+      description: "Yamaha Nmax 155 — maxi skuter premium dengan kenyamanan maksimal.",
+      facilities: ["Helm", "Jas Hujan", "Box", "USB Charger"],
+    },
+  ];
+
+  await prisma.car.createMany({ data: motorData });
+  console.log("✅ 2 motors created");
+
   // ── RENTAL SETTINGS ──────────────────────────────────
   await prisma.rentalSetting.create({
     data: {
@@ -252,6 +296,9 @@ async function main() {
       phone2: "0821-7911-7882",
       instagram: "@agil.rental.ambon",
       facebook: "Gilbert Sipahelut",
+      bankName: "Bank Mandiri",
+      bankAccountNumber: "123-00-87654321",
+      bankAccountName: "Agil Rental Mobil",
     },
   });
 
