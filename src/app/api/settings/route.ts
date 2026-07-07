@@ -37,6 +37,9 @@ export async function PUT(request: NextRequest) {
           instagram: body.instagram || "",
           facebook: body.facebook || "",
           logoUrl: body.logoUrl || existing.logoUrl,
+          bankName: body.bankName || existing.bankName,
+          bankAccountNumber: body.bankAccountNumber || existing.bankAccountNumber,
+          bankAccountName: body.bankAccountName || existing.bankAccountName,
         },
       });
       return NextResponse.json({ settings });
@@ -51,6 +54,9 @@ export async function PUT(request: NextRequest) {
           instagram: body.instagram || "",
           facebook: body.facebook || "",
           logoUrl: body.logoUrl || null,
+          bankName: body.bankName || null,
+          bankAccountNumber: body.bankAccountNumber || null,
+          bankAccountName: body.bankAccountName || null,
         },
       });
       return NextResponse.json({ settings }, { status: 201 });

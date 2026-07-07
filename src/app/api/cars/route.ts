@@ -12,6 +12,7 @@ export async function GET(request: NextRequest) {
     const sort = searchParams.get("sort");
     const status = searchParams.get("status");
     const search = searchParams.get("search");
+    const type = searchParams.get("type");
 
     const where: any = {};
 
@@ -40,6 +41,9 @@ export async function GET(request: NextRequest) {
 
     if (search) {
       where.name = { contains: search, mode: "insensitive" };
+    }
+    if (type && (type === "MOBIL" || type === "MOTOR")) {
+      where.type = type;
     }
 
     let orderBy: any = { createdAt: "desc" };
@@ -73,6 +77,7 @@ export async function POST(request: NextRequest) {
         transmission: body.transmission || "AT",
         capacity: parseInt(body.capacity) || 4,
         fuelType: body.fuelType || "Bensin",
+        type: body.type || "MOBIL",
         year: parseInt(body.year) || new Date().getFullYear(),
         color: body.color || null,
         priceSelfDrive: parseFloat(body.priceSelfDrive),

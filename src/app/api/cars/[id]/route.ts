@@ -48,6 +48,7 @@ export async function PUT(
         transmission: body.transmission,
         capacity: parseInt(body.capacity),
         fuelType: body.fuelType,
+        type: body.type,
         year: parseInt(body.year),
         color: body.color || null,
         priceSelfDrive: parseFloat(body.priceSelfDrive),
