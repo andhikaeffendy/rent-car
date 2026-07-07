@@ -142,7 +142,7 @@ export default function NewCarPage() {
         router.push("/admin/cars");
       } else {
         const data = await res.json();
-        setError(data.error || "Gagal menambah mobil");
+        setError(data.error || "Gagal menambah kendaraan");
       }
     } catch {
       setError("Terjadi kesalahan server");
@@ -216,6 +216,22 @@ export default function NewCarPage() {
               onChange={handleChange}
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm bg-gray-50 text-gray-500"
             />
+          </div>
+
+          {/* Tipe Kendaraan */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Tipe Kendaraan
+            </label>
+            <select
+              name="type"
+              value={form.type}
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#F5B21A] bg-white"
+            >
+              <option value="MOBIL">Mobil</option>
+              <option value="MOTOR">Motor</option>
+            </select>
           </div>
 
           {/* Transmisi & Kapasitas */}
@@ -326,9 +342,10 @@ export default function NewCarPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Harga Dengan Supir (opsional)
             </label>
+            <p className="text-xs text-gray-400 mb-2">{form.type === "MOTOR" ? "Motor tidak tersedia dengan supir" : "Isi jika tersedia"}</p>
             <input
               type="number"
-              name="priceWithDriver"
+              name="priceWithDriver" disabled={form.type === "MOTOR"}
               value={form.priceWithDriver}
               onChange={handleChange}
               placeholder="Kosongkan jika tidak ada"

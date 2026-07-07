@@ -298,9 +298,10 @@ export default function EditCarPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Harga Dengan Supir
             </label>
+            <p className="text-xs text-gray-400 mb-2">{form.type === "MOTOR" ? "Motor tidak tersedia dengan supir" : "Isi jika tersedia"}</p>
             <input
               type="number"
-              name="priceWithDriver"
+              name="priceWithDriver" disabled={form.type === "MOTOR"}
               value={form.priceWithDriver}
               onChange={handleChange}
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#F5B21A]"
