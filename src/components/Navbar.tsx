@@ -43,7 +43,8 @@ export default function Navbar() {
       const [base, hash] = href.split("#");
       return pathname === base && window.location.hash === "#" + hash;
     }
-    if (href === "/") return pathname === "/";
+    // Beranda hanya aktif jika pathname "/" tanpa hash (hash berarti section lain)
+    if (href === "/") return pathname === "/" && !window.location.hash;
     return pathname.startsWith(href);
   };
 
