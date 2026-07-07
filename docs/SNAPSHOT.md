@@ -1,44 +1,45 @@
 # SNAPSHOT: Agil Rental Mobil (rent-car)
-Diupdate: 2026-07-07 (verified via full codebase audit)
+Diupdate: 2026-07-07 (verified — post enhancement)
 
 ## 🎯 Tujuan
-Aplikasi rental mobil full-stack untuk Agil Rental Mobil di Ambon — customer bisa booking online, upload payment proof, admin manage booking/payment/car.
+Aplikasi rental mobil full-stack untuk Agil Rental Mobil di Ambon — customer bisa booking online, upload payment proof/KTP, admin manage booking/payment/car.
 
 ## 📍 Status
 - Auth (login/register/JWT): ✅ Done
-- Public pages (home, car list, car detail): ✅ Done
-- Booking flow (form, calc, payment upload): ✅ Done
-- Admin dashboard (stats, revenue chart): ✅ Done
-- Admin CRUD mobil: ✅ Done
-- Admin manage bookings (verify, confirm, complete): ✅ Done
-- Admin manage payments: ✅ Done
-- Admin settings (rental info): ✅ Done
+- Public pages + filter Mobil/Motor: ✅ Done (enhanced)
+- Booking wizard 6-step (Tanggal→Layanan→Detail→Bayar→KTP→Konfirmasi): ✅ NEW
+- Dukungan Motor (skip layanan): ✅ NEW
+- Metode bayar Transfer + Tunai: ✅ NEW
+- Display rekening bank (dari settings): ✅ NEW
+- No HP delivery field: ✅ NEW
+- Admin dashboard + CRUD mobil: ✅ Done
+- Admin manage bookings/payments/settings: ✅ Done (bank fields added)
 - Customer dashboard (riwayat booking): ✅ Done
-- Supabase Storage integration: ⚠️ Configured but .env placeholder — not active
+- Supabase Storage integration: ⚠️ Configured but .env placeholder
 
 ## 🏗️ Arsitektur
-Stack: Next.js 16.2 + React 19 + Tailwind 4 + Prisma (PostgreSQL Neon) + Zod + JWT cookie-auth
-Struktur: `src/app/(public)/` (public pages), `src/app/admin/` (admin panel), `src/app/api/` (REST routes), `src/components/` (8 reusable), `src/lib/` (utils, auth, validations, prisma, supabase)
-Aliran: Client → Next.js App Router → Server Components/API Routes → Prisma → PostgreSQL (Neon)
+Stack: Next.js 16.2 + React 19 + Tailwind 4 + Prisma (Neon PostgreSQL) + Zod + JWT cookie-auth
+Struktur: `(public)/` (public pages), `admin/` (admin panel), `api/` (15 REST routes), `components/` (8), `lib/` (7)
+Booking flow: 6-step wizard (Tanggal → Layanan → Detail → Bayar → KTP → Konfirmasi)
 
 ## 🔴 Blocker & Penting
-- [BUG] File upload via `/api/upload` simpan sbg base64 Data URL — TIDAK persist di storage, hilang setelah refresh
-- [WARN 2026-07-07] Supabase `.env` masih placeholder — `uploadFile()` di `lib/supabase.ts` throw error kalo dipanggil
-- [WARN 2026-07-07] JWT_SECRET di `lib/auth.ts` punya fallback "fallback-secret" — ganti pake env sebelum production
-- [WARN] Design tokens CSS didefinisikan di `globals.css` tapi 100% komponen pakai hardcoded colors — refactor perlu
-- [ISSUE] Booking page (`988 LOC`) terlalu besar — perlu split ke sub-components
+- [WARN] File upload via `/api/upload` masih base64 — gak persist ke storage
+- [WARN] Supabase `.env` masih placeholder — storage gak aktif
+- [WARN] JWT_SECRET fallback "fallback-secret" di `lib/auth.ts` — ganti sebelum production
+- [WARN] Design tokens CSS didefinisikan di `globals.css` tapi 100% komponen pakai hardcoded colors
+- [INFO] Booking page sekarang 609 LOC (turun dari 988) — lebih manageable
 
 ## 📋 Next Priority
 1. Fix file upload persistence (Supabase Storage atau local disk)
 2. Refactor CSS hardcoded colors → design tokens
-3. Split booking page into smaller components
-4. Accessibility improvements (focus trap, aria-labels, keyboard nav)
+3. Accessibility improvements (focus trap, aria-labels)
+4. Upgrade Prisma 5.22 → 7.x
 
-## 🧠 Key Decisions (5 terakhir)
+## 🧠 Key Decisions
 | Tanggal | Keputusan | Alasan |
 |---------|-----------|--------|
-| 2026-06-10 | Pindah ke base64 upload fallback | Supabase blm dikonfigurasi, perlu jalan dl |
-| 2026-05-31 | Pilih Zod + react-hook-form | Validasi konsisten client & server |
-| 2026-05-31 | Pilih Prisma + Neon PostgreSQL | ORM type-safe, free tier Neon cukup |
-| 2026-05-31 | Cookie-based JWT (httpOnly) | Sederhana, gak perlu session store |
-| 2026-05-31 | Route groups (public)/(admin) | Isolasi layout + middleware logic |
+| 2026-07-07 | Booking wizard 6-step mengikuti diagram workflow | Step-by-step UX lebih jelas, sesuai dokumen |
+| 2026-07-07 | Tambah VehicleType enum (MOBIL/MOTOR) | Akomodir Motor sesuai diagram |
+| 2026-07-07 | PaymentMethod enum (TRANSFER/TUNAI) | Flow pembayaran sesuai diagram |
+| 2026-07-07 | Status WAITING_VERIFICATION untuk Tunai | Tunai tidak perlu upload bukti, langsung masuk verifikasi admin |
+| 2026-06-10 | Base64 upload fallback | Supabase blm dikonfigurasi |
