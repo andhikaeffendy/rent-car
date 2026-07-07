@@ -21,14 +21,14 @@ export default function HomePage() {
               <div className="max-w-2xl">
                 <div className="inline-flex items-center space-x-2 px-4 py-2 bg-white/5 backdrop-blur-sm rounded-full border border-white/10 mb-6">
                   <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-                  <span className="text-sm text-gray-300">Agil Rental Mobil — Ambon</span>
+                  <span className="text-sm text-gray-300">Agil Rental — Ambon</span>
                 </div>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-white mb-6">
                   Sewa Mobil di Ambon{" "}
                   <span className="gradient-text">Mudah & Terpercaya</span>
                 </h1>
                 <p className="text-lg sm:text-xl text-gray-300 leading-relaxed mb-10 max-w-xl">
-                  Nikmati perjalanan Anda di Kota Ambon dengan layanan rental mobil terpercaya.
+                  Nikmati perjalanan Anda di Kota Ambon dengan layanan rental kendaraan terpercaya.
                   Proses cepat, harga transparan, tersedia lepas kunci atau dengan supir.
                 </p>
 
@@ -37,7 +37,7 @@ export default function HomePage() {
                     href="/cars"
                     className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-[#F5B21A] to-[#f59e0b] hover:from-[#d97706] hover:to-[#b45309] text-[#0B1F44] font-bold rounded-2xl shadow-xl shadow-[#F5B21A]/20 hover:shadow-2xl hover:shadow-[#F5B21A]/30 transition-all duration-200 text-lg"
                   >
-                    Cari Mobil
+                    Cari Kendaraan
                     <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
@@ -118,13 +118,13 @@ export default function HomePage() {
         </section>
 
         {/* ===== SERVICES SECTION ===== */}
-        <section className="py-20 bg-gray-50">
+        <section id="layanan" className="py-20 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-14">
               <span className="inline-block px-4 py-1.5 bg-[#F5B21A]/15 text-[#b45309] text-xs font-semibold rounded-full mb-4">LAYANAN</span>
               <h2 className="text-3xl sm:text-4xl font-bold text-[#0B1F44] mb-4">Layanan Kami</h2>
               <p className="text-gray-500 max-w-2xl mx-auto">
-                Agil Rental Mobil menyediakan berbagai layanan untuk memenuhi kebutuhan perjalanan Anda di Ambon
+                Agil Rental menyediakan berbagai layanan untuk memenuhi kebutuhan perjalanan Anda di Ambon
               </p>
             </div>
 
@@ -153,14 +153,14 @@ export default function HomePage() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
               <div>
                 <span className="inline-block px-4 py-1.5 bg-[#F5B21A]/15 text-[#b45309] text-xs font-semibold rounded-full mb-4">ARMADA</span>
-                <h2 className="text-3xl sm:text-4xl font-bold text-[#0B1F44]">Mobil Tersedia</h2>
-                <p className="text-gray-500 mt-2">Pilihan mobil terbaik untuk perjalanan Anda</p>
+                <h2 className="text-3xl sm:text-4xl font-bold text-[#0B1F44]">Kendaraan Tersedia</h2>
+                <p className="text-gray-500 mt-2">Pilihan kendaraan terbaik untuk perjalanan Anda</p>
               </div>
               <Link
                 href="/cars"
                 className="hidden sm:inline-flex items-center px-5 py-3 bg-[#0B1F44] hover:bg-[#0B2B6E] text-white font-medium rounded-2xl transition-all duration-200 mt-4 md:mt-0"
               >
-                Lihat Semua Mobil
+                Lihat Semua
                 <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
               </Link>
             </div>
@@ -169,7 +169,7 @@ export default function HomePage() {
 
             <div className="text-center sm:hidden mt-8">
               <Link href="/cars" className="inline-flex items-center px-6 py-3 bg-[#0B1F44] text-white font-medium rounded-2xl">
-                Lihat Semua Mobil
+                Lihat Semua
                 <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
               </Link>
             </div>
@@ -205,7 +205,7 @@ export default function HomePage() {
         </section>
 
         {/* ===== LOCATION & CONTACT SECTION ===== */}
-        <section className="py-20">
+        <section id="kontak" className="py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 gap-10 items-center">
               <div>
@@ -290,7 +290,7 @@ export default function HomePage() {
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
               {[
-                { value: "6", label: "Mobil Tersedia", icon: "🚗" },
+                { value: "6", label: "Kendaraan Tersedia", icon: "🚗" },
                 { value: "100+", label: "Pelanggan Puas", icon: "😊" },
                 { value: "1", label: "Kota (Ambon)", icon: "🏙️" },
                 { value: "4.9", label: "Rating", icon: "⭐" },

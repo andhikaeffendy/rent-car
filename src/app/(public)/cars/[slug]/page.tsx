@@ -207,9 +207,12 @@ export default function CarDetailPage() {
               <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6">
                   <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-[#0B1F44] mb-2">
-                      {car.name}
-                    </h1>
+                    <div className="flex items-center space-x-3 mb-2">
+                      <h1 className="text-2xl sm:text-3xl font-bold text-[#0B1F44]">{car.name}</h1>
+                      <span className="px-3 py-1 bg-gray-100 rounded-lg text-sm font-medium text-gray-600">
+                        {car.type === "MOTOR" ? "Motor" : "Mobil"}
+                      </span>
+                    </div>
                     <div className="flex items-center space-x-4 text-sm text-gray-500">
                       <span className="flex items-center space-x-1">
                         <svg className="w-4 h-4 text-[#F5B21A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">

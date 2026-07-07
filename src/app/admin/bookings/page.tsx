@@ -10,6 +10,7 @@ interface BookingDetail {
   serviceType: string;
   pickupMethod: string;
   pickupAddress: string | null;
+  paymentMethod: string;
   startDate: string;
   endDate: string;
   duration: number;
@@ -374,6 +375,12 @@ export default function AdminBookingsPage() {
                   <p className="font-medium text-[#0B1F44]">
                     {SERVICE_LABELS[selectedBooking.serviceType] ||
                       selectedBooking.serviceType}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500">Metode Pembayaran</p>
+                  <p className="font-medium text-[#0B1F44]">
+                    {selectedBooking.paymentMethod === "TUNAI" ? "Tunai" : "Transfer Bank"}
                   </p>
                 </div>
                 <div>

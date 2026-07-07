@@ -16,7 +16,7 @@ export default function PopularCars() {
           setCars(data.cars.slice(0, 3));
         }
       })
-      .catch(console.error)
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
 

@@ -11,6 +11,7 @@ export default function NewCarPage() {
     name: "",
     slug: "",
     transmission: "AT",
+    type: "MOBIL",
     capacity: "5",
     fuelType: "Bensin",
     year: "2024",

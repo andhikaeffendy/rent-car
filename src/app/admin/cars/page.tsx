@@ -102,7 +102,8 @@ export default function AdminCarsPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-gray-50 text-left text-gray-500">
-                <th className="px-6 py-3 font-medium">Mobil</th>
+                <th className="px-6 py-3 font-medium">Kendaraan</th>
+                    <th className="px-6 py-3 font-medium">Tipe</th>
                 <th className="px-6 py-3 font-medium">Transmisi</th>
                 <th className="px-6 py-3 font-medium">Kursi</th>
                 <th className="px-6 py-3 font-medium">Lepas Kunci</th>

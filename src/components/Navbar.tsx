@@ -34,13 +34,14 @@ export default function Navbar() {
   const navLinks = [
     { href: "/", label: "Beranda" },
     { href: "/cars", label: "Mobil" },
-    { href: "/cars", label: "Layanan", mobileLabel: "Layanan" },
-    { href: "/cars", label: "Kontak", mobileLabel: "Kontak" },
+    { href: "/#layanan", label: "Layanan", mobileLabel: "Layanan" },
+    { href: "/#kontak", label: "Kontak", mobileLabel: "Kontak" },
   ];
 
   const isActive = (href: string) => {
-    if (href === "/") return pathname === "/";
-    return pathname.startsWith(href);
+    const path = href.split("#")[0];
+    if (path === "/") return pathname === "/";
+    return pathname.startsWith(path);
   };
 
   return (
@@ -79,19 +80,19 @@ export default function Navbar() {
               {[
                 { href: "/", label: "Beranda" },
                 { href: "/cars", label: "Mobil" },
-                { href: "/cars", label: "Layanan" },
+                { href: "/#layanan", label: "Layanan" },
               ].map((link) => (
                 <Link
                   key={link.href + link.label}
                   href={link.href}
                   className={`relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 inline-block ${
-                    isActive(link.href) && pathname === link.href
+                    isActive(link.href) && (pathname === link.href.split("#")[0] || (link.href.includes("#") && pathname === "/"))
                       ? "text-[#0B1F44] bg-white shadow-sm"
                       : "text-gray-500 hover:text-[#0B1F44] hover:bg-white/50"
                   }`}
                 >
                   {link.label}
-                  {isActive(link.href) && pathname === link.href && (
+                  {isActive(link.href) && (pathname === link.href.split("#")[0] || (link.href.includes("#") && pathname === "/")) && (
                     <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-gradient-to-r from-[#F5B21A] to-[#f59e0b] rounded-full" />
                   )}
                 </Link>
@@ -271,7 +272,7 @@ export default function Navbar() {
             {[
               { href: "/", label: "Beranda", icon: "🏠" },
               { href: "/cars", label: "Mobil", icon: "🚗" },
-              { href: "/cars", label: "Layanan", icon: "🔧" },
+              { href: "/#layanan", label: "Layanan", icon: "🔧" },
             ].map((link) => (
               <Link
                 key={link.href + link.label}

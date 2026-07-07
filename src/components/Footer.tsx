@@ -15,12 +15,12 @@ export default function Footer() {
                 </svg>
               </div>
               <div>
-                <span className="text-lg font-bold">Agil Rental Mobil</span>
+                <span className="text-lg font-bold">Agil Rental</span>
                 <p className="text-[10px] text-gray-400 font-medium tracking-wider uppercase">Ambon</p>
               </div>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
-              Rental mobil terpercaya di Ambon. Melayani lepas kunci, rental dengan supir, 
+              Rental kendaraan terpercaya di Ambon. Melayani lepas kunci, rental dengan supir, 
               antar jemput unit, perjalanan dinas, tour kota, mobil pengantin, dan drop off/pick up bandara.
             </p>
             {/* Social Media */}

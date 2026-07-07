@@ -62,7 +62,7 @@ export default function DashboardPage() {
               Selamat Datang, {user?.name || "User"}!
             </h1>
             <p className="text-gray-500 mt-1">
-              Kelola pemesanan mobil Anda di Agil Rental Mobil
+              Kelola pemesanan kendaraan Anda di Agil Rental Mobil
             </p>
           </div>
 
@@ -129,7 +129,7 @@ export default function DashboardPage() {
                   href="/cars"
                   className="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-[#F5B21A] to-[#f59e0b] text-[#0B1F44] font-bold rounded-xl transition-all"
                 >
-                  Pesan Mobil Sekarang
+                  Pesan Kendaraan Sekarang
                 </Link>
               </div>
             ) : (

@@ -10,6 +10,7 @@ export default function EditCarPage() {
     name: "",
     slug: "",
     transmission: "AT",
+    type: "MOBIL",
     capacity: "5",
     fuelType: "Bensin",
     year: "2024",
@@ -43,6 +44,7 @@ export default function EditCarPage() {
           name: c.name,
           slug: c.slug,
           transmission: c.transmission,
+          type: c.type,
           capacity: c.capacity.toString(),
           fuelType: c.fuelType,
           year: c.year.toString(),
@@ -237,6 +239,20 @@ export default function EditCarPage() {
               onChange={handleChange}
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm bg-gray-50 text-gray-500"
             />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Tipe Kendaraan
+            </label>
+            <select
+              name="type"
+              value={form.type}
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#F5B21A]"
+            >
+              <option value="MOBIL">Mobil</option>
+              <option value="MOTOR">Motor</option>
+            </select>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
