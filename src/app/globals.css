@@ -82,11 +82,25 @@ body {
 }
 
 /* ── Input date styling ─────────────────────────── */
-input[type="date"]::-webkit-calendar-picker-indicator {
+/* Klik area manapun di input date buka datepicker */
+input[type="date"] {
+  position: relative;
   cursor: pointer;
-  opacity: 0.6;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  color: transparent;
+  background: transparent;
+  cursor: pointer;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator:hover {
-  opacity: 1;
+  opacity: 0.8;
 }
