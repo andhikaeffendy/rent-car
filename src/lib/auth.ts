@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 
-const JWT_SECRET = process.env.JWT_SECRET || "fallback-secret";
+const JWT_SECRET = process.env.JWT_SECRET || (() => { console.warn("JWT_SECRET env not set, using dev default"); return "agil-rental-dev-key-2026"; })();
 
 export interface JwtPayload {
   id: string;
